@@ -1,0 +1,24 @@
+{
+    "name": "tombroucke/otomaties-sage-helper",
+    "authors": [
+        {
+            "name": "Tom Broucke",
+            "email": "tom@tombroucke.be"
+        }
+    ],
+    "require": {
+      "roots/acorn": "*"
+    },
+    "autoload": {
+      "psr-4": {
+        "Otomaties\\Sage\\": "src/"
+      }
+    },
+    "extra": {
+      "acorn": {
+        "providers": [
+          "Otomaties\\Sage\\OtomatiesServiceProvider"
+        ]
+      }
+    }
+}
