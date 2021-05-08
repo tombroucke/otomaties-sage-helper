@@ -1,5 +1,6 @@
 {
     "name": "tombroucke/otomaties-sage-helper",
+    "description": "This package provides an easy way to reuse files across projects",
     "authors": [
         {
             "name": "Tom Broucke",
