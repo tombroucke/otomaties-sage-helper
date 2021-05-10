@@ -17,33 +17,36 @@ class OtomatiesServiceProvider extends ServiceProvider
         // Add blocks
         $this->addBlocks();
 
-        // Add block template
-        // $this->publishes([
-        //     __DIR__ . '/../publishes/resources/components/block.blade.php' => $this->app->resourcePath('components/block.blade.php'),
-        // ], 'Otomaties component block');
+        //Add block template
+        $this->publishes([
+            __DIR__ . '/../publishes/resources/views/components/block.blade.php' => $this->app->resourcePath('views/components/block.blade.php'),
+        ], 'Otomaties component block');
     }
 
     public function addBlocks() {
 
-        $blocks = array(
-            'carousel' => array(
-                'controller' => 'Carousel.php',
-                'style' => 'carousel.scss',
-                'view' => 'carousel.blade.php'
-            )
-        );
-        foreach($blocks as $key => $block) {
+        foreach(glob(__DIR__ . '/../publishes/app/Blocks/*.*') as $file) {
             $publishable = [];
-            if(isset($block['controller'])) {
-                $publishable[__DIR__ . '/../publishes/app/Blocks/' . $block['controller']] = $this->app->path('Blocks/' . $block['controller']);
+            $pathinfo = pathinfo($file);
+            $controllerName = $pathinfo['basename'];
+            $fileName = $pathinfo['filename'];
+
+            if (file_exists(__DIR__ . '/../publishes/app/Blocks/' . $controllerName)) {
+                $publishable[__DIR__ . '/../publishes/app/Blocks/' . $controllerName] = $this->app->path('Blocks/' . $controllerName);
             }
-            if(isset($block['style'])) {
-                $publishable[__DIR__ . '/../publishes/resources/assets/styles/blocks/' . $block['style']] = $this->app->resourcePath('assets/styles/blocks/' . $block['style']);
+            if (file_exists(__DIR__ . '/../publishes/resources/assets/styles/blocks/' . $this->toKebabCase($fileName) . '.scss')) {
+                $publishable[__DIR__ . '/../publishes/resources/assets/styles/blocks/' . $this->toKebabCase($fileName) . '.scss'] = $this->app->resourcePath('assets/styles/blocks/' . $this->toKebabCase($fileName) . '.scss');
             }
-            if(isset($block['view'])) {
-                $publishable[__DIR__ . '/../publishes/resources/views/blocks/' . $block['view']] = $this->app->resourcePath('views/blocks/' . $block['view']);
+            if (file_exists(__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php')) {
+                $publishable[__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php'] = $this->app->resourcePath('views/blocks/' . $this->toKebabCase($fileName) . '.blade.php');
             }
-            $this->publishes($publishable, 'Otomaties block ' . $key);
+            $this->publishes($publishable, 'Otomaties block ' . $fileName);
         }
+    }
+
+    private function toKebabCase($slug) {
+        $styleName = preg_replace('/\B([A-Z])/', '-$1', $slug);
+        $styleName = strtolower($styleName);
+        return $styleName;
     }
 }
