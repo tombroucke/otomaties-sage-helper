@@ -5,21 +5,21 @@ namespace App\Blocks;
 use Log1x\AcfComposer\Block;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class Carousel extends Block
+class Gallery extends Block
 {
     /**
      * The block name.
      *
      * @var string
      */
-    public $name = 'Carousel';
+    public $name = 'Gallery';
 
     /**
      * The block description.
      *
      * @var string
      */
-    public $description = 'A simple Carousel block.';
+    public $description = 'A simple Gallery block.';
 
     /**
      * The block category.
@@ -148,14 +148,14 @@ class Carousel extends Block
      */
     public function fields()
     {
-        $carousel = new FieldsBuilder('carousel');
+        $gallery = new FieldsBuilder('gallery');
 
-        $carousel
+        $gallery
             ->addRepeater('items')
                 ->addText('item')
             ->endRepeater();
 
-        return $carousel->build();
+        return $gallery->build();
     }
 
     /**

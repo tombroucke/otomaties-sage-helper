@@ -3,23 +3,24 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class Carousel extends Block
+class Hero extends Block
 {
     /**
      * The block name.
      *
      * @var string
      */
-    public $name = 'Carousel';
+    public $name = 'Hero';
 
     /**
      * The block description.
      *
      * @var string
      */
-    public $description = 'A simple Carousel block.';
+    public $description = 'Display a static hero on top of your page';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class Carousel extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'desktop';
 
     /**
      * The block keywords.
@@ -68,7 +69,7 @@ class Carousel extends Block
      *
      * @var string
      */
-    public $align = '';
+    public $align = 'full';
 
     /**
      * The default block text alignment.
@@ -90,43 +91,13 @@ class Carousel extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
-        'align_text' => false,
+        'align' => array('full'),
+        'align_text' => true,
         'align_content' => false,
         'anchor' => false,
-        'mode' => false,
+        'mode' => true,
         'multiple' => true,
         'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
     ];
 
     /**
@@ -137,7 +108,8 @@ class Carousel extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'background_image' => Acf::get_field('background_image')->default(\Roots\asset('images/hero.jpg')->uri()),
+            'settings' => Acf::get_field('settings')
         ];
     }
 
@@ -148,33 +120,33 @@ class Carousel extends Block
      */
     public function fields()
     {
-        $carousel = new FieldsBuilder('carousel');
+        $hero = new FieldsBuilder('hero');
 
-        $carousel
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+        $hero
+            ->addImage('background_image', [
+                'label' => __('Background image', 'sage'),
+                'required' => true
+            ])
+            ->addGroup('settings', [
+                'label' => __('Settings', 'sage'),
+            ])
+                ->addSelect('text_color', [
+                    'label' => __('Text color', 'sage'),
+                    'allow_null' => true,
+                    'choices' => [
+                        'primary' => __('Primary', 'sage'),
+                        'secondary' => __('Secondary', 'sage'),
+                        'success' => __('Success', 'sage'),
+                        'danger' => __('Danger', 'sage'),
+                        'warning' => __('Warning', 'sage'),
+                        'info' => __('Info', 'sage'),
+                        'light' => __('Light', 'sage'),
+                        'dark' => __('Dark', 'sage'),
+                        'white' => __('White', 'sage'),
+                    ],
+                ])
+            ->endGroup();
 
-        return $carousel->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
+        return $hero->build();
     }
 }

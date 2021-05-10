@@ -3,23 +3,25 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class Carousel extends Block
+class Cards extends Block
 {
+
     /**
      * The block name.
      *
      * @var string
      */
-    public $name = 'Carousel';
+    public $name = 'Cards';
 
     /**
      * The block description.
      *
      * @var string
      */
-    public $description = 'A simple Carousel block.';
+    public $description = 'A simple Cards block.';
 
     /**
      * The block category.
@@ -33,7 +35,7 @@ class Carousel extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'screenoptions';
 
     /**
      * The block keywords.
@@ -61,7 +63,7 @@ class Carousel extends Block
      *
      * @var string
      */
-    public $mode = 'preview';
+    public $mode = 'edit';
 
     /**
      * The default block alignment.
@@ -90,43 +92,13 @@ class Carousel extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => false,
         'align_text' => false,
         'align_content' => false,
         'anchor' => false,
-        'mode' => false,
+        'mode' => true,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
+        'jsx' => false,
     ];
 
     /**
@@ -137,7 +109,7 @@ class Carousel extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'cards' => Acf::get_field('cards'),
         ];
     }
 
@@ -148,24 +120,28 @@ class Carousel extends Block
      */
     public function fields()
     {
-        $carousel = new FieldsBuilder('carousel');
+        $cards = new FieldsBuilder('cards');
 
-        $carousel
-            ->addRepeater('items')
-                ->addText('item')
+        $cards
+            ->addRepeater('cards', [
+                'label' => __('Cards', 'sage'),
+                'layout' => 'block',
+            ])
+                ->addImage('image', [
+                    'label' => __('Image', 'sage'),
+                ])
+                ->addText('title', [
+                    'label' => __('Title', 'sage'),
+                ])
+                ->addWysiwyg('content', [
+                    'label' => __('Content', 'sage'),
+                ])
+                ->addLink('button', [
+                    'label' => __('Button', 'sage'),
+                ])
             ->endRepeater();
 
-        return $carousel->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
+        return $cards->build();
     }
 
     /**
