@@ -22,12 +22,14 @@ class OtomatiesServiceProvider extends ServiceProvider
             __DIR__ . '/../publishes/resources/views/components/block.blade.php' => $this->app->resourcePath('views/components/block.blade.php'),
             __DIR__ . '/../publishes/app/View/Composers' => $this->app->resourcePath('app/View/Composers'),
             __DIR__ . '/../publishes/resources/views/partials' => $this->app->resourcePath('views/partials'),
+            __DIR__ . '/../publishes/resources/assets/styles/partials' => $this->app->resourcePath('assets/styles/partials'),
+            __DIR__ . '/../publishes/resources/assets/images' => $this->app->resourcePath('assets/images'),
         ], 'Otomaties default files');
     }
 
-    public function addBlocks() {
-
-        foreach(glob(__DIR__ . '/../publishes/app/Blocks/*.*') as $file) {
+    public function addBlocks()
+    {
+        foreach (glob(__DIR__ . '/../publishes/app/Blocks/*.*') as $file) {
             $publishable = [];
             $pathinfo = pathinfo($file);
             $controllerName = $pathinfo['basename'];
@@ -46,7 +48,8 @@ class OtomatiesServiceProvider extends ServiceProvider
         }
     }
 
-    private function toKebabCase($slug) {
+    private function toKebabCase($slug)
+    {
         $styleName = preg_replace('/\B([A-Z])/', '-$1', $slug);
         $styleName = strtolower($styleName);
         return $styleName;
