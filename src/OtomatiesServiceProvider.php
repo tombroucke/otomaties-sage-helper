@@ -20,7 +20,9 @@ class OtomatiesServiceProvider extends ServiceProvider
         //Add block template
         $this->publishes([
             __DIR__ . '/../publishes/resources/views/components/block.blade.php' => $this->app->resourcePath('views/components/block.blade.php'),
-        ], 'Otomaties component block');
+            __DIR__ . '/../publishes/app/View/Composers' => $this->app->resourcePath('app/View/Composers'),
+            __DIR__ . '/../publishes/resources/views/partials' => $this->app->resourcePath('views/partials'),
+        ], 'Otomaties default files');
     }
 
     public function addBlocks() {
