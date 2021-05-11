@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+      "log1x/acf-composer": "^2.0",
       "roots/acorn": "*"
     },
     "autoload": {
