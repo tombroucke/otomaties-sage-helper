@@ -3,23 +3,24 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class Faq extends Block
+class Accordion extends Block
 {
     /**
      * The block name.
      *
      * @var string
      */
-    public $name = 'Faq';
+    public $name = 'Accordion';
 
     /**
      * The block description.
      *
      * @var string
      */
-    public $description = 'A simple Faq block.';
+    public $description = 'An accordion with question / answer.';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class Faq extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'feedback';
 
     /**
      * The block keywords.
@@ -61,7 +62,7 @@ class Faq extends Block
      *
      * @var string
      */
-    public $mode = 'preview';
+    public $mode = 'edit';
 
     /**
      * The default block alignment.
@@ -93,40 +94,9 @@ class Faq extends Block
         'align' => true,
         'align_text' => false,
         'align_content' => false,
-        'anchor' => false,
-        'mode' => false,
+        'anchor' => true,
+        'mode' => true,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
     ];
 
     /**
@@ -137,7 +107,7 @@ class Faq extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'items' => Acf::get_field('items'),
         ];
     }
 
@@ -148,33 +118,19 @@ class Faq extends Block
      */
     public function fields()
     {
-        $faq = new FieldsBuilder('faq');
+        $accordion = new FieldsBuilder('accordion');
 
-        $faq
-            ->addRepeater('items')
-                ->addText('item')
+        $accordion
+            ->addRepeater('items', [
+                'label' => __('Items', 'sage'),
+                'layout' => 'block',
+            ])
+                ->addText('question')
+                ->addWysiwyg('answer', [
+                    'label' => __('Answer', 'sage'),
+                ])
             ->endRepeater();
 
-        return $faq->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
+        return $accordion->build();
     }
 }

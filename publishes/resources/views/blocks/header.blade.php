@@ -1,15 +1,5 @@
-<div class="{{ $block->classes }}">
-  @if ($items)
-    <ul>
-      @foreach ($items as $item)
-        <li>{{ $item['item'] }}</li>
-      @endforeach
-    </ul>
-  @else
-    <p>{{ $block->preview ? 'Add an item...' : 'No items found!' }}</p>
-  @endif
-
-  <div>
-    <InnerBlocks />
+<x-block class="d-flex align-items-center" :block="$block" :background="$background_image->url('large')">
+  <div class="container">
+    <h1>{!! $title !!}</h1>
   </div>
-</div>
+</x-block>

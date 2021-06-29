@@ -1,15 +1,15 @@
-<div class="{{ $block->classes }}">
-  @if ($items)
-    <ul>
-      @foreach ($items as $item)
-        <li>{{ $item['item'] }}</li>
-      @endforeach
-    </ul>
+@if($latestPosts->have_posts())
+  <x-block :block="$block" :class="$classes">
+    <div class="row">
+      @while($latestPosts->have_posts()) @php($latestPosts->the_post())
+        @includeFirst(['partials.content-post', 'partials.content'])
+      @endwhile
+    </div>
+  </x-block>
+@else
+  @if($block->preview)
+    <p>{{ __('There are no posts', 'sage') }}</p>
   @else
-    <p>{{ $block->preview ? 'Add an item...' : 'No items found!' }}</p>
+  <!-- {{ __('There are no posts', 'sage') }} ... -->
   @endif
-
-  <div>
-    <InnerBlocks />
-  </div>
-</div>
+@endif

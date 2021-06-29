@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Banner extends Block
@@ -33,7 +34,7 @@ class Banner extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'cover-image';
 
     /**
      * The block keywords.
@@ -68,7 +69,7 @@ class Banner extends Block
      *
      * @var string
      */
-    public $align = '';
+    public $align = 'full';
 
     /**
      * The default block text alignment.
@@ -90,43 +91,13 @@ class Banner extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
-        'align_text' => false,
+        'align' => ['full', 'wide'],
+        'align_text' => true,
         'align_content' => false,
         'anchor' => false,
         'mode' => false,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
+        'jsx' => false,
     ];
 
     /**
@@ -137,7 +108,8 @@ class Banner extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'background_image' => Acf::get_field('background_image')->default(\Roots\asset('images/hero.jpg')->uri()),
+            'title' => Acf::get_field('title')->default(get_the_title())
         ];
     }
 
@@ -151,21 +123,15 @@ class Banner extends Block
         $banner = new FieldsBuilder('banner');
 
         $banner
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addText('title', [
+                'label' => __('Title', 'sage'),
+            ])
+            ->addImage('background_image', [
+                'label' => __('Background image', 'sage'),
+                'required' => true
+            ]);
 
         return $banner->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
     }
 
     /**

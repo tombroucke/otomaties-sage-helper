@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Header extends Block
@@ -19,7 +20,7 @@ class Header extends Block
      *
      * @var string
      */
-    public $description = 'A simple Header block.';
+    public $description = 'Show a header on top of a page';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class Header extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'desktop';
 
     /**
      * The block keywords.
@@ -68,7 +69,7 @@ class Header extends Block
      *
      * @var string
      */
-    public $align = '';
+    public $align = 'full';
 
     /**
      * The default block text alignment.
@@ -90,43 +91,12 @@ class Header extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
-        'align_text' => false,
+        'align' => array('full'),
+        'align_text' => true,
         'align_content' => false,
         'anchor' => false,
-        'mode' => false,
+        'mode' => true,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
     ];
 
     /**
@@ -137,7 +107,8 @@ class Header extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'title' => Acf::get_field('title'),
+            'background_image' => Acf::get_field('background_image')->default(\Roots\asset('images/hero.jpg')->uri()),
         ];
     }
 
@@ -151,30 +122,14 @@ class Header extends Block
         $header = new FieldsBuilder('header');
 
         $header
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addText('title', [
+                'label' => __('Title', 'sage')
+            ])
+            ->addImage('background_image', [
+                'label' => __('Background image', 'sage'),
+                'required' => true
+            ]);
 
         return $header->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }

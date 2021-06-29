@@ -2,7 +2,7 @@
   <nav class="nav-primary">
     <ul>
       @foreach ($navigation as $item)
-        <li class="{{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }}">
+        <li class="{{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }} {{ $item->children ? 'menu-item--has-submenu' : '' }}">
           <a href="{{ $item->url }}">
             {{ $item->label }}
           </a>

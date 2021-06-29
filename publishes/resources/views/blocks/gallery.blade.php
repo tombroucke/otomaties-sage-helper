@@ -1,15 +1,19 @@
-<div class="{{ $block->classes }}">
-  @if ($items)
-    <ul>
-      @foreach ($items as $item)
-        <li>{{ $item['item'] }}</li>
+@if(!$gallery->empty())
+  <x-block :block="$block" :class="$classes">
+    <div class="row">
+      @foreach($gallery as $image)
+        <div class="col">
+          <a href="{{ $image->url('large') }}" data-fancybox="gallery-{{ $block->block->id }}">
+            {!! $image->image('medium') !!}
+          </a>
+        </div>
       @endforeach
-    </ul>
+    </div>
+  </x-block>
+@else
+  @if($block->preview)
+    <p>{{ __('Add some images ...', 'sage') }}</p>
   @else
-    <p>{{ $block->preview ? 'Add an item...' : 'No items found!' }}</p>
+  <!-- {{ __('Add some images ...', 'sage') }} ... -->
   @endif
-
-  <div>
-    <InnerBlocks />
-  </div>
-</div>
+@endif

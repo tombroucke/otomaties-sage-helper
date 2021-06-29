@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Gallery extends Block
@@ -19,7 +20,7 @@ class Gallery extends Block
      *
      * @var string
      */
-    public $description = 'A simple Gallery block.';
+    public $description = 'Display a gallery';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class Gallery extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'images-alt';
 
     /**
      * The block keywords.
@@ -61,7 +62,7 @@ class Gallery extends Block
      *
      * @var string
      */
-    public $mode = 'preview';
+    public $mode = 'edit';
 
     /**
      * The default block alignment.
@@ -93,40 +94,9 @@ class Gallery extends Block
         'align' => true,
         'align_text' => false,
         'align_content' => false,
-        'anchor' => false,
-        'mode' => false,
+        'anchor' => true,
+        'mode' => true,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
     ];
 
     /**
@@ -137,7 +107,7 @@ class Gallery extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'gallery' => Acf::get_field('gallery'),
         ];
     }
 
@@ -151,30 +121,10 @@ class Gallery extends Block
         $gallery = new FieldsBuilder('gallery');
 
         $gallery
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addGallery('gallery', [
+                'label' => __('Gallery', 'sage'),
+            ]);
 
         return $gallery->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }

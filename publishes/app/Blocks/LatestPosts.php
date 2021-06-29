@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class LatestPosts extends Block
@@ -19,7 +20,7 @@ class LatestPosts extends Block
      *
      * @var string
      */
-    public $description = 'A simple Latest Posts block.';
+    public $description = 'Display your latest posts';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class LatestPosts extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'admin-post';
 
     /**
      * The block keywords.
@@ -100,44 +101,15 @@ class LatestPosts extends Block
     ];
 
     /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
-    ];
-
-    /**
      * Data to be passed to the block before rendering.
      *
      * @return array
      */
     public function with()
     {
+
         return [
-            'items' => $this->items(),
+            'latestPosts' => $this->latestPosts(),
         ];
     }
 
@@ -151,30 +123,17 @@ class LatestPosts extends Block
         $latestPosts = new FieldsBuilder('latest_posts');
 
         $latestPosts
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addNumber('posts_per_page', [
+                'label' => __('Number of posts')
+            ]);
 
         return $latestPosts->build();
     }
 
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
+    public function latestPosts() {
+        $args = array(
+            'posts_per_page' => (string)Acf::get_field('posts_per_page')->default('3')
+        );
+        return new \WP_Query($args);
     }
 }
