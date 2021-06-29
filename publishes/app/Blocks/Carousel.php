@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Carousel extends Block
@@ -19,7 +20,7 @@ class Carousel extends Block
      *
      * @var string
      */
-    public $description = 'A simple Carousel block.';
+    public $description = 'A carousel of images';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class Carousel extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'images-alt2';
 
     /**
      * The block keywords.
@@ -90,43 +91,13 @@ class Carousel extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
         'anchor' => false,
-        'mode' => false,
+        'mode' => true,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
+        'jsx' => false,
     ];
 
     /**
@@ -137,7 +108,8 @@ class Carousel extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'slides' => Acf::get_field('slides'),
+            'sliderSettings' => $this->sliderSettings(),
         ];
     }
 
@@ -151,9 +123,41 @@ class Carousel extends Block
         $carousel = new FieldsBuilder('carousel');
 
         $carousel
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addRepeater('slides', [
+                'label' => __('Slides', 'sage'),
+                'layout' => 'block',
+            ])
+                ->addImage('image', [
+                    'label' => __('Image', 'sage')
+                ])
+                ->addText('title', [
+                    'label' => __('Title', 'sage')
+                ])
+            ->endRepeater()
+            ->addGroup('settings', [
+                'label' => __('Settings', 'sage'),
+            ])
+                ->addSelect('slides_to_show', [
+                    'label' => __('Slides to show', 'sage'),
+                    'allow_null' => false,
+                    'choices' => [1, 2, 3, 4, 5],
+                    'default_value' => 3
+                ])
+                ->addNumber('autoplay_speed', [
+                    'label' => __('Autoplay speed (in milliseconds)', 'sage'),
+                    'description' => __('Set to 0 to disable autoplay', 'sage'),
+                    'allow_null' => false,
+                    'default_value' => 4000
+                ])
+                ->addTrueFalse('dots', [
+                    'label' => __('Dots', 'sage'),
+                    'default_value' => true
+                ])
+                ->addTrueFalse('arrows', [
+                    'label' => __('Arrows', 'sage'),
+                    'default_value' => true
+                ])
+            ->endGroup();
 
         return $carousel->build();
     }
@@ -165,16 +169,24 @@ class Carousel extends Block
      */
     public function items()
     {
-        return get_field('items') ?: $this->example['items'];
+        return Acf::get_field('slides');
     }
 
     /**
-     * Assets to be enqueued when rendering the block.
+     * Get slick slider settings
      *
-     * @return void
+     * @return string The returned string is Json
      */
-    public function enqueue()
-    {
-        //
+    public function sliderSettings() {
+        $settings = Acf::get_field('settings');
+        $sliderSettings = [
+            'dots' => $settings->get('dots'),
+            'arrows' => $settings->get('arrows'),
+            'slidesToShow' => $settings->get('slides_to_show')->default(3)->value(),
+            'slidesToScroll' => 1,
+            'autoplay' => 'true',
+            'autoplaySpeed' => $settings->get('autoplay_speed'),
+        ];
+        return json_encode($sliderSettings, JSON_HEX_APOS);
     }
 }

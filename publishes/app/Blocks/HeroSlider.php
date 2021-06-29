@@ -193,9 +193,4 @@ class HeroSlider extends Block
 
         return $heroSlider->build();
     }
-
-    private function classes() {
-        $classes = [];
-        return implode($classes, ' ');
-    }
 }

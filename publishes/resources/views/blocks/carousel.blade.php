@@ -1,15 +1,18 @@
-<div class="{{ $block->classes }}">
-  @if ($items)
-    <ul>
-      @foreach ($items as $item)
-        <li>{{ $item['item'] }}</li>
+@if(!$slides->empty())
+  <x-block :block="$block">
+    <div class="wp-block-carousel__slider" {!! 'data-slick=\'' . $sliderSettings . '\'' !!}>
+      @foreach($slides as $slide)
+        <div class="slide">
+          {!! $slide->get('image')->default('https://picsum.photos/500/300')->image('medium') !!}
+          {!! $slide->get('title') !!}
+        </div>
       @endforeach
-    </ul>
+    </div>
+  </x-block>
+@else
+  @if($block->preview)
+    <p>{{ __('Add some slides ...', 'sage') }}</p>
   @else
-    <p>{{ $block->preview ? 'Add an item...' : 'No items found!' }}</p>
+  <!-- {{ __('Add some slides ...', 'sage') }} ... -->
   @endif
-
-  <div>
-    <InnerBlocks />
-  </div>
-</div>
+@endif

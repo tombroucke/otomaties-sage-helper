@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class ImageContent extends Block
@@ -12,14 +13,14 @@ class ImageContent extends Block
      *
      * @var string
      */
-    public $name = 'Image Content';
+    public $name = 'Image & Content';
 
     /**
      * The block description.
      *
      * @var string
      */
-    public $description = 'A simple Image Content block.';
+    public $description = 'Show text next to an image';
 
     /**
      * The block category.
@@ -33,7 +34,7 @@ class ImageContent extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'align-pull-left';
 
     /**
      * The block keywords.
@@ -90,43 +91,13 @@ class ImageContent extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
         'anchor' => false,
         'mode' => false,
         'multiple' => true,
         'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
     ];
 
     /**
@@ -137,7 +108,9 @@ class ImageContent extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'image' => Acf::get_field('image')->default('https://picsum.photos/500/500'),
+            'imagePosition' => Acf::get_field('settings')->get('image_position')->default('left'),
+            'backgroundColor' => Acf::get_field('settings')->get('background_color')->default('transparent'),
         ];
     }
 
@@ -151,30 +124,37 @@ class ImageContent extends Block
         $imageContent = new FieldsBuilder('image_content');
 
         $imageContent
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addImage('image', [
+                'label' => __('Image', 'sage')
+            ])
+            ->addGroup('settings', [
+                'label' => __('Settings', 'sage'),
+            ])
+                ->addSelect('image_position', [
+                    'label' => __('Image position', 'sage'),
+                    'allow_null' => true,
+                    'choices' => [
+                        'left' => __('Left', 'sage'),
+                        'right' => __('Right', 'sage'),
+                    ],
+                ])
+                ->addSelect('background_color', [
+                    'label' => __('Background color', 'sage'),
+                    'allow_null' => true,
+                    'choices' => [
+                        'primary' => __('Primary', 'sage'),
+                        'secondary' => __('Secondary', 'sage'),
+                        'success' => __('Success', 'sage'),
+                        'danger' => __('Danger', 'sage'),
+                        'warning' => __('Warning', 'sage'),
+                        'info' => __('Info', 'sage'),
+                        'light' => __('Light', 'sage'),
+                        'dark' => __('Dark', 'sage'),
+                        'white' => __('White', 'sage'),
+                    ],
+                ])
+            ->endGroup();
 
         return $imageContent->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }
