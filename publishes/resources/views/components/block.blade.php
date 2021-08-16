@@ -10,7 +10,7 @@
   <div class="container container-large">
 @endif
 
-  <div {!! $block->block->anchor ? 'id="' . $block->block->anchor . '"' : '' !!} {{ $attributes->merge(['class' => 'block ' . $block->classes]) }} @if($background) @background($background) @endif>
+  <div {!! isset($block->block->anchor) ? 'id="' . $block->block->anchor . '"' : '' !!} {{ $attributes->merge(['class' => 'block ' . $block->classes]) }} @if($background) @background($background) @endif>
     {{ $slot }}
   </div>
 
