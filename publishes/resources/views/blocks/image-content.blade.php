@@ -6,7 +6,9 @@
       </div>
     </div>
     <div class="wp-block-image-content__content col-md-6 d-flex align-items-center p-3 p-md-5">
-      <InnerBlocks />
+      <div>
+        <InnerBlocks />
+      </div>
     </div>
   </div>
 </x-block>

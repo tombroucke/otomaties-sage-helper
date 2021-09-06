@@ -22,8 +22,8 @@ class OtomatiesServiceProvider extends ServiceProvider
             __DIR__ . '/../publishes/app/View/Composers' => $this->app->path('View/Composers'),
             __DIR__ . '/../publishes/resources/views/components' => $this->app->resourcePath('views/components'),
             __DIR__ . '/../publishes/resources/views/partials' => $this->app->resourcePath('views/partials'),
-            __DIR__ . '/../publishes/resources/assets/styles/partials' => $this->app->resourcePath('assets/styles/partials'),
-            __DIR__ . '/../publishes/resources/assets/images' => $this->app->resourcePath('assets/images'),
+            __DIR__ . '/../publishes/resources/styles/partials' => $this->app->resourcePath('styles/partials'),
+            __DIR__ . '/../publishes/resources/images' => $this->app->resourcePath('images'),
         ], 'Otomaties default files');
     }
 
@@ -38,8 +38,8 @@ class OtomatiesServiceProvider extends ServiceProvider
             if (file_exists(__DIR__ . '/../publishes/app/Blocks/' . $controllerName)) {
                 $publishable[__DIR__ . '/../publishes/app/Blocks/' . $controllerName] = $this->app->path('Blocks/' . $controllerName);
             }
-            if (file_exists(__DIR__ . '/../publishes/resources/assets/styles/blocks/' . $this->toKebabCase($fileName) . '.scss')) {
-                $publishable[__DIR__ . '/../publishes/resources/assets/styles/blocks/' . $this->toKebabCase($fileName) . '.scss'] = $this->app->resourcePath('assets/styles/blocks/' . $this->toKebabCase($fileName) . '.scss');
+            if (file_exists(__DIR__ . '/../publishes/resources/styles/blocks/' . $this->toKebabCase($fileName) . '.scss')) {
+                $publishable[__DIR__ . '/../publishes/resources/styles/blocks/' . $this->toKebabCase($fileName) . '.scss'] = $this->app->resourcePath('styles/blocks/' . $this->toKebabCase($fileName) . '.scss');
             }
             if (file_exists(__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php')) {
                 $publishable[__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php'] = $this->app->resourcePath('views/blocks/' . $this->toKebabCase($fileName) . '.blade.php');
