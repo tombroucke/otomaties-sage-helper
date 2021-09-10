@@ -109,6 +109,7 @@ class HeroSlider extends Block
     {
         return [
             'items' => Acf::get_field('items'),
+            'sliderSettings' => $this->sliderSettings(),
         ];
     }
 
@@ -189,8 +190,44 @@ class HeroSlider extends Block
                         ],
                     ])
                 ->endGroup()
-            ->endRepeater();
+            ->endRepeater()
+            ->addGroup('settings', [
+                'label' => __('Settings', 'sage'),
+            ])
+                ->addNumber('autoplay_speed', [
+                    'label' => __('Autoplay speed (in milliseconds)', 'sage'),
+                    'description' => __('Set to 0 to disable autoplay', 'sage'),
+                    'allow_null' => false,
+                    'default_value' => 4000
+                ])
+                ->addTrueFalse('dots', [
+                    'label' => __('Dots', 'sage'),
+                    'default_value' => true
+                ])
+                ->addTrueFalse('arrows', [
+                    'label' => __('Arrows', 'sage'),
+                    'default_value' => true
+                ])
+            ->endGroup();
 
         return $heroSlider->build();
+    }
+
+    /**
+     * Get slick slider settings
+     *
+     * @return string The returned string is Json
+     */
+    public function sliderSettings() {
+        $settings = Acf::get_field('settings');
+        $sliderSettings = [
+            'dots' => $settings->get('dots'),
+            'arrows' => $settings->get('arrows'),
+            'slidesToScroll' => 1,
+            'slidesToShow' => 1,
+            'autoplay' => 'true',
+            'autoplaySpeed' => $settings->get('autoplay_speed')->value(),
+        ];
+        return json_encode($sliderSettings, JSON_HEX_APOS);
     }
 }

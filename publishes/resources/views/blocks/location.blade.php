@@ -1,15 +1,7 @@
-<div class="{{ $block->classes }}">
-  @if ($items)
-    <ul>
-      @foreach ($items as $item)
-        <li>{{ $item['item'] }}</li>
-      @endforeach
-    </ul>
-  @else
-    <p>{{ $block->preview ? 'Add an item...' : 'No items found!' }}</p>
+<x-block :block="$block">
+  @if($location)
+    <div class="wp-block-location__map" data-zoom="16">
+      <div class="wp-block-location__map__marker" data-lat="{{ $location['lat'] }}" data-lng="{{ $location['lng'] }}"></div>
+    </div>
   @endif
-
-  <div>
-    <InnerBlocks />
-  </div>
-</div>
+</x-block>

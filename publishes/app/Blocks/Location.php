@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Location extends Block
@@ -33,7 +34,7 @@ class Location extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'location-alt';
 
     /**
      * The block keywords.
@@ -96,37 +97,6 @@ class Location extends Block
         'anchor' => false,
         'mode' => false,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
     ];
 
     /**
@@ -137,7 +107,7 @@ class Location extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'location' => Acf::get_field('location'),
         ];
     }
 
@@ -151,21 +121,11 @@ class Location extends Block
         $location = new FieldsBuilder('location');
 
         $location
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addGoogleMap('location', [
+                'label' => __('Location', 'sage')
+            ]);
 
         return $location->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
     }
 
     /**
@@ -175,6 +135,6 @@ class Location extends Block
      */
     public function enqueue()
     {
-        //
+        wp_enqueue_script('sage/block/location', asset('scripts/blocks/location.js')->uri(), ['jquery'], null, true);
     }
 }

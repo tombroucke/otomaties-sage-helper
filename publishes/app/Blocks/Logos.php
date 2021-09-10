@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Logos extends Block
@@ -33,7 +34,7 @@ class Logos extends Block
      *
      * @var string|array
      */
-    public $icon = 'editor-ul';
+    public $icon = 'grid-view';
 
     /**
      * The block keywords.
@@ -96,37 +97,7 @@ class Logos extends Block
         'anchor' => false,
         'mode' => false,
         'multiple' => true,
-        'jsx' => true,
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'light',
-            'label' => 'Light',
-            'isDefault' => true,
-        ],
-        [
-            'name' => 'dark',
-            'label' => 'Dark',
-        ]
-    ];
-
-    /**
-     * The block preview example data.
-     *
-     * @var array
-     */
-    public $example = [
-        'items' => [
-            ['item' => 'Item one'],
-            ['item' => 'Item two'],
-            ['item' => 'Item three'],
-        ],
+        'jsx' => false,
     ];
 
     /**
@@ -137,7 +108,8 @@ class Logos extends Block
     public function with()
     {
         return [
-            'items' => $this->items(),
+            'logos' => Acf::get_field('logos'),
+            'type' => Acf::get_field('type'),
         ];
     }
 
@@ -151,30 +123,24 @@ class Logos extends Block
         $logos = new FieldsBuilder('logos');
 
         $logos
-            ->addRepeater('items')
-                ->addText('item')
-            ->endRepeater();
+            ->addRepeater('logos')
+                ->addImage('logo', [
+                    'label' => __('Logo', 'sage'),
+                    'required' => true,
+                ])
+                ->addLink('link', [
+                    'label' => __('Link', 'sage')
+                ])
+            ->endRepeater()
+            ->addSelect('type', [
+                'label' => __('Type', 'sage'),
+                'choices' => array(
+                    'grid' => __('Grid', 'sage'),
+                    'carousel' => __('Carousel', 'sage'),
+                ),
+                'default_value' => 'grid',
+            ]);
 
         return $logos->build();
-    }
-
-    /**
-     * Return the items field.
-     *
-     * @return array
-     */
-    public function items()
-    {
-        return get_field('items') ?: $this->example['items'];
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }

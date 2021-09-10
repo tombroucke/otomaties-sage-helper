@@ -185,7 +185,7 @@ class Carousel extends Block
             'slidesToShow' => $settings->get('slides_to_show')->default(3)->value(),
             'slidesToScroll' => 1,
             'autoplay' => 'true',
-            'autoplaySpeed' => $settings->get('autoplay_speed'),
+            'autoplaySpeed' => $settings->get('autoplay_speed')->value(),
         ];
         return json_encode($sliderSettings, JSON_HEX_APOS);
     }

@@ -157,10 +157,4 @@ class Buttons extends Block
 
         return $buttons->build();
     }
-
-    private function classes() {
-        $classes = [];
-        $classes[] = $this->align();
-        return implode($classes, ' ');
-    }
 }

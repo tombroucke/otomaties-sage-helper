@@ -1,4 +1,4 @@
-<x-block :block="$block" :class="$classes">
+<x-block :block="$block">
   <div class="card-deck d-block d-lg-flex">
     @foreach($cards as $card)
       <x-card class="mb-3 mb-lg-0">

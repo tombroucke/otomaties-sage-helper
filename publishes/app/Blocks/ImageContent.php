@@ -94,7 +94,7 @@ class ImageContent extends Block
         'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => false,
         'multiple' => true,
         'jsx' => true,

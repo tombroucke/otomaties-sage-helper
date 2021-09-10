@@ -1,1 +1,1 @@
-<i class="fab fa-{{ $name }}"></i>
+<i {{ $attributes->merge(['class' => 'fab fa-' . $name]) }}></i>

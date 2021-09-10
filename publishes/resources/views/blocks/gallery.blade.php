@@ -1,6 +1,6 @@
 @if(!$gallery->empty())
-  <x-block :block="$block" :class="$classes">
-    <div class="row">
+  <x-block :block="$block">
+    <div class="row g-3">
       @foreach($gallery as $image)
         <div class="col">
           <a href="{{ $image->url('large') }}" data-fancybox="gallery-{{ $block->block->id }}">

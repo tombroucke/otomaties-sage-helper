@@ -1,5 +1,5 @@
 @if($latestPosts->have_posts())
-  <x-block :block="$block" :class="$classes">
+  <x-block :block="$block">
     <div class="row">
       @while($latestPosts->have_posts()) @php($latestPosts->the_post())
         @includeFirst(['partials.content-post', 'partials.content'])
