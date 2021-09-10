@@ -60,6 +60,11 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 - Choose number of posts to display
 - Modify to change post type
 
-### Location (coming soon)
+### Location
 
-### Logos (coming soon)
+- 
+
+### Logos
+
+- Choose grid or carousel view
+- In case you choose carousel view: add `$('.wp-block-logos__slider').slick();` to your JS

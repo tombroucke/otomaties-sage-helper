@@ -41,6 +41,9 @@ class OtomatiesServiceProvider extends ServiceProvider
             if (file_exists(__DIR__ . '/../publishes/resources/styles/blocks/' . $this->toKebabCase($fileName) . '.scss')) {
                 $publishable[__DIR__ . '/../publishes/resources/styles/blocks/' . $this->toKebabCase($fileName) . '.scss'] = $this->app->resourcePath('styles/blocks/' . $this->toKebabCase($fileName) . '.scss');
             }
+            if (file_exists(__DIR__ . '/../publishes/resources/scripts/blocks/' . $this->toKebabCase($fileName) . '.js')) {
+                $publishable[__DIR__ . '/../publishes/resources/scripts/blocks/' . $this->toKebabCase($fileName) . '.js'] = $this->app->resourcePath('scripts/blocks/' . $this->toKebabCase($fileName) . '.js');
+            }
             if (file_exists(__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php')) {
                 $publishable[__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php'] = $this->app->resourcePath('views/blocks/' . $this->toKebabCase($fileName) . '.blade.php');
             }

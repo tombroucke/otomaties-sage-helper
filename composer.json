@@ -8,11 +8,13 @@
         }
     ],
     "require": {
-      "tombroucke/sage-bootstrap-components": "^3.0",
       "tombroucke/acf-objects": "^2.0",
+      "tombroucke/sage-bootstrap-components": "^4.0",
       "log1x/acf-composer": "^2.0",
-      "log1x/navi": "^2.0",
       "roots/acorn": "*"
+    },
+    "suggest": {
+        "log1x/navi": "Navi is a developer-friendly alternative to the NavWalker. Easily build your WordPress menus using an iterable object inside of a template/view."
     },
     "autoload": {
       "psr-4": {
