@@ -46,7 +46,7 @@ class Pagination extends Composer
             'type'         => 'array',
         ]);
 
-        array_walk($pages, function(&$page){
+        array_walk($pages, function (&$page) {
             $page = array(
                 'active' => strpos($page, 'current'),
                 'link' => str_replace('page-numbers', 'page-link', $page)

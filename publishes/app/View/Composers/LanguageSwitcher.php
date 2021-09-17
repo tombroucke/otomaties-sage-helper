@@ -34,7 +34,7 @@ class LanguageSwitcher extends Composer
     public function languages()
     {
         $return = array();
-        $languages = array_reverse(icl_get_languages('skip_missing=0&orderby=KEY&order=DIR&link_empty_to=str'));
+        $languages = array_reverse(icl_get_languages('skip_missing=0&orderby=KEY&order=DIR'));
         if (count($languages) >= 1) {
             foreach ($languages as $language) {
                 if ($language['active']) {
