@@ -29,7 +29,12 @@ class Pagination extends Composer
 
     public function pages()
     {
-        global $wp_query;
+        $wp_query = $this->data->get('wpQuery');
+
+        if (!$wp_query) {
+            global $wp_query;
+        }
+
         $pages = (array)paginate_links([
             'base'         => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
             'format'       => '?paged=%#%',
