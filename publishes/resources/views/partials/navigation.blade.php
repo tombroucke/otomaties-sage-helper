@@ -1,16 +1,15 @@
 @if ($navigation)
   <nav class="nav-primary">
-    <ul>
+    <ul class="list-unstyled">
       @foreach ($navigation as $item)
-        <li class="{{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }} {{ $item->children ? 'menu-item--has-submenu' : '' }}">
-          <a href="{{ $item->url }}">
+      <li class="menu-item {{ $item->classes ?? '' }} {{ $item->active ? 'menu-item--active' : '' }} {{ $item->children ? 'menu-item--has-submenu' : '' }}">
+        <a href="{{ $item->url }}">
             {{ $item->label }}
           </a>
-
           @if ($item->children)
-            <ul class="submenu">
+            <ul class="submenu list-unstyled">
               @foreach ($item->children as $child)
-                <li class="{{ $child->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
+                <li class="submenu-item {{ $child->classes ?? '' }} {{ $child->active ? 'submenu-item--active' : '' }}">
                   <a href="{{ $child->url }}">
                     {{ $child->label }}
                   </a>

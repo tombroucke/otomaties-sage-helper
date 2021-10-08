@@ -7,6 +7,13 @@ use Roots\Acorn\View\Composer;
 class LanguageSwitcher extends Composer
 {
     /**
+     * Array of WPML languages
+     *
+     * @var array
+     */
+    private $languages = [];
+
+    /**
      * List of views served by this composer.
      *
      * @var array
@@ -22,31 +29,52 @@ class LanguageSwitcher extends Composer
      */
     public function with()
     {
-        $languages = $this->languages();
-        $activeLanguage = $languages[0];
-        array_shift($languages);
         return [
-            'activeLanguage' => $activeLanguage,
-            'languages' => $languages,
+            'activeLanguage' => $this->activeLanguage(),
+            'inactiveLanguages' => $this->inactiveLanguages(),
         ];
     }
 
-    public function languages()
+    /**
+     * Get active language
+     *
+     * @return object
+     */
+    public function activeLanguage() : object
     {
-        $return = array();
-        $languages = array_reverse(icl_get_languages('skip_missing=0&orderby=KEY&order=DIR'));
-        if (count($languages) >= 1) {
-            foreach ($languages as $language) {
-                if ($language['active']) {
-                    $return[] = $language;
-                }
-            }
-            foreach ($languages as $language) {
-                if (!$language['active']) {
-                    $return[] = $language;
-                }
-            }
+        $activeLanguages = array_filter($this->languages(), function ($language) {
+            return $language->active;
+        });
+        return reset($activeLanguages);
+    }
+
+    /**
+     * Get active language
+     *
+     * @return array Array of language objects
+     */
+    public function inactiveLanguages() : array
+    {
+        $inactiveLanguages = array_filter($this->languages(), function ($language) {
+            return !$language->active;
+        });
+        return $inactiveLanguages;
+    }
+
+    /**
+     * Get WPML languages
+     *
+     * @return array
+     */
+    private function languages() : array
+    {
+        if (!$this->languages) {
+            $this->languages = array_reverse(icl_get_languages('skip_missing=0&orderby=KEY&order=DIR'));
         }
-        return $return;
+
+        // Return object instead of array
+        return array_map(function ($language) {
+            return (object)$language;
+        }, $this->languages );
     }
 }
