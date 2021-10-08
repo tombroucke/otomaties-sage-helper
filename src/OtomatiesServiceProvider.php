@@ -20,6 +20,7 @@ class OtomatiesServiceProvider extends ServiceProvider
         //Add block template
         $this->publishes([
             __DIR__ . '/../publishes/app/View/Composers' => $this->app->path('View/Composers'),
+            __DIR__ . '/../publishes/app/View/Components' => $this->app->path('View/Components'),
             __DIR__ . '/../publishes/resources/views/components' => $this->app->resourcePath('views/components'),
             __DIR__ . '/../publishes/resources/views/forms' => $this->app->resourcePath('views/forms'),
             __DIR__ . '/../publishes/resources/views/partials' => $this->app->resourcePath('views/partials'),

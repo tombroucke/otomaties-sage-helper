@@ -1,23 +1,21 @@
-@props([
-  'block' => new stdclass,
-  'background' => false,
-])
-@if( ( $block->block->align == 'full' || $block->block->align == 'wide' ) && !is_admin())
-</div>
-@endif
+@unless(is_admin())
+  @if($extendsOutsideContainer())
+    </div>
+  @endif
+  @if($wide())
+    <div class="container container--large">
+  @endif
+@endunless
 
-@if( ( $block->block->align == 'wide' ) && !is_admin() )
-  <div class="container container-large">
-@endif
-
-  <div {!! isset($block->block->anchor) ? 'id="' . $block->block->anchor . '"' : '' !!} {{ $attributes->merge(['class' => 'block ' . $block->classes]) }} @if($background) @background($background) @endif>
+  <div {{ $attributes->merge(array_filter($defaultAttributes())) }} @if($background) @background($background) @endif>
     {{ $slot }}
   </div>
 
-@if( ( $block->block->align == 'wide' ) && !is_admin() )
-  </div>
-@endif
-
-@if( ( $block->block->align == 'full' || $block->block->align == 'wide' ) && !is_admin())
-  <div class="container">
-@endif
+@unless(is_admin())
+  @if($wide())
+    </div>
+  @endif
+  @if($extendsOutsideContainer())
+    <div class="container">
+  @endif
+@endunless
