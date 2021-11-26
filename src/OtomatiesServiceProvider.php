@@ -26,6 +26,8 @@ class OtomatiesServiceProvider extends ServiceProvider
             __DIR__ . '/../publishes/resources/views/partials' => $this->app->resourcePath('views/partials'),
             __DIR__ . '/../publishes/resources/styles/partials' => $this->app->resourcePath('styles/partials'),
             __DIR__ . '/../publishes/resources/images' => $this->app->resourcePath('images'),
+            __DIR__ . '/../publishes/purge-safelist.js' => $this->app->basePath('purge-safelist.js'),
+            __DIR__ . '/../publishes/theme.json' => $this->app->basePath('theme.json'),
         ], 'Otomaties default files');
     }
 
