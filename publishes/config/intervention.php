@@ -19,7 +19,7 @@ return [
         ]
     ],
     'application' => [
-        'theme' => 'themename',
+        'theme' => 'themename', //TODO: Set theme name
         'plugins' => [
             'advanced-custom-fields-pro/acf.php' => true,
         ],

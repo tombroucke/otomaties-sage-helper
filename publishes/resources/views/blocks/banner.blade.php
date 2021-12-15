@@ -1,5 +1,9 @@
-<x-block :block="$block" :background="$background_image->url('large')" class="d-flex align-items-center">
-  <div class="container">
+<x-block :block="$block" class="d-flex align-items-center {{ $textColor ?? '' }} {{ $backgroundColor ?? '' }}" :background="$backgroundImage ? $backgroundImage->url('large') : null">
+  @if(!$block->block->align || $block->block->align == '')
     <h1>{!! $title !!}</h1>
-  </div>
+  @else
+    <div class="container">
+      <h1>{!! $title !!}</h1>
+    </div>
+  @endif
 </x-block>
