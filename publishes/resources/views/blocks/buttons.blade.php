@@ -12,6 +12,10 @@
       </x-button.group>
     @endif
   @else
-    <p>{{ __('Add some buttons...', 'sage') }}</p>
+    @if($block->preview)
+      <p>{{ __('Add some buttons ...', 'sage') }}</p>
+    @else
+    <!-- {{ __('Add some buttons ...', 'sage') }} ... -->
+    @endif
   @endunless
 </x-block>
