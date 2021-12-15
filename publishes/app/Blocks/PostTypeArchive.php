@@ -4,24 +4,11 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class PostTypeArchive extends Block
 {
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Post Type Archive';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'Display a list of posts';
-
     /**
      * The block category.
      *
@@ -95,10 +82,23 @@ class PostTypeArchive extends Block
         'align_text' => false,
         'align_content' => false,
         'full_height' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => false,
         'multiple' => false,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Post Type Archive', 'sage');
+        $this->slug = 'post-type-archive';
+        $this->description = __('Display a list of posts', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -121,7 +121,7 @@ class PostTypeArchive extends Block
     {
         $postTypes = [
             'post' => __('Posts'),
-            // TODO: add custom post types
+            // TODO: add custom post types. It is too soon to call get_post_types()
         ];
 
         $postTypeArchive = new FieldsBuilder('post_type_archive');
@@ -137,7 +137,7 @@ class PostTypeArchive extends Block
                 ->addSelect('post_type', [
                     'label' => __('Post type', 'sage'),
                     'default' => 'post',
-                    'choices' => $postTypes
+                    'choices' => get_post_types()
                 ])
             ->endGroup();
 

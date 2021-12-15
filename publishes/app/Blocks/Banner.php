@@ -4,30 +4,17 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Banner extends Block
 {
     /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Banner';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A simple Banner block.';
-
-    /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -94,11 +81,25 @@ class Banner extends Block
         'align' => ['full', 'wide'],
         'align_text' => true,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => false,
         'multiple' => true,
         'jsx' => false,
+        'color' => true,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Banner', 'sage');
+        $this->slug = 'banner';
+        $this->description = __('Display a banner', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -107,9 +108,14 @@ class Banner extends Block
      */
     public function with()
     {
+        $backgroundColor = property_exists($this->block, 'backgroundColor') ? 'bg-' . $this->block->backgroundColor : null;
+        $textColor = property_exists($this->block, 'textColor') ? 'text-' . $this->block->textColor : null;
+
         return [
-            'background_image' => Acf::get_field('background_image')->default(\Roots\asset('images/hero.jpg')->uri()),
-            'title' => Acf::get_field('title')->default(get_the_title())
+            'backgroundImage' => Acf::get_field('background_image'),
+            'title' => Acf::get_field('title')->default(get_the_title()),
+            'backgroundColor' => $backgroundColor,
+            'textColor' => $textColor,
         ];
     }
 
@@ -125,6 +131,7 @@ class Banner extends Block
         $banner
             ->addText('title', [
                 'label' => __('Title', 'sage'),
+                'instructions' => __('Defaults to post title', 'sage')
             ])
             ->addImage('background_image', [
                 'label' => __('Background image', 'sage'),

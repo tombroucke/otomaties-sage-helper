@@ -4,24 +4,11 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class HeroSlider extends Block
 {
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Hero slider';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'Display a static hero on top of your page';
-
     /**
      * The block category.
      *
@@ -91,14 +78,27 @@ class HeroSlider extends Block
      * @var array
      */
     public $supports = [
-        'align' => array('full'),
-        'align_text' => false,
+        'align' => array('full', 'wide'),
+        'align_text' => true,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => true,
         'multiple' => true,
         'jsx' => true,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Hero slider', 'sage');
+        $this->slug = 'hero-slider';
+        $this->description = __('Display a hero with slides on top of your page', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -148,13 +148,6 @@ class HeroSlider extends Block
                         'choices' => array(
                             'primary' => __('Primary', 'sage'),
                             'secondary' => __('Secondary', 'sage'),
-                            'success' => __('Success', 'sage'),
-                            'danger' => __('Danger', 'sage'),
-                            'warning' => __('Warning', 'sage'),
-                            'info' => __('Info', 'sage'),
-                            'light' => __('Light', 'sage'),
-                            'dark' => __('Dark', 'sage'),
-                            'white' => __('White', 'sage'),
                         ),
                         'default_value' => 'primary',
                     ])
@@ -168,13 +161,6 @@ class HeroSlider extends Block
                         'choices' => [
                             'primary' => __('Primary', 'sage'),
                             'secondary' => __('Secondary', 'sage'),
-                            'success' => __('Success', 'sage'),
-                            'danger' => __('Danger', 'sage'),
-                            'warning' => __('Warning', 'sage'),
-                            'info' => __('Info', 'sage'),
-                            'light' => __('Light', 'sage'),
-                            'dark' => __('Dark', 'sage'),
-                            'white' => __('White', 'sage'),
                         ],
                     ])
                     ->addTrueFalse('group_buttons', [
@@ -198,7 +184,7 @@ class HeroSlider extends Block
                     'label' => __('Autoplay speed (in milliseconds)', 'sage'),
                     'description' => __('Set to 0 to disable autoplay', 'sage'),
                     'allow_null' => false,
-                    'default_value' => 4000
+                    'default_value' => 5000
                 ])
                 ->addTrueFalse('dots', [
                     'label' => __('Dots', 'sage'),
@@ -226,7 +212,7 @@ class HeroSlider extends Block
             'slidesToScroll' => 1,
             'slidesToShow' => 1,
             'autoplay' => 'true',
-            'autoplaySpeed' => $settings->get('autoplay_speed')->value(),
+            'autoplaySpeed' => $settings->get('autoplay_speed')->default(5000)->value(),
         ];
         return json_encode($sliderSettings, JSON_HEX_APOS);
     }

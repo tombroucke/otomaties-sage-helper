@@ -4,31 +4,17 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Cards extends Block
 {
-
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Cards';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A simple Cards block.';
-
     /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -92,14 +78,27 @@ class Cards extends Block
      * @var array
      */
     public $supports = [
-        'align' => false,
-        'align_text' => false,
+        'align' => ['full', 'wide'],
+        'align_text' => true,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => true,
         'multiple' => true,
         'jsx' => false,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Cards', 'sage');
+        $this->slug = 'cards';
+        $this->description = __('Show multiple cards next to eachother', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -142,15 +141,5 @@ class Cards extends Block
             ->endRepeater();
 
         return $cards->build();
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }

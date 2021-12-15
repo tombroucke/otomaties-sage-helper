@@ -4,24 +4,11 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Hero extends Block
 {
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Hero';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'Display a static hero on top of your page';
-
     /**
      * The block category.
      *
@@ -98,7 +85,21 @@ class Hero extends Block
         'mode' => true,
         'multiple' => true,
         'jsx' => true,
+        'color' => true,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Hero', 'sage');
+        $this->slug = 'hero';
+        $this->description = __('Display a static hero on top of your page', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -107,9 +108,13 @@ class Hero extends Block
      */
     public function with()
     {
+        $backgroundColor = property_exists($this->block, 'backgroundColor') ? 'bg-' . $this->block->backgroundColor : null;
+        $textColor = property_exists($this->block, 'textColor') ? 'text-' . $this->block->textColor : null;
+
         return [
-            'background_image' => Acf::get_field('background_image')->default(\Roots\asset('images/hero.jpg')->uri()),
-            'settings' => Acf::get_field('settings')
+            'backgroundImage' => Acf::get_field('background_image'),
+            'backgroundColor' => $backgroundColor,
+            'textColor' => $textColor,
         ];
     }
 
@@ -126,26 +131,7 @@ class Hero extends Block
             ->addImage('background_image', [
                 'label' => __('Background image', 'sage'),
                 'required' => true
-            ])
-            ->addGroup('settings', [
-                'label' => __('Settings', 'sage'),
-            ])
-                ->addSelect('text_color', [
-                    'label' => __('Text color', 'sage'),
-                    'allow_null' => true,
-                    'choices' => [
-                        'primary' => __('Primary', 'sage'),
-                        'secondary' => __('Secondary', 'sage'),
-                        'success' => __('Success', 'sage'),
-                        'danger' => __('Danger', 'sage'),
-                        'warning' => __('Warning', 'sage'),
-                        'info' => __('Info', 'sage'),
-                        'light' => __('Light', 'sage'),
-                        'dark' => __('Dark', 'sage'),
-                        'white' => __('White', 'sage'),
-                    ],
-                ])
-            ->endGroup();
+            ]);
 
         return $hero->build();
     }

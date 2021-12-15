@@ -4,30 +4,18 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
+use function Roots\asset;
 
 class Location extends Block
 {
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Location';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A simple Location block.';
-
     /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -62,7 +50,7 @@ class Location extends Block
      *
      * @var string
      */
-    public $mode = 'preview';
+    public $mode = 'edit';
 
     /**
      * The default block alignment.
@@ -91,13 +79,26 @@ class Location extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => false,
         'multiple' => true,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Location', 'sage');
+        $this->slug = 'location';
+        $this->description = __('Show a location on a map', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -135,6 +136,7 @@ class Location extends Block
      */
     public function enqueue()
     {
-        wp_enqueue_script('sage/block/location', asset('scripts/blocks/location.js')->uri(), ['jquery'], null, true);
+        wp_enqueue_script('google-maps', '//maps.googleapis.com/maps/api/js?key=' . getenv('GOOGLE_MAPS_API_KEY'), ['jquery'], null, true);
+        wp_enqueue_script('sage/block/location', asset('scripts/blocks/location.js')->uri(), ['jquery', 'google-maps'], null, true);
     }
 }

@@ -21,10 +21,13 @@ class OtomatiesServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../publishes/app/View/Composers' => $this->app->path('View/Composers'),
             __DIR__ . '/../publishes/app/View/Components' => $this->app->path('View/Components'),
+            __DIR__ . '/../publishes/config' => $this->app->configPath(),
             __DIR__ . '/../publishes/resources/views/components' => $this->app->resourcePath('views/components'),
             __DIR__ . '/../publishes/resources/views/forms' => $this->app->resourcePath('views/forms'),
             __DIR__ . '/../publishes/resources/views/partials' => $this->app->resourcePath('views/partials'),
             __DIR__ . '/../publishes/resources/styles/partials' => $this->app->resourcePath('styles/partials'),
+            __DIR__ . '/../publishes/resources/styles/blocks/block.scss' => $this->app->resourcePath('styles/blocks/block.scss'),
+            __DIR__ . '/../publishes/resources/styles/blocks/index.scss' => $this->app->resourcePath('styles/blocks/index.scss'),
             __DIR__ . '/../publishes/resources/images' => $this->app->resourcePath('images'),
             __DIR__ . '/../publishes/purge-safelist.js' => $this->app->basePath('purge-safelist.js'),
             __DIR__ . '/../publishes/theme.json' => $this->app->basePath('theme.json'),

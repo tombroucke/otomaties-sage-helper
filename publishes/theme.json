@@ -1,15 +1,17 @@
 {
 	"version": 1,
 	"settings": {
+		"layout": {
+			"contentSize": "1320px"
+		},
 		"color": {
 			"palette": [
-			  {
-				  "name": "Primary",
-				  "slug": "primary",
-				  "color": "#0d6efd"
-			  }
+				{
+					"name": "Primary",
+					"slug": "primary",
+					"color": "#0d6efd"
+				}
 			]
 		}
 	}
-  }
-  
+}

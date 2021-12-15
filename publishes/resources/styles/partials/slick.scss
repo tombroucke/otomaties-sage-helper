@@ -1,20 +1,20 @@
 .slick-dots {
   position: absolute;
-  bottom: 30px;
-  width: 100%;
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
   z-index: 5;
+  bottom: 30px;
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 
   li {
-    padding: 0;
-    margin: 0 5px;
     display: flex;
     align-items: center;
+    padding: 0;
+    margin: 0 5px;
     line-height: 0;
 
     &::before {
@@ -27,10 +27,10 @@
     height: 11px;
     padding: 0;
     border: none;
-    border-radius: 100%;
     background-color: transparentize($white, 0.3);
-    text-indent: -9999px;
+    border-radius: 100%;
     outline: 0 transparent !important;
+    text-indent: -9999px;
     transition: all 200ms;
 
     &:hover {
@@ -45,19 +45,19 @@
 
 .slick-arrow {
   position: absolute;
+  z-index: 2;
   top: 50%;
+  display: flex;
   width: 40px;
   height: 40px;
-  border: none;
-  background-color: $white;
-  margin-top: -20px;
-  border-radius: 50px;
-  transition: all 200ms;
-  font-size: 1.3em;
-  z-index: 2;
-  display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  margin-top: -20px;
+  background-color: $white;
+  border-radius: 50px;
+  font-size: 1.3em;
+  transition: all 200ms;
 
   &:hover {
     background-color: darken($white, 10%);

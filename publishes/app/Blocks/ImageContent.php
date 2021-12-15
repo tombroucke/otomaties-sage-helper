@@ -4,30 +4,17 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class ImageContent extends Block
 {
     /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Image & Content';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'Show text next to an image';
-
-    /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -98,7 +85,21 @@ class ImageContent extends Block
         'mode' => false,
         'multiple' => true,
         'jsx' => true,
+        'color' => true,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Image & Content', 'sage');
+        $this->slug = 'image-content';
+        $this->description = __('Content next to an image', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -107,10 +108,14 @@ class ImageContent extends Block
      */
     public function with()
     {
+        $backgroundColor = property_exists($this->block, 'backgroundColor') ? 'bg-' . $this->block->backgroundColor : null;
+        $textColor = property_exists($this->block, 'textColor') ? 'text-' . $this->block->textColor : null;
         return [
             'image' => Acf::get_field('image')->default('https://picsum.photos/500/500'),
             'imagePosition' => Acf::get_field('settings')->get('image_position')->default('left'),
-            'backgroundColor' => Acf::get_field('settings')->get('background_color')->default('transparent'),
+            'imageSize' => $this->block->align == 'full' || $this->block->align == 'wide' ? 'large' : 'medium',
+            'backgroundColor' => $backgroundColor,
+            'textColor' => $textColor,
         ];
     }
 
@@ -125,7 +130,8 @@ class ImageContent extends Block
 
         $imageContent
             ->addImage('image', [
-                'label' => __('Image', 'sage')
+                'label' => __('Image', 'sage'),
+                'required' => true,
             ])
             ->addGroup('settings', [
                 'label' => __('Settings', 'sage'),
@@ -136,21 +142,6 @@ class ImageContent extends Block
                     'choices' => [
                         'left' => __('Left', 'sage'),
                         'right' => __('Right', 'sage'),
-                    ],
-                ])
-                ->addSelect('background_color', [
-                    'label' => __('Background color', 'sage'),
-                    'allow_null' => true,
-                    'choices' => [
-                        'primary' => __('Primary', 'sage'),
-                        'secondary' => __('Secondary', 'sage'),
-                        'success' => __('Success', 'sage'),
-                        'danger' => __('Danger', 'sage'),
-                        'warning' => __('Warning', 'sage'),
-                        'info' => __('Info', 'sage'),
-                        'light' => __('Light', 'sage'),
-                        'dark' => __('Dark', 'sage'),
-                        'white' => __('White', 'sage'),
                     ],
                 ])
             ->endGroup();

@@ -4,30 +4,17 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Carousel extends Block
 {
     /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Carousel';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A carousel of images';
-
-    /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -94,11 +81,24 @@ class Carousel extends Block
         'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => true,
         'multiple' => true,
         'jsx' => false,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Carousel', 'sage');
+        $this->slug = 'carousel';
+        $this->description = __('Show images in a carousel', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -185,7 +185,7 @@ class Carousel extends Block
             'slidesToShow' => $settings->get('slides_to_show')->default(3)->value(),
             'slidesToScroll' => 1,
             'autoplay' => 'true',
-            'autoplaySpeed' => $settings->get('autoplay_speed')->value(),
+            'autoplaySpeed' => $settings->get('autoplay_speed')->default(4000)->value(),
         ];
         return json_encode($sliderSettings, JSON_HEX_APOS);
     }

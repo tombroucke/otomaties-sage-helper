@@ -64,6 +64,16 @@ class Block extends Component
     }
 
     /**
+     * Container class
+     *
+     * @return string
+     */
+    public function containerClass() : string
+    {
+        return 'container';
+    }
+
+    /**
      * Get default block attributes: class & optional ID
      *
      * @return array

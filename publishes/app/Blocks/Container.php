@@ -3,31 +3,17 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class ColoredBackground extends Block
+class Container extends Block
 {
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Colored Background';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A simple Colored Background block.';
-
     /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -91,13 +77,31 @@ class ColoredBackground extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
-        'align_text' => false,
+        'align' => ['full', 'wide'],
+        'align_text' => true,
         'align_content' => false,
+        'anchor' => true,
         'mode' => false,
         'multiple' => true,
         'jsx' => true,
+        'color' => [
+            'text' => true,
+            'gradients' => false,
+        ],
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Container', 'sage');
+        $this->slug = 'container';
+        $this->description = __('A container with an optional background color', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -106,8 +110,11 @@ class ColoredBackground extends Block
      */
     public function with()
     {
+        $backgroundColor = property_exists($this->block, 'backgroundColor') ? $this->block->backgroundColor : 'transparent';
+        $textColor = property_exists($this->block, 'textColor') ? $this->block->textColor : 'dark';
         return [
-            'backgroundColor' => Acf::get_field('background_color'),
+            'backgroundColor' => $backgroundColor,
+            'textColor' => $textColor,
         ];
     }
 
@@ -119,21 +126,6 @@ class ColoredBackground extends Block
     public function fields()
     {
         $coloredBackground = new FieldsBuilder('colored_background');
-
-        $coloredBackground
-            ->addSelect('background_color', [
-                'choices' => [
-                    'primary' => __('Primary', 'sage'),
-                    'secondary' => __('Secondary', 'sage'),
-                    'success' => __('Success', 'sage'),
-                    'danger' => __('Danger', 'sage'),
-                    'warning' => __('Warning', 'sage'),
-                    'info' => __('Info', 'sage'),
-                    'light' => __('Light', 'sage'),
-                    'dark' => __('Dark', 'sage'),
-                ]
-            ]);
-
         return $coloredBackground->build();
     }
 }

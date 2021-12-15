@@ -4,30 +4,17 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Buttons extends Block
 {
     /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Buttons';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A simple Buttons block.';
-
-    /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -91,14 +78,43 @@ class Buttons extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => true,
         'align_content' => false,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => true,
         'multiple' => true,
         'jsx' => false,
+        'color' => [
+            'text' => false,
+            'gradients' => false,
+        ],
     ];
+
+    /**
+     * The block styles.
+     *
+     * @var array
+     */
+    public $styles = [
+        [
+            'name' => 'outline',
+            'label' => 'Outline',
+        ],
+    ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Buttons', 'sage');
+        $this->slug = 'buttons';
+        $this->description = __('Display multiple buttons', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
@@ -107,10 +123,13 @@ class Buttons extends Block
      */
     public function with()
     {
+        $backgroundColor = property_exists($this->block, 'backgroundColor') ? $this->block->backgroundColor : 'primary';
+        $outline = property_exists($this->block, 'className') && strpos($this->block->className, 'is-style-outline') !== false;
         return [
             'align' => $this->align,
             'buttons' => Acf::get_field('buttons'),
             'settings' => Acf::get_field('settings'),
+            'theme' => $outline ? 'outline-' . $backgroundColor : $backgroundColor,
         ];
     }
 
@@ -128,21 +147,6 @@ class Buttons extends Block
             ])
                 ->addLink('button', [
                     'label' => __('Button', 'sage')
-                ])
-                ->addSelect('style', [
-                    'label' => __('Style', 'sage'),
-                    'choices' => array(
-                        'primary' => __('Primary', 'sage'),
-                        'secondary' => __('Secondary', 'sage'),
-                        'success' => __('Success', 'sage'),
-                        'danger' => __('Danger', 'sage'),
-                        'warning' => __('Warning', 'sage'),
-                        'info' => __('Info', 'sage'),
-                        'light' => __('Light', 'sage'),
-                        'dark' => __('Dark', 'sage'),
-                        'white' => __('White', 'sage'),
-                    ),
-                    'default_value' => 'primary',
                 ])
             ->endRepeater()
             ->addGroup('settings', [

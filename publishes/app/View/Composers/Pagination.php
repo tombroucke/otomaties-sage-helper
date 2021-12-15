@@ -30,6 +30,7 @@ class Pagination extends Composer
     public function pages()
     {
         $wp_query = $this->data->get('wpQuery');
+        $addFragment = $this->data->get('addFragment');
 
         if (!$wp_query) {
             global $wp_query;
@@ -47,7 +48,7 @@ class Pagination extends Composer
             'prev_text'    => __('Previous', 'sage'),
             'next_text'    => __('Next', 'sage'),
             'add_args'     => false,
-            'add_fragment' => '',
+            'add_fragment' => $addFragment,
             'type'         => 'array',
         ]);
 

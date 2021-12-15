@@ -4,24 +4,11 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Button extends Block
 {
-    /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Button';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'A simple Button';
-
     /**
      * The block category.
      *
@@ -96,7 +83,7 @@ class Button extends Block
         'align_content' => false,
         'full_height' => false,
         'anchor' => false,
-        'mode' => false,
+        'mode' => true,
         'multiple' => true,
         'jsx' => false,
         'color' => [
@@ -116,6 +103,19 @@ class Button extends Block
             'label' => 'Outline',
         ],
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Button', 'sage');
+        $this->slug = 'button';
+        $this->description = __('Display a single button', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.

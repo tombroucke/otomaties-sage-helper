@@ -4,30 +4,17 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
+use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Gallery extends Block
 {
     /**
-     * The block name.
-     *
-     * @var string
-     */
-    public $name = 'Gallery';
-
-    /**
-     * The block description.
-     *
-     * @var string
-     */
-    public $description = 'Display a gallery';
-
-    /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -91,13 +78,26 @@ class Gallery extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
         'anchor' => true,
         'mode' => true,
         'multiple' => true,
     ];
+
+    /**
+     * Set title, description & slug, allow for translation
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->name = __('Gallery', 'sage');
+        $this->slug = 'gallery';
+        $this->description = __('A simple gallery block', 'sage');
+        parent::__construct($app);
+    }
 
     /**
      * Data to be passed to the block before rendering.
