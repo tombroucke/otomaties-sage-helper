@@ -4,7 +4,7 @@
       @foreach($slides as $slide)
         <div class="slide">
           {!! $slide->get('image')->default('https://picsum.photos/500/300')->image('medium') !!}
-          {!! $slide->get('title') !!}
+          {!! esc_html($slide->get('title')) !!}
         </div>
       @endforeach
     </div>

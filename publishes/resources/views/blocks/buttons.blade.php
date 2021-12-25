@@ -5,7 +5,7 @@
     @endif
       @foreach($buttons as $button)
         <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$theme">
-          {!! $button->get('button')->title() !!}
+          {!! esc_html($button->get('button')->title()) !!}
         </x-button>
       @endforeach
     @if($settings->get('group'))

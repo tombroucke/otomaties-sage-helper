@@ -2,7 +2,7 @@
   <ul class="list-unstyled">
     <li class="menu-item menu-item--has-submenu menu-item--language-switcher">
       <span>
-        @svg("images/{$activeLanguage->url}"){!! $activeLanguage->native_name !!}
+        @svg("images/{$activeLanguage->url}"){!! esc_html($activeLanguage->native_name) !!}
         <x-icon name="chevron-down fa-xs" />
       </span>
       <ul class="submenu list-unstyled">

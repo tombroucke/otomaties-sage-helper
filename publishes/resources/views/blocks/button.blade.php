@@ -1,3 +1,3 @@
 <x-button :href="$button->url()" :target="$button->target()" :theme="$theme" class="d-inline-block">
-	{!! $button->title() !!}
+	{!! esc_html($button->title()) !!}
 </x-button>  

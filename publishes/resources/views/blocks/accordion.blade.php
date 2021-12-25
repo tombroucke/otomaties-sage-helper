@@ -4,7 +4,7 @@
     @foreach($items as $item)
       <x-collapse.accordion.item accordion-id="{{ $block->block->id }}" :show="$loop->first">
         <x-slot name="heading">
-          {!! $item->get('question') !!}
+          {!! esc_html($item->get('question')) !!}
         </x-slot>
         {!! $item->get('answer') !!}
       </x-collapse.accordion.item>

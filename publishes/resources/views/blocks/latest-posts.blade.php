@@ -6,7 +6,7 @@
       @endwhile
     </div>
     <x-button href="{{ get_post_type_archive_link('post') }}">
-      {!! __('All posts', 'sage') !!}
+      {!! esc_html(__('All posts', 'sage')) !!}
     </x-button>
     @if($showPagination)
       @include('partials.pagination', ['wpQuery' => $latestPosts, 'addFragment' => '#wp-block-latest-posts'])

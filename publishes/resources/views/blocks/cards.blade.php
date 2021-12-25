@@ -11,14 +11,14 @@
           @endslot
 
           {{-- Content --}}
-          <h3 class="mb-3">{!! $card->get('title')->default(__('Add a title', 'sage')) !!}</h3>
+          <h3 class="mb-3">{!! esc_html($card->get('title')->default(__('Add a title', 'sage'))) !!}</h3>
           <div>
             {!! wpautop($card->get('content')) !!}
           </div>
 
           {{-- Button --}}
           @if($card->get('button')->isSet())
-            <a href="{{ $card->get('button')->url() }}" class="btn btn-primary stretched-link">{!! $card->get('button')->title() !!}</a>
+            <a href="{{ $card->get('button')->url() }}" class="btn btn-primary stretched-link">{!! esc_html($card->get('button')->title()) !!}</a>
           @endif
         </x-card>
       @endforeach
