@@ -14,7 +14,8 @@
       "roots/acorn": "*"
     },
     "suggest": {
-        "log1x/navi": "Navi is a developer-friendly alternative to the NavWalker. Easily build your WordPress menus using an iterable object inside of a template/view."
+        "log1x/navi": "Navi is a developer-friendly alternative to the NavWalker. Easily build your WordPress menus using an iterable object inside of a template/view.",
+        "spatie/laravel-google-fonts": "Cache & serve Google Fonts from your application"
     },
     "autoload": {
       "psr-4": {
