@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-      "tombroucke/acf-objects": "^2.0",
+      "tombroucke/acf-objects": "^3.0",
       "tombroucke/sage-bootstrap-components": "^4.0",
       "log1x/acf-composer": "^2.0",
       "roots/acorn": "*"
