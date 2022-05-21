@@ -1,4 +1,4 @@
-<x-block :block="$block" class="position-relative {{ $block->block->align ? 'wp-block-image-content--' . $block->block->align : '' }} {{ $textColor ?? '' }} {{ $backgroundColor ?? '' }}">
+<x-block :block="$block" class="position-relative {{ $block->block->align ? 'wp-block-image-content--' . $block->block->align : '' }}">
   <div class="wp-block-image-content__image {{ $imagePosition == 'left' ? 'wp-block-image-content__image--left' : 'wp-block-image-content__image--right' }}" @background($image->url($imageSize))>
     {!! $image->attributes(['class' => 'd-lg-none'])->image($imageSize) !!}
   </div>

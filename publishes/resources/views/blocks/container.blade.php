@@ -1,4 +1,4 @@
-<x-block :block="$block" class="bg-{{ $backgroundColor }} text-{{ $textColor }}">
+<x-block :block="$block">
   @if(!$block->block->align || $block->block->align == '')
     <InnerBlocks />
   @else

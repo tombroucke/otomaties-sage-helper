@@ -85,22 +85,6 @@ class Buttons extends Block
         'mode' => true,
         'multiple' => true,
         'jsx' => false,
-        'color' => [
-            'text' => false,
-            'gradients' => false,
-        ],
-    ];
-
-    /**
-     * The block styles.
-     *
-     * @var array
-     */
-    public $styles = [
-        [
-            'name' => 'outline',
-            'label' => 'Outline',
-        ],
     ];
 
     /**
@@ -123,13 +107,10 @@ class Buttons extends Block
      */
     public function with()
     {
-        $backgroundColor = property_exists($this->block, 'backgroundColor') ? $this->block->backgroundColor : 'primary';
-        $outline = property_exists($this->block, 'className') && strpos($this->block->className, 'is-style-outline') !== false;
         return [
             'align' => $this->align,
             'buttons' => Acf::get_field('buttons'),
             'settings' => Acf::get_field('settings'),
-            'theme' => $outline ? 'outline-' . $backgroundColor : $backgroundColor,
         ];
     }
 
@@ -140,6 +121,17 @@ class Buttons extends Block
      */
     public function fields()
     {
+        $themeJson = json_decode(file_get_contents(app()->basePath('theme.json')), true);
+        $themes = [];
+        if (isset($themeJson['settings']['color']['palette'])) {
+            foreach ($themeJson['settings']['color']['palette'] as $themeColor) {
+                $themeName = $themeColor['name'];
+                $themeSlug = $themeColor['slug'];
+                $themes[$themeSlug] = $themeName;
+                $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
+            }
+        }
+
         $buttons = new FieldsBuilder('buttons');
         $buttons
             ->addRepeater('buttons', [
@@ -147,6 +139,11 @@ class Buttons extends Block
             ])
                 ->addLink('button', [
                     'label' => __('Button', 'sage')
+                ])
+                ->addSelect('theme', [
+                    'label' => __('Theme', 'sage'),
+                    'choices' => $themes,
+                    'default_value' => array_key_first($themes)
                 ])
             ->endRepeater()
             ->addGroup('settings', [

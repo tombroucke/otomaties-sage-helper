@@ -108,14 +108,10 @@ class ImageContent extends Block
      */
     public function with()
     {
-        $backgroundColor = property_exists($this->block, 'backgroundColor') ? 'bg-' . $this->block->backgroundColor : null;
-        $textColor = property_exists($this->block, 'textColor') ? 'text-' . $this->block->textColor : null;
         return [
             'image' => Acf::get_field('image')->default('https://picsum.photos/500/500'),
             'imagePosition' => Acf::get_field('settings')->get('image_position')->default('left'),
             'imageSize' => $this->block->align == 'full' || $this->block->align == 'wide' ? 'large' : 'medium',
-            'backgroundColor' => $backgroundColor,
-            'textColor' => $textColor,
         ];
     }
 

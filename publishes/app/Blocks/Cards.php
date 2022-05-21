@@ -84,7 +84,6 @@ class Cards extends Block
         'anchor' => true,
         'mode' => true,
         'multiple' => true,
-        'jsx' => false,
     ];
 
     /**
@@ -107,8 +106,10 @@ class Cards extends Block
      */
     public function with()
     {
+        $columns = Acf::get_field('settings')->get('columns') ?: 3;
         return [
             'cards' => Acf::get_field('cards'),
+            'columns' => $columns,
         ];
     }
 
@@ -138,7 +139,17 @@ class Cards extends Block
                 ->addLink('button', [
                     'label' => __('Button', 'sage'),
                 ])
-            ->endRepeater();
+            ->endRepeater()
+            ->addGroup('settings', [
+                'label' => __('Settings', 'sage')
+            ])
+                ->addNumber('columns', [
+                    'label' => __('Columns', 'sage'),
+                    'default_value' => 3,
+                    'max' => 6,
+                    'instructions' => __('Max. 6', 'sage'),
+                ])
+            ->endGroup();
 
         return $cards->build();
     }

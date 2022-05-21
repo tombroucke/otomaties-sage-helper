@@ -2,14 +2,18 @@
   @unless($buttons->isEmpty())
     @if($settings->get('group'))
       <x-button.group>
-    @endif
+        @foreach($buttons as $button)
+          <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
+            {!! esc_html($button->get('button')->title()) !!}
+          </x-button>
+        @endforeach
+      </x-button.group>
+    @else
       @foreach($buttons as $button)
-        <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$theme">
+        <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
           {!! esc_html($button->get('button')->title()) !!}
         </x-button>
       @endforeach
-    @if($settings->get('group'))
-      </x-button.group>
     @endif
   @else
     @if($block->preview)

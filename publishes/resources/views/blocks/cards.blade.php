@@ -1,26 +1,32 @@
 <x-block :block="$block">
   @unless($cards->isEmpty())
-    <div class="card-deck d-block d-lg-flex justify-content-center">
+    <div class="row row-cols-1 row-cols-md-{{ $columns }} g-4">
       @foreach($cards as $card)
-        <x-card class="mb-3 mb-lg-0">
-          {{-- Image --}}
-          @slot('image')
+        <div class="col">
+          <x-card class="mb-3 mb-lg-0">
+            {{-- Image --}}
             @if($card->get('image')->isSet())
-              {!! $card->get('image')->attributes(['class' => 'card-img-top', 'alt' => $card->get('title')])->image('medium') !!}
+              @slot('image')
+                {!! $card->get('image')->attributes(['class' => 'card-img-top', 'alt' => $card->get('title')])->image('medium') !!}
+              @endslot
             @endif
-          @endslot
 
-          {{-- Content --}}
-          <h3 class="mb-3">{!! esc_html($card->get('title')->default(__('Add a title', 'sage'))) !!}</h3>
-          <div>
-            {!! wpautop($card->get('content')) !!}
-          </div>
+            {{-- Header --}}
+            @slot('header')
+            <h3 class="mb-3">{!! esc_html($card->get('title')->default(__('Add a title', 'sage'))) !!}</h3>
+            @endslot
 
-          {{-- Button --}}
-          @if($card->get('button')->isSet())
-            <a href="{{ $card->get('button')->url() }}" class="btn btn-primary stretched-link">{!! esc_html($card->get('button')->title()) !!}</a>
-          @endif
-        </x-card>
+            {{-- Content --}}
+            <div>
+              {!! wpautop($card->get('content')) !!}
+            </div>
+
+            {{-- Button --}}
+            @if($card->get('button')->isSet())
+              <a href="{{ $card->get('button')->url() }}" class="btn btn-primary stretched-link">{!! esc_html($card->get('button')->title()) !!}</a>
+            @endif
+          </x-card>
+        </div>
       @endforeach
     </div>
   @else

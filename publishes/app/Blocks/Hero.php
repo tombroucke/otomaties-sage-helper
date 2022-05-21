@@ -108,13 +108,8 @@ class Hero extends Block
      */
     public function with()
     {
-        $backgroundColor = property_exists($this->block, 'backgroundColor') ? 'bg-' . $this->block->backgroundColor : null;
-        $textColor = property_exists($this->block, 'textColor') ? 'text-' . $this->block->textColor : null;
-
         return [
             'backgroundImage' => Acf::get_field('background_image'),
-            'backgroundColor' => $backgroundColor,
-            'textColor' => $textColor,
         ];
     }
 

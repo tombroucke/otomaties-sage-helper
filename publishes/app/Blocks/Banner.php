@@ -108,14 +108,9 @@ class Banner extends Block
      */
     public function with()
     {
-        $backgroundColor = property_exists($this->block, 'backgroundColor') ? 'bg-' . $this->block->backgroundColor : null;
-        $textColor = property_exists($this->block, 'textColor') ? 'text-' . $this->block->textColor : null;
-
         return [
             'backgroundImage' => Acf::get_field('background_image'),
             'title' => Acf::get_field('title')->default(get_the_title()),
-            'backgroundColor' => $backgroundColor,
-            'textColor' => $textColor,
         ];
     }
 
@@ -139,15 +134,5 @@ class Banner extends Block
             ]);
 
         return $banner->build();
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }

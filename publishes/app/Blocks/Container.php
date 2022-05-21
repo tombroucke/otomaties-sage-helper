@@ -110,11 +110,7 @@ class Container extends Block
      */
     public function with()
     {
-        $backgroundColor = property_exists($this->block, 'backgroundColor') ? $this->block->backgroundColor : 'transparent';
-        $textColor = property_exists($this->block, 'textColor') ? $this->block->textColor : 'dark';
         return [
-            'backgroundColor' => $backgroundColor,
-            'textColor' => $textColor,
         ];
     }
 

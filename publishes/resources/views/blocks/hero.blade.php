@@ -1,4 +1,4 @@
-<x-block class="d-flex align-items-center {{ $textColor ?? '' }} {{ $backgroundColor ?? '' }}" :block="$block" :background="$backgroundImage ? $backgroundImage->url('large') : null">
+<x-block class="d-flex align-items-center" :block="$block" :background="$backgroundImage ? $backgroundImage->url('large') : null">
   <div class="container">
     <InnerBlocks />
   </div>
