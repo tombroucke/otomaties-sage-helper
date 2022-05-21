@@ -8,9 +8,6 @@ composer require tombroucke/otomaties-sage-helper
 
 ## Usage
 ```sh
-wp acorn vendor:publish --tag="Otomaties default files"
-```
-```sh
 wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 ```
 
