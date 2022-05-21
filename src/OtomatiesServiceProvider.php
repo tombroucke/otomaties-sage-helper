@@ -18,31 +18,48 @@ class OtomatiesServiceProvider extends ServiceProvider
         $this->addBlocks();
     }
 
-    public function addBlocks()
+    public function addBlocks() : void
     {
-        foreach (glob(__DIR__ . '/../publishes/app/Blocks/*.*') as $file) {
+        foreach (glob($this->sourceFile('/app/Blocks/*.*')) as $file) {
             $publishable = [];
             $pathinfo = pathinfo($file);
-            $controllerName = $pathinfo['basename'];
-            $fileName = $pathinfo['filename'];
+            $className = $pathinfo['filename'];
+            $classNameKebab = $this->toKebabCase($className);
 
-            if (file_exists(__DIR__ . '/../publishes/app/Blocks/' . $controllerName)) {
-                $publishable[__DIR__ . '/../publishes/app/Blocks/' . $controllerName] = $this->app->path('Blocks/' . $controllerName);
+            $associatedFiles = [
+                'controller' => [
+                    'source' => $this->sourceFile('/app/Blocks/' . $className . '.php'),
+                    'target' => $this->app->path('Blocks/' . $className . '.php'),
+                ],
+                'style' => [
+                    'source' => $this->sourceFile('/resources/styles/blocks/' . $classNameKebab . '.scss'),
+                    'target' => $this->app->resourcePath('styles/blocks/' . $classNameKebab . '.scss'),
+                ],
+                'script' => [
+                    'source' => $this->sourceFile('/resources/scripts/blocks/' . $classNameKebab . '.js'),
+                    'target' => $this->app->resourcePath('scripts/blocks/' . $classNameKebab . '.js'),
+                ],
+                'view' => [
+                    'source' => $this->sourceFile('/resources/views/blocks/' . $classNameKebab . '.blade.php'),
+                    'target' => $this->app->resourcePath('views/blocks/' . $classNameKebab . '.blade.php'),
+                ]
+            ];
+
+            foreach ($associatedFiles as $associatedFiles) {
+                if (file_exists($associatedFiles['source'])) {
+                    $publishable[$associatedFiles['source']] = $associatedFiles['target'];
+                }
             }
-            if (file_exists(__DIR__ . '/../publishes/resources/styles/blocks/' . $this->toKebabCase($fileName) . '.scss')) {
-                $publishable[__DIR__ . '/../publishes/resources/styles/blocks/' . $this->toKebabCase($fileName) . '.scss'] = $this->app->resourcePath('styles/blocks/' . $this->toKebabCase($fileName) . '.scss');
-            }
-            if (file_exists(__DIR__ . '/../publishes/resources/scripts/blocks/' . $this->toKebabCase($fileName) . '.js')) {
-                $publishable[__DIR__ . '/../publishes/resources/scripts/blocks/' . $this->toKebabCase($fileName) . '.js'] = $this->app->resourcePath('scripts/blocks/' . $this->toKebabCase($fileName) . '.js');
-            }
-            if (file_exists(__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php')) {
-                $publishable[__DIR__ . '/../publishes/resources/views/blocks/' . $this->toKebabCase($fileName) . '.blade.php'] = $this->app->resourcePath('views/blocks/' . $this->toKebabCase($fileName) . '.blade.php');
-            }
-            $this->publishes($publishable, 'Otomaties block ' . $fileName);
+            $this->publishes($publishable, 'Otomaties block ' . $className);
         }
     }
 
-    private function toKebabCase($slug)
+    private function sourceFile(string $path) : string
+    {
+        return __DIR__ . '/../publishes/' . ltrim($path, '/');
+    }
+
+    private function toKebabCase(string $slug) : string
     {
         $styleName = preg_replace('/\B([A-Z])/', '-$1', $slug);
         $styleName = strtolower($styleName);
