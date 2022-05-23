@@ -78,7 +78,7 @@ class Hero extends Block
      * @var array
      */
     public $supports = [
-        'align' => array('full'),
+        'align' => ['full', 'wide'],
         'align_text' => true,
         'align_content' => false,
         'anchor' => false,

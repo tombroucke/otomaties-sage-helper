@@ -78,7 +78,7 @@ class Team extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
         'full_height' => false,

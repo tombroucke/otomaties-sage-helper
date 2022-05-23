@@ -78,7 +78,7 @@ class HeroSlider extends Block
      * @var array
      */
     public $supports = [
-        'align' => array('full', 'wide'),
+        'align' => ['full', 'wide'],
         'align_text' => true,
         'align_content' => false,
         'anchor' => true,
@@ -204,7 +204,8 @@ class HeroSlider extends Block
      *
      * @return string The returned string is Json
      */
-    public function sliderSettings() {
+    public function sliderSettings()
+    {
         $settings = Acf::get_field('settings');
         $sliderSettings = [
             'dots' => $settings->get('dots'),

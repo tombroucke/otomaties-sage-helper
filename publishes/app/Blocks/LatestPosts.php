@@ -78,7 +78,7 @@ class LatestPosts extends Block
      * @var array
      */
     public $supports = [
-        'align' => true,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
         'anchor' => false,
@@ -136,7 +136,8 @@ class LatestPosts extends Block
         return $latestPosts->build();
     }
 
-    public function latestPosts() {
+    public function latestPosts()
+    {
         $args = array(
             'posts_per_page' => (string)Acf::get_field('posts_per_page')->default('3'),
             'paged' => (get_query_var('paged')) ? get_query_var('paged') : 1,

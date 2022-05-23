@@ -77,7 +77,7 @@ class Subpages extends Block
      * @var array
      */
     public $supports = [
-        'align' => false,
+        'align' => ['full', 'wide'],
         'align_text' => false,
         'align_content' => false,
         'full_height' => false,
