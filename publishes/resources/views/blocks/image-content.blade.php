@@ -1,20 +1,22 @@
-<x-block :block="$block" class="position-relative {{ $block->block->align ? 'wp-block-image-content--' . $block->block->align : '' }}">
-  <div class="wp-block-image-content__image {{ $imagePosition == 'left' ? 'wp-block-image-content__image--left' : 'wp-block-image-content__image--right' }}" @background($image->url($imageSize))>
-    {!! $image->attributes(['class' => 'd-lg-none'])->image($imageSize) !!}
-  </div>
-  @if($block->block->align && ($block->block->align == 'full' || $block->block->align == 'wide'))
-    <div class="container">
+<x-block :block="$block" class="position-relative">
+  @if($block->block->align == 'full')
+    <div class="container-fluid px-0">
   @endif
-  <div class="row {{ $imagePosition == 'left' ? 'flex-row-reverse' : '' }} align-items-center">
-    <div class="col-lg-6">
-      <div class="wp-block-image-content__content {{ $imagePosition == 'left' ? 'wp-block-image-content__content--right' : 'wp-block-image-content__content--left' }}">
-        <div>
-          <InnerBlocks />
+    <div class="row {{ $imagePosition == 'left' ? 'flex-row-reverse' : '' }} {{ $block->block->align == 'full' ? 'mx-0' :'' }}">
+      <div class="col-lg-6 py-5 {{ $imagePosition == 'left' ? 'ps-lg-0' : 'pe-lg-0' }} {{ $block->block->align == 'full' ? 'px-0' :'' }}">
+        <div class="wp-block-image-content__content h-100 d-flex align-items-center">
+          <div>
+            <InnerBlocks />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 {{ $imagePosition == 'left' ? 'pe-lg-0' : 'ps-lg-0' }} {{ $block->block->align == 'full' ? 'px-0' :'' }}">
+        <div class="wp-block-image-content__image">
+          {!! $image->attributes()->image($imageSize) !!}
         </div>
       </div>
     </div>
-  </div>
-  @if($block->block->align && ($block->block->align == 'full' || $block->block->align == 'wide'))
-  </div>
+  @if($block->block->align == 'full')
+    </div>
   @endif
 </x-block>
