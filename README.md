@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-composer require tombroucke/otomaties-sage-helper
+composer require tombroucke/otomaties-sage-helper --dev
 ```
 
 ## Usage
