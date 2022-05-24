@@ -7,6 +7,10 @@
 
   &__content {
     padding-right: $grid-gutter-width;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .flex-row-reverse {
