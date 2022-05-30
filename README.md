@@ -44,10 +44,6 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 
 `wp acorn vendor:publish --tag="Otomaties block Carousel"`
 
-- Slick carousel
-- Slick parameters in data-attribute. Append / overwrite settings in JS
-- Add `$('.wp-block-carousel__slider').slick();` to your JS
-
 ### Container
 
 `wp acorn vendor:publish --tag="Otomaties block Container"`
@@ -66,9 +62,6 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 ### Hero Slider
 
 `wp acorn vendor:publish --tag="Otomaties block HeroSlider"`
-
-- Slick carousel
-- Add `$('.wp-block-hero-slider').slick();` to your JS
 
 ### Image + Content
 
@@ -97,7 +90,6 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 `wp acorn vendor:publish --tag="Otomaties block Logos"`
 
 - Choose grid or carousel view
-- In case you choose carousel view: add `$('.wp-block-logos__slider').slick();` to your JS
 
 ### Post Type Archive
 
