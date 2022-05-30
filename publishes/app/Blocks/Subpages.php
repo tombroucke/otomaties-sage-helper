@@ -13,7 +13,7 @@ class Subpages extends Block
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -55,7 +55,7 @@ class Subpages extends Block
      *
      * @var string
      */
-    public $align = '';
+    public $align = 'wide';
 
     /**
      * The default block text alignment.

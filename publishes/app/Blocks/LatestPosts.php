@@ -56,7 +56,7 @@ class LatestPosts extends Block
      *
      * @var string
      */
-    public $align = '';
+    public $align = 'wide';
 
     /**
      * The default block text alignment.
@@ -78,7 +78,7 @@ class LatestPosts extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide'],
+        'align' => ['wide'],
         'align_text' => false,
         'align_content' => false,
         'anchor' => false,

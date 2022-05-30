@@ -121,7 +121,7 @@ class Container extends Block
      */
     public function fields()
     {
-        $coloredBackground = new FieldsBuilder('colored_background');
-        return $coloredBackground->build();
+        $container = new FieldsBuilder('container');
+        return $container->build();
     }
 }

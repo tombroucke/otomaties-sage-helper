@@ -14,7 +14,7 @@ class HeroSlider extends Block
      *
      * @var string
      */
-    public $category = 'formatting';
+    public $category = 'custom';
 
     /**
      * The block icon.
@@ -78,7 +78,7 @@ class HeroSlider extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide'],
+        'align' => array('full', 'wide'),
         'align_text' => true,
         'align_content' => false,
         'anchor' => true,
@@ -109,7 +109,6 @@ class HeroSlider extends Block
     {
         return [
             'items' => Acf::get_field('items'),
-            'sliderSettings' => $this->sliderSettings(),
         ];
     }
 
@@ -143,25 +142,21 @@ class HeroSlider extends Block
                     ->addLink('button', [
                         'label' => __('Button', 'sage'),
                     ])
-                    ->addSelect('style', [
-                        'label' => __('Style', 'sage'),
-                        'choices' => array(
-                            'primary' => __('Primary', 'sage'),
-                            'secondary' => __('Secondary', 'sage'),
-                        ),
-                        'default_value' => 'primary',
+                    ->addSelect('theme', [
+                        'label' => __('Theme', 'sage'),
+                        'choices' => $this->themeColors(),
+                        'default_value' => array_key_first($this->themeColors())
                     ])
                 ->endRepeater()
                 ->addGroup('settings', [
                     'label' => __('Settings', 'sage'),
+                    'layout' => 'block',
                 ])
                     ->addSelect('text_color', [
                         'label' => __('Text color', 'sage'),
                         'allow_null' => true,
-                        'choices' => [
-                            'primary' => __('Primary', 'sage'),
-                            'secondary' => __('Secondary', 'sage'),
-                        ],
+                        'choices' => $this->themeColors(false),
+                        'default_value' => array_key_first($this->themeColors(false))
                     ])
                     ->addTrueFalse('group_buttons', [
                         'label' => __('Group buttons', 'sage'),
@@ -176,45 +171,25 @@ class HeroSlider extends Block
                         ],
                     ])
                 ->endGroup()
-            ->endRepeater()
-            ->addGroup('settings', [
-                'label' => __('Settings', 'sage'),
-            ])
-                ->addNumber('autoplay_speed', [
-                    'label' => __('Autoplay speed (in milliseconds)', 'sage'),
-                    'description' => __('Set to 0 to disable autoplay', 'sage'),
-                    'allow_null' => false,
-                    'default_value' => 5000
-                ])
-                ->addTrueFalse('dots', [
-                    'label' => __('Dots', 'sage'),
-                    'default_value' => true
-                ])
-                ->addTrueFalse('arrows', [
-                    'label' => __('Arrows', 'sage'),
-                    'default_value' => true
-                ])
-            ->endGroup();
+            ->endRepeater();
 
         return $heroSlider->build();
     }
 
-    /**
-     * Get slick slider settings
-     *
-     * @return string The returned string is Json
-     */
-    public function sliderSettings()
+    public function themeColors(bool $outline = true)
     {
-        $settings = Acf::get_field('settings');
-        $sliderSettings = [
-            'dots' => $settings->get('dots'),
-            'arrows' => $settings->get('arrows'),
-            'slidesToScroll' => 1,
-            'slidesToShow' => 1,
-            'autoplay' => 'true',
-            'autoplaySpeed' => $settings->get('autoplay_speed')->default(5000)->value(),
-        ];
-        return json_encode($sliderSettings, JSON_HEX_APOS);
+        $themeJson = json_decode(file_get_contents(app()->basePath('theme.json')), true);
+        $themes = [];
+        if (isset($themeJson['settings']['color']['palette'])) {
+            foreach ($themeJson['settings']['color']['palette'] as $themeColor) {
+                $themeName = $themeColor['name'];
+                $themeSlug = $themeColor['slug'];
+                $themes[$themeSlug] = $themeName;
+                if ($outline) {
+                    $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
+                }
+            }
+        }
+        return $themes;
     }
 }

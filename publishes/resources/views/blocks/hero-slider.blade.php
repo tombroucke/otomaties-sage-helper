@@ -1,9 +1,13 @@
 <x-block :block="$block">
   @unless($items->isEmpty())
-    <div class="wp-block-hero-slider__slider" {!! 'data-slick=\'' . $sliderSettings . '\'' !!}>
+    <div class="wp-block-hero-slider__slider">
       @foreach($items as $item)
-        <div class="wp-block-hero-slider__item d-flex align-items-center {{ $item->get('settings')->get('text_color') ? 'text-' . $item->get('settings')->get('text_color') : '' }} {{ $item->get('settings')->get('content_position') != 'right' ? '' : 'justify-content-end text-right' }}" @background($item->get('background_image')->default(\Roots\asset('images/hero.jpg')->uri())->url('large'))>
-          <div class="container">
+        <div class="wp-block-hero-slider__item d-flex align-items-center {{ $item->get('settings')->get('text_color') != '' ? 'text-' . $item->get('settings')->get('text_color') : '' }} {{ $item->get('settings')->get('content_position') != 'right' ? '' : 'justify-content-end text-right' }}" @background($item->get('background_image')->default(\Roots\asset('images/hero.jpg')->uri())->url('large'))>
+          @if($block->block->align == 'full')
+            <div class="container container--wide py-5">
+          @else
+            <div class="p-5">
+          @endif
 
             {{-- Header --}}
             <div class="wp-block-hero-slider__heading">
@@ -21,7 +25,7 @@
                 @if($item->get('settings')->get('group_buttons'))
                   <x-button.group>
                     @foreach($item->get('buttons') as $button)
-                      <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('style')">
+                      <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
                         {!! esc_html($button->get('button')->title()) !!}
                       </x-button>
                     @endforeach
@@ -30,15 +34,18 @@
                 {{-- Regular buttons --}}
                 @else
                   @foreach($item->get('buttons') as $button)
-                    <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('style')">
+                    <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
                       {!! esc_html($button->get('button')->title()) !!}
                     </x-button>
                   @endforeach
                 @endif
               </div>
             @endif
-
-          </div>
+          @if($block->block->align == 'full')
+            </div>
+          @else
+            </div>
+          @endif
         </div>
       @endforeach
     </div>

@@ -109,7 +109,6 @@ class Carousel extends Block
     {
         return [
             'slides' => Acf::get_field('slides'),
-            'sliderSettings' => $this->sliderSettings(),
         ];
     }
 
@@ -133,31 +132,7 @@ class Carousel extends Block
                 ->addText('title', [
                     'label' => __('Title', 'sage')
                 ])
-            ->endRepeater()
-            ->addGroup('settings', [
-                'label' => __('Settings', 'sage'),
-            ])
-                ->addSelect('slides_to_show', [
-                    'label' => __('Slides to show', 'sage'),
-                    'allow_null' => false,
-                    'choices' => [1, 2, 3, 4, 5],
-                    'default_value' => 3
-                ])
-                ->addNumber('autoplay_speed', [
-                    'label' => __('Autoplay speed (in milliseconds)', 'sage'),
-                    'description' => __('Set to 0 to disable autoplay', 'sage'),
-                    'allow_null' => false,
-                    'default_value' => 4000
-                ])
-                ->addTrueFalse('dots', [
-                    'label' => __('Dots', 'sage'),
-                    'default_value' => true
-                ])
-                ->addTrueFalse('arrows', [
-                    'label' => __('Arrows', 'sage'),
-                    'default_value' => true
-                ])
-            ->endGroup();
+            ->endRepeater();
 
         return $carousel->build();
     }
@@ -170,23 +145,5 @@ class Carousel extends Block
     public function items()
     {
         return Acf::get_field('slides');
-    }
-
-    /**
-     * Get slick slider settings
-     *
-     * @return string The returned string is Json
-     */
-    public function sliderSettings() {
-        $settings = Acf::get_field('settings');
-        $sliderSettings = [
-            'dots' => $settings->get('dots'),
-            'arrows' => $settings->get('arrows'),
-            'slidesToShow' => $settings->get('slides_to_show')->default(3)->value(),
-            'slidesToScroll' => 1,
-            'autoplay' => 'true',
-            'autoplaySpeed' => $settings->get('autoplay_speed')->default(4000)->value(),
-        ];
-        return json_encode($sliderSettings, JSON_HEX_APOS);
     }
 }

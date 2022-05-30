@@ -23,7 +23,7 @@
         </div>
       @endif
     @else
-      <div class="wp-block-logos__slider {{ $block->preview ? 'd-flex flex-nowrap' : '' }}" data-slick='{"dots":true, "slidesToShow":"3", "slidesToScroll":1, "autoplay":"true", "autoplaySpeed":"4000"}'>
+      <div class="wp-block-logos__slider {{ $block->preview ? 'd-flex flex-nowrap' : '' }}">
         @foreach ($logos as $logo)
           @if($logo->get('logo')->isSet())
           <div class="slide text-center">
