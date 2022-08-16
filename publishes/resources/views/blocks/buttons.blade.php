@@ -9,11 +9,13 @@
         @endforeach
       </x-button.group>
     @else
+    <div>
       @foreach($buttons as $button)
         <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
           {!! esc_html($button->get('button')->title()) !!}
         </x-button>
       @endforeach
+    </div>
     @endif
   @else
     @if($block->preview)

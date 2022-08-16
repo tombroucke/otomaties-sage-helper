@@ -78,8 +78,8 @@ class Buttons extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide'],
-        'align_text' => true,
+        'align' => ['full', 'wide', 'center', 'left', 'right'],
+        'align_text' => false,
         'align_content' => false,
         'anchor' => true,
         'mode' => true,
