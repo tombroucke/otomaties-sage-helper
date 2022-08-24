@@ -111,6 +111,7 @@ class Container extends Block
     public function with()
     {
         return [
+            'backgroundImage' => Acf::getField('background_image')->isSet() ? Acf::getField('background_image')->url('large') : '',
         ];
     }
 
@@ -122,6 +123,10 @@ class Container extends Block
     public function fields()
     {
         $container = new FieldsBuilder('container');
+        $container
+            ->addImage('background_image', [
+                'label' => __('Background image', 'sage')
+            ]);
         return $container->build();
     }
 }
