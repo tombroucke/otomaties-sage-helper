@@ -109,7 +109,7 @@ class LatestPosts extends Block
     {
         return [
             'latestPosts' => $this->latestPosts(),
-            'showPagination' => Acf::get_field('show_pagination'),
+            'showPagination' => Acf::getField('show_pagination'),
         ];
     }
 
@@ -139,7 +139,7 @@ class LatestPosts extends Block
     public function latestPosts()
     {
         $args = array(
-            'posts_per_page' => (string)Acf::get_field('posts_per_page')->default('3'),
+            'posts_per_page' => (string)Acf::getField('posts_per_page')->default('3'),
             'paged' => (get_query_var('paged')) ? get_query_var('paged') : 1,
         );
         return new \WP_Query($args);

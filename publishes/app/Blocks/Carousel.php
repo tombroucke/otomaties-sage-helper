@@ -108,7 +108,7 @@ class Carousel extends Block
     public function with()
     {
         return [
-            'slides' => Acf::get_field('slides'),
+            'slides' => Acf::getField('slides'),
         ];
     }
 
@@ -144,6 +144,6 @@ class Carousel extends Block
      */
     public function items()
     {
-        return Acf::get_field('slides');
+        return Acf::getField('slides');
     }
 }

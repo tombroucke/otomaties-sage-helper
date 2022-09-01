@@ -109,7 +109,7 @@ class Hero extends Block
     public function with()
     {
         return [
-            'backgroundImage' => Acf::get_field('background_image'),
+            'backgroundImage' => Acf::getField('background_image'),
         ];
     }
 

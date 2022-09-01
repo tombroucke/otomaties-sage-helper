@@ -109,8 +109,8 @@ class Buttons extends Block
     {
         return [
             'align' => $this->align,
-            'buttons' => Acf::get_field('buttons'),
-            'settings' => Acf::get_field('settings'),
+            'buttons' => Acf::getField('buttons'),
+            'settings' => Acf::getField('settings'),
         ];
     }
 

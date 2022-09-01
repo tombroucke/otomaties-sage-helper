@@ -108,7 +108,7 @@ class Location extends Block
     public function with()
     {
         return [
-            'location' => Acf::get_field('location'),
+            'location' => Acf::getField('location'),
         ];
     }
 

@@ -107,7 +107,7 @@ class Gallery extends Block
     public function with()
     {
         return [
-            'gallery' => Acf::get_field('gallery'),
+            'gallery' => Acf::getField('gallery'),
         ];
     }
 

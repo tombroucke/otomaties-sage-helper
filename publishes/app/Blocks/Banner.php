@@ -109,8 +109,8 @@ class Banner extends Block
     public function with()
     {
         return [
-            'backgroundImage' => Acf::get_field('background_image'),
-            'title' => Acf::get_field('title')->default(get_the_title()),
+            'backgroundImage' => Acf::getField('background_image'),
+            'title' => Acf::getField('title')->default(get_the_title()),
         ];
     }
 

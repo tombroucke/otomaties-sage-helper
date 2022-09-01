@@ -146,8 +146,8 @@ class PostTypeArchive extends Block
 
     private function postTypeQuery() {
         $args = [
-            'post_type' => (string)Acf::get_field('settings')->get('post_type')->default('post'),
-            'posts_per_page' => (string)Acf::get_field('settings')->get('posts_per_page')->default('-1'),
+            'post_type' => (string)Acf::getField('settings')->get('post_type')->default('post'),
+            'posts_per_page' => (string)Acf::getField('settings')->get('posts_per_page')->default('-1'),
             'post__not_in' => array(get_the_ID()),
             'paged' => (get_query_var('paged')) ? get_query_var('paged') : 1,
         ];

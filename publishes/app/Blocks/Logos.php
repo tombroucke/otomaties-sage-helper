@@ -109,8 +109,8 @@ class Logos extends Block
     public function with()
     {
         return [
-            'logos' => Acf::get_field('logos'),
-            'type' => Acf::get_field('type'),
+            'logos' => Acf::getField('logos'),
+            'type' => Acf::getField('type'),
         ];
     }
 

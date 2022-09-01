@@ -107,7 +107,7 @@ class Accordion extends Block
     public function with()
     {
         return [
-            'items' => Acf::get_field('items'),
+            'items' => Acf::getField('items'),
         ];
     }
 

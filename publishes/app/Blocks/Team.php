@@ -108,7 +108,7 @@ class Team extends Block
     public function with()
     {
         return [
-            'members' => Acf::get_field('members'),
+            'members' => Acf::getField('members'),
         ];
     }
 

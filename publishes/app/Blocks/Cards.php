@@ -106,9 +106,9 @@ class Cards extends Block
      */
     public function with()
     {
-        $columns = Acf::get_field('settings')->get('columns') ?: 3;
+        $columns = Acf::getField('settings')->get('columns') ?: 3;
         return [
-            'cards' => Acf::get_field('cards'),
+            'cards' => Acf::getField('cards'),
             'columns' => $columns,
         ];
     }
