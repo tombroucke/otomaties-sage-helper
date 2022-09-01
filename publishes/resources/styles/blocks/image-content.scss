@@ -4,24 +4,4 @@
     max-width: 9999px;
     height: auto;
   }
-
-  &__content {
-    padding-right: $grid-gutter-width;
-
-    p:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .flex-row-reverse {
-    .wp-block-image-content__content {
-      padding-right: 0;
-      padding-left: $grid-gutter-width;
-    }
-  }
-
-  &.has-background-color .wp-block-image-content__content {
-    padding-right: $grid-gutter-width;
-    padding-left: $grid-gutter-width;
-  }
 }

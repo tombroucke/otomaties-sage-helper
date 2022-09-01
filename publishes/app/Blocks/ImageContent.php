@@ -80,7 +80,7 @@ class ImageContent extends Block
     public $supports = [
         'align' => ['full', 'wide'],
         'align_text' => false,
-        'align_content' => false,
+        'align_content' => true,
         'anchor' => true,
         'mode' => false,
         'multiple' => true,
@@ -109,9 +109,10 @@ class ImageContent extends Block
     public function with()
     {
         return [
-            'image' => Acf::get_field('image')->default('https://picsum.photos/500/500'),
-            'imagePosition' => Acf::get_field('settings')->get('image_position')->default('left'),
+            'image' => Acf::getField('image')->default('https://picsum.photos/500/500'),
+            'imagePosition' => Acf::getField('settings')->get('image_position')->default('left'),
             'imageSize' => $this->block->align == 'full' || $this->block->align == 'wide' ? 'large' : 'medium',
+            'verticalAlignClass' => $this->verticalAlignClass(),
         ];
     }
 
@@ -143,5 +144,22 @@ class ImageContent extends Block
             ->endGroup();
 
         return $imageContent->build();
+    }
+
+    public function verticalAlignClass()
+    {
+        $class = '';
+        switch ($this->block->align_content) {
+            case 'center':
+                $class = 'align-items-center';
+                break;
+            case 'top':
+                $class = 'align-items-start';
+                break;
+            case 'bottom':
+                $class = 'align-items-end';
+                break;
+        }
+        return $class;
     }
 }
