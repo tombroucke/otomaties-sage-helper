@@ -9,7 +9,7 @@
           @if($logo->get('logo')->isSet())
             <div class="col-6 col-md-3 col-lg-2 text-center">
               @if($logo->get('link')->isSet())
-                <a href="{{ $logo->get('link') }}">
+              <a href="{{ $logo->get('link') }}" target="_blank">
                   {!! $logo->get('logo')->image('medium') !!}
                 </a>
               @else
@@ -28,7 +28,7 @@
           @if($logo->get('logo')->isSet())
           <div class="slide text-center">
             @if($logo->get('link')->isSet())
-              <a href="{{ $logo->get('link') }}">
+              <a href="{{ $logo->get('link') }}" target="_blank">
                 {!! $logo->get('logo')->image('medium') !!}
               </a>
             @else
