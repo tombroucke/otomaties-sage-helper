@@ -93,6 +93,8 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 
 ### Post Type Archive
 
+When using the same slug as the post type, pagination will not work. E.g. post type job, rewrite jobs, example.com/jobs/page/2 will throw a 404.
+
 `wp acorn vendor:publish --tag="Otomaties block PostTypeArchive"`
 
 - Display post type archive
