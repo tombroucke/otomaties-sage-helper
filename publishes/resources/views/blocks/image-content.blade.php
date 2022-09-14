@@ -12,7 +12,7 @@
       </div>
       <div class="col-md-6 {{ $block->block->align == 'full' ? 'px-0' :'' }}">
         <div class="wp-block-image-content__image">
-          {!! $image->attributes()->image($imageSize) !!}
+          {!! ResponsivePics::get_image($image->getId(), 'xs-12, md-6') !!}
         </div>
       </div>
     </div>
