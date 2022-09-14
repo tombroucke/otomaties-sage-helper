@@ -108,8 +108,14 @@ class Hero extends Block
      */
     public function with()
     {
+        $backgroundImage = Acf::getField('background_image');
+        $focalPoint = get_post_meta($backgroundImage->getId(), 'responsive_pics_focal_point', true);
+        if ($focalPoint) {
+            $style = sprintf('object-position: %s%% %s%%', $focalPoint['x'], $focalPoint['y']);
+            $backgroundImage = $backgroundImage->attributes(['style' => $style]);
+        }
         return [
-            'backgroundImage' => Acf::getField('background_image'),
+            'backgroundImage' => $backgroundImage->image('large'),
         ];
     }
 
