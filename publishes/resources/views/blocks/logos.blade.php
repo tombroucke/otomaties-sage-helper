@@ -1,44 +1,22 @@
 @if ($logos->isSet())
   <x-block :block="$block">
-    @if($type == 'grid')
-      @if($block->block->align && ($block->block->align == 'full' || $block->block->align == 'wide'))
-        <div class="container-fluid py-3">
-      @endif
-      <div class="row g-3 align-items-center justify-content-center">
+    <div class="swiper">
+      <div class="{{ $block->preview ? 'd-flex flex-nowrap' : '' }} swiper-wrapper">
         @foreach ($logos as $logo)
           @if($logo->get('logo')->isSet())
-            <div class="col-6 col-md-3 col-lg-2 text-center">
-              @if($logo->get('link')->isSet())
-              <a href="{{ $logo->get('link') }}" target="_blank">
-                  {!! $logo->get('logo')->image('medium') !!}
-                </a>
-              @else
-                {!! $logo->get('logo')->image('medium') !!}
-              @endif
-            </div>
-          @endif
-        @endforeach
-      </div>
-      @if($block->block->align && ($block->block->align == 'full' || $block->block->align == 'wide'))
-        </div>
-      @endif
-    @else
-      <div class="wp-block-logos__slider {{ $block->preview ? 'd-flex flex-nowrap' : '' }}">
-        @foreach ($logos as $logo)
-          @if($logo->get('logo')->isSet())
-          <div class="slide text-center">
+          <div class="swiper-slide text-center">
             @if($logo->get('link')->isSet())
-              <a href="{{ $logo->get('link') }}" target="_blank">
-                {!! $logo->get('logo')->image('medium') !!}
+              <a href="{{ $logo->get('link') }}">
+                {!! ResponsivePics::get_image($logo->get('logo')->getId(), 'xs-2') !!}
               </a>
             @else
-              {!! $logo->get('logo')->image('medium') !!}
+              {!! ResponsivePics::get_image($logo->get('logo')->getId(), 'xs-2') !!}
             @endif
           </div>
           @endif
         @endforeach
       </div>
-    @endif
+    </div>
   </x-block>
 @else
   @if($block->preview)
