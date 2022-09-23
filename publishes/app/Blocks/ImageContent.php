@@ -82,7 +82,7 @@ class ImageContent extends Block
         'align_text' => false,
         'align_content' => true,
         'anchor' => true,
-        'mode' => false,
+        'mode' => true,
         'multiple' => true,
         'jsx' => true,
         'color' => true,
@@ -108,11 +108,43 @@ class ImageContent extends Block
      */
     public function with()
     {
+        $ratio = Acf::getField('settings')->get('ratio')->default('6:6');
+        $imagePosition = Acf::getField('settings')->get('image_position')->default('left');
+        $imageCrop = Acf::getField('settings')->get('image_crop')->isSet() ? (string)Acf::getField('settings')->get('image_crop')->value() : false;
+        $defaultHeight = ceil(630 * ($imageCrop ?: 0.5625));
+
         return [
-            'image' => Acf::getField('image')->default('https://picsum.photos/500/500'),
-            'imagePosition' => Acf::getField('settings')->get('image_position')->default('left'),
+            'image' => Acf::getField('image')->default('https://picsum.photos/630/' . $defaultHeight),
+            'imagePosition' => $imagePosition,
             'imageSize' => $this->block->align == 'full' || $this->block->align == 'wide' ? 'large' : 'medium',
+            'imageCrop' => $imageCrop,
+            'firstColumnClasses' => $this->columnClasses(1, $ratio, $imagePosition),
+            'secondColumnClasses' => $this->columnClasses(2, $ratio, $imagePosition),
             'verticalAlignClass' => $this->verticalAlignClass(),
+        ];
+    }
+
+    public function columnClasses($index, $ratio, $imagePosition)
+    {
+        if ($imagePosition == 'left') {
+            $ratio = strrev($ratio);
+        }
+        $columns = explode(':', $ratio);
+        return 'col-md-' . $columns[--$index];
+    }
+
+    public function columnPossibilities()
+    {
+        return [
+            '4:8',
+            '4:7',
+            '5:7',
+            '5:6',
+            '6:6',
+            '6:5',
+            '7:5',
+            '7:4',
+            '8:4',
         ];
     }
 
@@ -132,6 +164,7 @@ class ImageContent extends Block
             ])
             ->addGroup('settings', [
                 'label' => __('Settings', 'sage'),
+                'layout' => 'block',
             ])
                 ->addSelect('image_position', [
                     'label' => __('Image position', 'sage'),
@@ -140,6 +173,27 @@ class ImageContent extends Block
                         'left' => __('Left', 'sage'),
                         'right' => __('Right', 'sage'),
                     ],
+                ])
+                ->addSelect('ratio', [
+                    'label' => __('Ratio', 'sage'),
+                    'allow_null' => true,
+                    'choices' => $this->columnPossibilities(),
+                    'default_value' => '6:6',
+                    'instructions' => __('The ratio of the image and the content. There are a total of 12 columns.', 'sage'),
+                ])
+                ->addSelect('image_crop', [
+                    'label' => __('Image crop', 'sage'),
+                    'allow_null' => true,
+                    'choices' => [
+                        ['0.5625' => '16/9'],
+                        ['0.75' => '4/3'],
+                        ['1' => '1/1'],
+                        ['1.25' => '3/4'],
+                        ['1.7778' => '9/16'],
+                    ],
+                    'allow_null' => true,
+                    'default_value' => null,
+                    'instructions' => __('Regenerating the image after cropping can take some time.', 'sage'),
                 ])
             ->endGroup();
 
