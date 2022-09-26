@@ -32,8 +32,8 @@ class OtomatiesServiceProvider extends ServiceProvider
                     'target' => $this->app->path('Blocks/' . $className . '.php'),
                 ],
                 'style' => [
-                    'source' => $this->sourceFile('/resources/styles/blocks/_' . $classNameKebab . '.scss'),
-                    'target' => $this->app->resourcePath('styles/blocks/_' . $classNameKebab . '.scss'),
+                    'source' => $this->sourceFile('/resources/styles/blocks/' . $classNameKebab . '.scss'),
+                    'target' => $this->app->resourcePath('styles/blocks/' . $classNameKebab . '.scss'),
                 ],
                 'script' => [
                     'source' => $this->sourceFile('/resources/scripts/blocks/' . $classNameKebab . '.js'),

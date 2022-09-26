@@ -16,7 +16,7 @@ final class OtomatiesServiceProviderTest extends TestCase
         $this->assertNotEmpty($otomatiesServiceProviderPublishes);
         $this->assertContains('/app/Blocks/Accordion.php', $otomatiesServiceProviderPublishes);
         $this->assertContains('/resources/views/blocks/latest-posts.blade.php', $otomatiesServiceProviderPublishes);
-        $this->assertContains('/resources/styles/blocks/_banner.scss', $otomatiesServiceProviderPublishes);
+        $this->assertContains('/resources/styles/blocks/banner.scss', $otomatiesServiceProviderPublishes);
         $this->assertContains('/resources/scripts/blocks/location.js', $otomatiesServiceProviderPublishes);
     }
 }
