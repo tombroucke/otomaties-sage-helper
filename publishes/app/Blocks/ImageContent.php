@@ -3,12 +3,15 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
 use Roots\Acorn\Application;
+use Otomaties\AcfObjects\Acf;
+use App\Blocks\Concerns\VerticalAlign;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class ImageContent extends Block
 {
+    use VerticalAlign;
+
     /**
      * The block category.
      *
@@ -198,22 +201,5 @@ class ImageContent extends Block
             ->endGroup();
 
         return $imageContent->build();
-    }
-
-    public function verticalAlignClass()
-    {
-        $class = '';
-        switch ($this->block->align_content) {
-            case 'center':
-                $class = 'align-items-center';
-                break;
-            case 'top':
-                $class = 'align-items-start';
-                break;
-            case 'bottom':
-                $class = 'align-items-end';
-                break;
-        }
-        return $class;
     }
 }

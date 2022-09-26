@@ -3,12 +3,15 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
 use Roots\Acorn\Application;
+use Otomaties\AcfObjects\Acf;
+use App\Blocks\Concerns\VerticalAlign;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Hero extends Block
 {
+    use VerticalAlign;
+    
     /**
      * The block category.
      *
@@ -63,7 +66,7 @@ class Hero extends Block
      *
      * @var string
      */
-    public $align_text = '';
+    public $align_text = 'center';
 
     /**
      * The default block content alignment.

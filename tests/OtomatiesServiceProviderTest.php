@@ -6,7 +6,8 @@ use Roots\Acorn\Application;
 
 final class OtomatiesServiceProviderTest extends TestCase
 {
-    public function testBlocksAreAdded() {
+    public function testBlocksAreAdded()
+    {
         $app = new Application(null);
         $otomatiesServiceProvider = new OtomatiesServiceProvider($app);
         $otomatiesServiceProvider->boot();
@@ -18,5 +19,6 @@ final class OtomatiesServiceProviderTest extends TestCase
         $this->assertContains('/resources/views/blocks/latest-posts.blade.php', $otomatiesServiceProviderPublishes);
         $this->assertContains('/resources/styles/blocks/banner.scss', $otomatiesServiceProviderPublishes);
         $this->assertContains('/resources/scripts/blocks/location.js', $otomatiesServiceProviderPublishes);
+        $this->assertContains('/app/Blocks/Concerns/VerticalAlign.php', $otomatiesServiceProviderPublishes);
     }
 }

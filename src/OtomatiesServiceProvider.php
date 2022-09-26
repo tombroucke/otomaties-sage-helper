@@ -48,6 +48,12 @@ class OtomatiesServiceProvider extends ServiceProvider
             foreach ($associatedFiles as $associatedFiles) {
                 if (file_exists($associatedFiles['source'])) {
                     $publishable[$associatedFiles['source']] = $associatedFiles['target'];
+
+                    if (strpos(file_get_contents($associatedFiles['source']), 'verticalAlignClass') !== false) {
+                        $source = $this->sourceFile('/app/Blocks/Concerns/VerticalAlign.php');
+                        $target = $this->app->path('Blocks/Concerns/VerticalAlign.php');
+                        $publishable[$source] = $target;
+                    }
                 }
             }
             $this->publishes($publishable, 'Otomaties block ' . $className);
