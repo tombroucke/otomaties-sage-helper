@@ -1,0 +1,48 @@
+.wp-block-timeline {
+  &__item {
+    margin-bottom: 35px;
+  }
+
+  &__year {
+    position: relative;
+    display: flex;
+    width: 75px;
+    height: 75px;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 50%;
+    font-weight: 700;
+  }
+
+  &__center {
+    &::after {
+      position: absolute;
+      z-index: -1;
+      top: 110px;
+      bottom: 0;
+      left: 50%;
+      display: block;
+      width: 1px;
+      background-color: $border-color;
+      content: "";
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    &__item {
+      margin-bottom: 0;
+
+      &:not(:last-child) .col-md-5:last-child img {
+        padding-bottom: 50px;
+        border-bottom: 1px solid $border-color;
+        margin-bottom: 50px;
+      }
+
+      .col-md-2 {
+        margin-bottom: 50px;
+      }
+    }
+  }
+}
