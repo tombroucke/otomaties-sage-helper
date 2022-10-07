@@ -95,7 +95,7 @@ class Gallery extends Block
     {
         $this->name = __('Gallery', 'sage');
         $this->slug = 'gallery';
-        $this->description = __('A simple gallery block', 'sage');
+        $this->description = __('Show images in a grid', 'sage');
         parent::__construct($app);
     }
 
