@@ -110,7 +110,7 @@ class Subpages extends Block
             'subpages' => get_children([
                 'post_type' => 'page',
                 'post_parent' => get_the_ID(),
-                'order' => 'menu_order'
+                'orderby' => 'menu_order'
             ])
         ];
     }
