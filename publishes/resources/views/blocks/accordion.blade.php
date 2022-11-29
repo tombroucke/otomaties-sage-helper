@@ -2,7 +2,7 @@
 <x-block :block="$block">
   <x-collapse.accordion id="{{ $block->block->id }}">
     @foreach($items as $item)
-      <x-collapse.accordion.item accordion-id="{{ $block->block->id }}" :show="$loop->first">
+      <x-collapse.accordion.item accordion-id="{{ $block->block->id }}" :show="$loop->first && $openFirst">
         <x-slot name="heading">
           {!! esc_html($item->get('question')) !!}
         </x-slot>
