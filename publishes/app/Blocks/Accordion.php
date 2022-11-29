@@ -108,6 +108,7 @@ class Accordion extends Block
     {
         return [
             'items' => Acf::getField('items'),
+            'openFirst' => get_field('open_first'),
         ];
     }
 
@@ -129,7 +130,12 @@ class Accordion extends Block
                 ->addWysiwyg('answer', [
                     'label' => __('Answer', 'sage'),
                 ])
-            ->endRepeater();
+            ->endRepeater()
+            ->addTrueFalse('open_first', [
+                'label' => __('Open first item', 'sage'),
+                'ui' => 1,
+                'default_value' => true,
+            ]);
 
         return $accordion->build();
     }
