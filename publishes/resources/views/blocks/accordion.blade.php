@@ -1,4 +1,4 @@
-@if(!$items->empty())
+@unless($items->empty())
 <x-block :block="$block">
   <x-collapse.accordion id="{{ $block->block->id }}">
     @foreach($items as $item)
@@ -17,4 +17,4 @@
   @else
   <!-- {{ __('Add some accordion items ...', 'sage') }} -->
   @endif
-@endif
+@endunless
