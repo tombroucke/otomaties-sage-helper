@@ -119,6 +119,7 @@ class Hero extends Block
         }
         return [
             'backgroundImage' => $backgroundImage->image('large'),
+            'verticalAlignClass' => $this->verticalAlignClass(),
         ];
     }
 
