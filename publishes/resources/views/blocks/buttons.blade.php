@@ -9,7 +9,7 @@
         @endforeach
       </x-button.group>
     @else
-    <div>
+    <div class="wp-block-buttons__separated">
       @foreach($buttons as $button)
         <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
           {!! esc_html($button->get('button')->title()) !!}
