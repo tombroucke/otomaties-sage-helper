@@ -78,8 +78,8 @@ class Buttons extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide', 'center', 'left', 'right'],
-        'align_text' => false,
+        'align' => ['full', 'wide', 'left', 'right'],
+        'align_text' => true,
         'align_content' => false,
         'anchor' => true,
         'mode' => true,
@@ -108,7 +108,6 @@ class Buttons extends Block
     public function with()
     {
         return [
-            'align' => $this->align,
             'buttons' => Acf::getField('buttons'),
             'settings' => Acf::getField('settings'),
         ];
