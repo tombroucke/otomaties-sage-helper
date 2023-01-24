@@ -1,4 +1,4 @@
-<x-block :block="$block" class="d-block">
+<x-block :block="$block" class="d-block {{ $settings->get('group') ? 'wp-block-buttons--grouped' : 'wp-block-buttons--separated' }}">
   @unless($buttons->isEmpty())
     @if($settings->get('group'))
       <x-button.group>
@@ -9,7 +9,7 @@
         @endforeach
       </x-button.group>
     @else
-    <div class="wp-block-buttons__separated">
+    <div>
       @foreach($buttons as $button)
         <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
           {!! esc_html($button->get('button')->title()) !!}
