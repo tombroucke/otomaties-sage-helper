@@ -11,5 +11,13 @@
       padding-left: 0.25rem;
       margin-top: 0.5rem;
     }
+
+    &.align-text-center {
+      justify-content: center;
+    }
+
+    &.align-text-right {
+      justify-content: flex-end;
+    }
   }
 }
