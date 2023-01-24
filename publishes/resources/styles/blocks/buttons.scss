@@ -1,0 +1,13 @@
+.wp-block-buttons {
+  &--separated > div {
+    margin-top: -0.5rem;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+
+    > div {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+      margin-top: 0.5rem;
+    }
+  }
+}
