@@ -1,12 +1,16 @@
 .wp-block-buttons {
   &--separated {
+    display: flex !important;
+    flex-wrap: wrap;
     margin-top: -0.5rem;
-    margin-right: -0.5rem;
-    margin-left: -0.5rem;
+    margin-right: -0.25rem;
+    margin-left: -0.25rem;
 
     > div {
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
+      display: inline-block;
+      flex: 0 0 auto;
+      padding-right: 0.25rem;
+      padding-left: 0.25rem;
       margin-top: 0.5rem;
     }
   }
