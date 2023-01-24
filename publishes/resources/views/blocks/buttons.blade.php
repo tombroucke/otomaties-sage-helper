@@ -11,7 +11,7 @@
     @else
       @foreach($buttons as $button)
         <div>
-          <x-button :href="$button->get('button')->url()" class="btn-{{ $button->get('size') }} flex-1" :target="$button->get('button')->target()" :theme="$button->get('theme')" :fancyboxType="\App\Services\Url::mediaType($button->get('button')->url())">
+          <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
             {!! esc_html($button->get('button')->title()) !!}
           </x-button>
         </div>
