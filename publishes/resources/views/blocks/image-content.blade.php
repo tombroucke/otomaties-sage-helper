@@ -13,7 +13,11 @@
     <div class="{{ $secondColumnClasses }} {{ $block->block->align == 'full' ? 'px-0' :'' }}">
       <div class="wp-block-image-content__image">
         @if($image->getId())
-          {!! ResponsivePics::get_image($image->getId(), 'xs-12, md-6', $imageCrop) !!}
+          @if(strpos($image->url(), '.gif') !== false)
+            {!! $image->image('full') !!}
+          @else
+            {!! ResponsivePics::get_image($image->getId(), 'xs-12, md-6', $imageCrop) !!}
+          @endif
         @else
           {!! $image->image($imageSize) !!}
         @endif
