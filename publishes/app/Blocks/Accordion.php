@@ -78,7 +78,7 @@ class Accordion extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide'],
+        'align' => ['wide'],
         'align_text' => false,
         'align_content' => false,
         'anchor' => true,

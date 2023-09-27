@@ -1,4 +1,4 @@
-<x-block :block="$block" class="d-block {{ $settings->get('group') ? 'wp-block-buttons--grouped' : 'wp-block-buttons--separated' }}">
+<x-block :block="$block" class="d-flex {{ $settings->get('group') ? '' : 'g-3' }}">
   @unless($buttons->isEmpty())
     @if($settings->get('group'))
       <x-button.group>

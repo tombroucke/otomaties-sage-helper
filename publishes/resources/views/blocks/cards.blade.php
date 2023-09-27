@@ -3,11 +3,11 @@
     <div class="row row-cols-1 row-cols-md-{{ $columns }} g-4">
       @foreach($cards as $card)
         <div class="col">
-          <x-card class="mb-3 mb-lg-0">
+          <x-card class="mb-3 mb-lg-0 h-100">
             {{-- Image --}}
             @if($card->get('image')->isSet())
               @slot('image')
-                {!! $card->get('image')->attributes(['class' => 'card-img-top', 'alt' => $card->get('title')])->image('medium') !!}
+                {!! $card->get('image')->attributes(['class' => 'card-img-top', 'alt' => $card->get('title')])->image('thumbnail') !!}
               @endslot
             @endif
 

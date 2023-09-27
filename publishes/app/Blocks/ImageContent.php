@@ -113,14 +113,11 @@ class ImageContent extends Block
     {
         $ratio = Acf::getField('settings')->get('ratio')->default('6:6');
         $imagePosition = Acf::getField('settings')->get('image_position')->default('left');
-        $imageCrop = Acf::getField('settings')->get('image_crop')->isSet() ? (string)Acf::getField('settings')->get('image_crop')->value() : false;
-        $defaultHeight = ceil(630 * ($imageCrop ?: 0.5625));
 
         return [
-            'image' => Acf::getField('image')->default('https://picsum.photos/630/' . $defaultHeight),
+            'image' => Acf::getField('image')->default('https://picsum.photos/630/472'),
             'imagePosition' => $imagePosition,
             'imageSize' => $this->block->align == 'full' || $this->block->align == 'wide' ? 'large' : 'medium',
-            'imageCrop' => $imageCrop,
             'firstColumnClasses' => $this->columnClasses(1, $ratio, $imagePosition),
             'secondColumnClasses' => $this->columnClasses(2, $ratio, $imagePosition),
             'verticalAlignClass' => $this->verticalAlignClass(),
@@ -183,20 +180,6 @@ class ImageContent extends Block
                     'choices' => $this->columnPossibilities(),
                     'default_value' => '6:6',
                     'instructions' => __('The ratio of the image and the content. There are a total of 12 columns.', 'sage'),
-                ])
-                ->addSelect('image_crop', [
-                    'label' => __('Image crop', 'sage'),
-                    'allow_null' => true,
-                    'choices' => [
-                        ['0.5625' => '16/9'],
-                        ['0.75' => '4/3'],
-                        ['1' => '1/1'],
-                        ['1.25' => '3/4'],
-                        ['1.7778' => '9/16'],
-                    ],
-                    'allow_null' => true,
-                    'default_value' => null,
-                    'instructions' => __('Regenerating the image after cropping can take some time.', 'sage'),
                 ])
             ->endGroup();
 

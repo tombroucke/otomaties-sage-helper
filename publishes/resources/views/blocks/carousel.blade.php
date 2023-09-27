@@ -5,12 +5,8 @@
         @foreach($slides as $slide)
           <div class="swiper-slide">
             <div class="wp-block-carousel__image">
-              @if($slide->get('image')->isSet())
-                @if(strpos($slide->get('image')->url(), '.gif') !== false)
-                  {!! $slide->get('image')->image('full') !!}
-                @else
-                  {!! ResponsivePics::get_image($slide->get('image')->getId(), 'lg-12', 0.5625) !!}
-                @endif
+              @if(strpos($slide->get('image')->url(), '.gif') !== false)
+                {!! $slide->get('image')->image('full') !!}
               @else
                 {!! $slide->get('image')->default('https://picsum.photos/1920/1080')->image('large') !!}
               @endif

@@ -7,10 +7,10 @@
           <div class="swiper-slide text-center">
             @if($logo->get('link')->isSet())
               <a href="{{ $logo->get('link') }}">
-                {!! ResponsivePics::get_image($logo->get('logo')->getId(), 'xs-2') !!}
+                {!! $image->image('thumbnail') !!}
               </a>
             @else
-              {!! ResponsivePics::get_image($logo->get('logo')->getId(), 'xs-2') !!}
+              {!! $image->image('thumbnail') !!}
             @endif
           </div>
           @endif

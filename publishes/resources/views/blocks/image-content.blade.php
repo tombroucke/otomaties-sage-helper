@@ -16,7 +16,7 @@
           @if(strpos($image->url(), '.gif') !== false)
             {!! $image->image('full') !!}
           @else
-            {!! ResponsivePics::get_image($image->getId(), 'xs-12, md-6', $imageCrop) !!}
+            {!! $image->image($imageSize) !!}
           @endif
         @else
           {!! $image->image($imageSize) !!}

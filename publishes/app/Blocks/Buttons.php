@@ -78,7 +78,7 @@ class Buttons extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide', 'left', 'right'],
+        'align' => ['wide'],
         'align_text' => true,
         'align_content' => false,
         'anchor' => true,
@@ -156,5 +156,18 @@ class Buttons extends Block
             ->endGroup();
 
         return $buttons->build();
+    }
+
+    public function render($block, $content = '', $preview = false, $post_id = 0, $wp_block = false, $context = false)
+    {
+        $justifyMapping = [
+            'center' => 'center',
+            'right' => 'end',
+            'left' => 'start',
+        ];
+        $block['justify_content'] = isset($block['align_text']) ? $justifyMapping[$block['align_text']] : 'start';
+        $block['align_text'] = null;
+
+        return parent::render($block, $content, $preview, $post_id, $wp_block, $context);
     }
 }
