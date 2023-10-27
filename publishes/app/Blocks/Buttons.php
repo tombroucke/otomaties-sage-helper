@@ -165,7 +165,7 @@ class Buttons extends Block
             'right' => 'end',
             'left' => 'start',
         ];
-        $block['justify_content'] = isset($block['align_text']) ? $justifyMapping[$block['align_text']] : 'start';
+        $block['justify_content'] = isset($block['align_text']) && $block['align_text'] ? $justifyMapping[$block['align_text']] : 'start';
         $block['align_text'] = null;
 
         return parent::render($block, $content, $preview, $post_id, $wp_block, $context);
