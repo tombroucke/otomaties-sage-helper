@@ -1,4 +1,5 @@
 # Otomaties Sage Helper
+Easily publish blocks to your Sage 10 theme.
 
 ## Installation
 
