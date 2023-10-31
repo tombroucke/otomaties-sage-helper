@@ -137,7 +137,7 @@ class PostTypeArchive extends Block
                 ->addSelect('post_type', [
                     'label' => __('Post type', 'sage'),
                     'default' => 'post',
-                    'choices' => get_post_types()
+                    'choices' => $postTypes
                 ])
             ->endGroup();
 
