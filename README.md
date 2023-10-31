@@ -16,18 +16,13 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 ### Accordion
 
 `wp acorn vendor:publish --tag="Otomaties block Accordion"`
+> Needs some javascript, see https://github.com/tombroucke/sage-bootstrap-components#accordion
 
 ### Banner
 
 `wp acorn vendor:publish --tag="Otomaties block Banner"`
 
 - Show H1 with background image
-
-### Button
-
-`wp acorn vendor:publish --tag="Otomaties block Button"`
-
-- Single inline-block button
 
 ### Buttons
 
@@ -82,8 +77,6 @@ wp acorn vendor:publish --tag="Otomaties block {Block Name}"
 ### Location
 
 `wp acorn vendor:publish --tag="Otomaties block Location"`
-
-- Add scripts/blocks/location.js to webpack.mix.js: mix.js('resources/scripts/blocks/location.js', 'scripts/blocks')
 
 ### Logos
 
