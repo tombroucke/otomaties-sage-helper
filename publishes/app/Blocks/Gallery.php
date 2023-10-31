@@ -56,7 +56,7 @@ class Gallery extends Block
      *
      * @var string
      */
-    public $align = 'wide';
+    public $align = '';
 
     /**
      * The default block text alignment.
