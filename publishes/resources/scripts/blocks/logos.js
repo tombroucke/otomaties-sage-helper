@@ -1,5 +1,6 @@
 import {domReady} from '@roots/sage/client';
-import Swiper, { Navigation, Autoplay } from 'swiper';
+import Swiper from "swiper";
+import { Autoplay, Navigation } from "swiper/modules";
 
 /**
  * editor.main
