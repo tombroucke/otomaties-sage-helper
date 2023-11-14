@@ -6,7 +6,7 @@
           @if($logo->get('logo')->isSet())
           <div class="swiper-slide text-center">
             @if($logo->get('link')->isSet())
-              <a href="{{ $logo->get('link') }}">
+              <a href="{{ $logo->get('link') }}" target="_blank">
                 {!! $logo->get('logo')->image('thumbnail') !!}
               </a>
             @else
