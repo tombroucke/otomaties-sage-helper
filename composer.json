@@ -10,7 +10,7 @@
   "require": {
     "php": ">=8",
     "tombroucke/acf-objects": "^3.0",
-    "log1x/acf-composer": "^2.0",
+    "log1x/acf-composer": "*",
     "roots/acorn": "*"
   },
   "suggest": {
