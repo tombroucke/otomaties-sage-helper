@@ -2,7 +2,7 @@
 
 namespace Otomaties\Sage;
 
-use Roots\Acorn\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class OtomatiesServiceProvider extends ServiceProvider
 {
