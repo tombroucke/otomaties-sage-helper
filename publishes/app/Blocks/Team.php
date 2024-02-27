@@ -2,8 +2,8 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Roots\Acorn\Application;
 use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
@@ -90,14 +90,14 @@ class Team extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Team', 'sage');
         $this->slug = 'team';
         $this->description = __('Display team members', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**

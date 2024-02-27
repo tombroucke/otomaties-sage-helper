@@ -2,9 +2,9 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
-use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 use function Roots\asset;
 
@@ -90,14 +90,14 @@ class Location extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Location', 'sage');
         $this->slug = 'location';
         $this->description = __('Show a location on a map', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**

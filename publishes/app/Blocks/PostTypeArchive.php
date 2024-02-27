@@ -2,9 +2,9 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
-use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class PostTypeArchive extends Block
@@ -90,14 +90,14 @@ class PostTypeArchive extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Post Type Archive', 'sage');
         $this->slug = 'post-type-archive';
         $this->description = __('Display a list of posts', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Roots\Acorn\Application;
 use Otomaties\AcfObjects\Acf;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
@@ -94,14 +94,14 @@ class Container extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Container', 'sage');
         $this->slug = 'container';
         $this->description = __('A container with an optional background color', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**

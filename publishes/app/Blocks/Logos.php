@@ -2,9 +2,9 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
-use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Logos extends Block
@@ -91,14 +91,14 @@ class Logos extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Logos', 'sage');
         $this->slug = 'logos';
         $this->description = __('Show logos in a carousel or grid', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Subpages extends Block
@@ -89,14 +89,14 @@ class Subpages extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Subpages', 'sage');
         $this->slug = 'subpages';
         $this->description = __('Display subpages', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace App\Blocks;
 
+use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Acf;
-use Roots\Acorn\Application;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Buttons extends Block
@@ -90,14 +90,14 @@ class Buttons extends Block
     /**
      * Set title, description & slug, allow for translation
      *
-     * @param Application $app
+     * @param AcfComposer $composer
      */
-    public function __construct(Application $app)
+    public function __construct(AcfComposer $composer)
     {
         $this->name = __('Buttons', 'sage');
         $this->slug = 'buttons';
         $this->description = __('Display multiple buttons', 'sage');
-        parent::__construct($app);
+        parent::__construct($composer);
     }
 
     /**
