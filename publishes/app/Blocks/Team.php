@@ -124,7 +124,8 @@ class Team extends Block
         $team
             ->addRepeater('members')
                 ->addImage('image', [
-                    'label' => __('Image', 'sage')
+                    'label' => __('Image', 'sage'),
+                    'preview_size' => 'thumbnail',
                 ])
                 ->addText('name', [
                     'label' => __('Name', 'sage'),
@@ -135,13 +136,13 @@ class Team extends Block
                     'required' => true,
                 ])
                 ->addText('phone', [
-                    'label' => __('Phone', 'sage')
+                    'label' => __('Phone', 'sage'),
                 ])
                 ->addEmail('email', [
-                    'label' => __('E-mailaddress', 'sage')
+                    'label' => __('E-mailaddress', 'sage'),
                 ])
                 ->addTextarea('description', [
-                    'label' => __('Description', 'sage')
+                    'label' => __('Description', 'sage'),
                 ])
             ->endRepeater();
 
