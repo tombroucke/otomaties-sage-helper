@@ -2,29 +2,39 @@
 
 namespace App\Blocks;
 
-use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
-use App\Blocks\Concerns\VerticalAlign;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Log1x\AcfComposer\Builder;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 
 class ImageContent extends Block
 {
-    use VerticalAlign;
+    /**
+     * The block name.
+     *
+     * @var string
+     */
+    public $name = 'Image Content';
+
+    /**
+     * The block description.
+     *
+     * @var string
+     */
+    public $description = 'A simple Image Content block.';
 
     /**
      * The block category.
      *
      * @var string
      */
-    public $category = 'custom';
+    public $category = 'formatting';
 
     /**
      * The block icon.
      *
      * @var string|array
      */
-    public $icon = 'align-pull-left';
+    public $icon = 'editor-ul';
 
     /**
      * The block keywords.
@@ -46,6 +56,13 @@ class ImageContent extends Block
      * @var array
      */
     public $parent = [];
+
+    /**
+     * The ancestor block type allow list.
+     *
+     * @var array
+     */
+    public $ancestor = [];
 
     /**
      * The default block mode.
@@ -81,68 +98,92 @@ class ImageContent extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide'],
+        'align' => ['wide', 'full'],
         'align_text' => false,
         'align_content' => true,
-        'anchor' => true,
-        'mode' => true,
+        'full_height' => false,
+        'anchor' => false,
+        'mode' => false,
         'multiple' => true,
         'jsx' => true,
-        'color' => true,
+        'color' => [
+            'background' => true,
+        ],
     ];
 
     /**
-     * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
-     */
-    public function __construct(AcfComposer $composer)
-    {
-        $this->name = __('Image & Content', 'sage');
-        $this->slug = 'image-content';
-        $this->description = __('Content next to an image', 'sage');
-        parent::__construct($composer);
-    }
-
-    /**
      * Data to be passed to the block before rendering.
-     *
-     * @return array
      */
-    public function with()
+    public function with(): array
     {
-        $ratio = Acf::getField('settings')->get('ratio')->default('6:6');
-        $imagePosition = Acf::getField('settings')->get('image_position')->default('left');
+        $settings = AcfObjects::getField('settings')
+            ->default([
+                'ratio' => '6:6',
+                'image_position' => 'left',
+                'stretch_image' => 'false',
+            ]);
+        $ratio = $settings->get('ratio');
+        $imagePosition = $settings->get('image_position');
+
+        $verticalAlign = match ($this->block->alignContent ?? 'top') {
+            'center' => 'center',
+            'top' => 'start',
+            'bottom' => 'end',
+            default => 'start',
+        };
+
+        $hasBackgroundColor = isset($this->block->backgroundColor);
 
         return [
-            'image' => Acf::getField('image')->default('https://picsum.photos/630/472'),
-            'imagePosition' => $imagePosition,
-            'imageSize' => $this->block->align == 'full' || $this->block->align == 'wide' ? 'large' : 'medium',
-            'firstColumnClasses' => $this->columnClasses(1, $ratio, $imagePosition),
-            'secondColumnClasses' => $this->columnClasses(2, $ratio, $imagePosition),
-            'verticalAlignClass' => $this->verticalAlignClass(),
+            'verticalAlign' => $verticalAlign,
+            'image' => AcfObjects::getField('image'),
+            'imageGridColumn' => $this->gridColumn(true, $ratio, $imagePosition, $this->block->align, $hasBackgroundColor),
+            'contentGridColumn' => $this->gridColumn(false, $ratio, $imagePosition, $this->block->align, $hasBackgroundColor),
+            'imageClasses' => $settings->get('stretch_image') ? ['h-100', 'object-fit-cover'] : [],
+            'stretchImage' => $settings->get('stretch_image'),
         ];
     }
 
-    public function columnClasses($index, $ratio, $imagePosition)
+    private function gridColumn($isImage, $ratio, $imagePosition = 'left', $align = 'none', $hasBackgroundColor = false)
     {
-        if ($imagePosition == 'left') {
-            $ratio = strrev($ratio);
+        $columnWidths = explode(':', $ratio);
+
+        if ($isImage) {
+            if ($imagePosition == 'left') {
+                $span = $align === 'full' ? $columnWidths[0] + 1 : $columnWidths[0];
+                $start = 1;
+            } else {
+                $span = $align === 'full' ? $columnWidths[1] + 1 : $columnWidths[1];
+                $start = -$span - 1;
+            }
+        } else {
+            if ($imagePosition == 'right') {
+                $span = $align === 'full' ? $columnWidths[0] - 1 : $columnWidths[0] - 2;
+                $start = $hasBackgroundColor || $align === 'full' ? 2 : 1;
+            } else {
+                $span = $align === 'full' ? $columnWidths[1] - 1 : $columnWidths[1] - 2;
+                $start = $align === 'full' ? -$span - 2 : -$span - 2;
+            }
         }
-        $columns = explode(':', $ratio);
-        return 'col-md-' . $columns[--$index];
+
+        return $start.' / span '.$span;
     }
 
-    public function columnPossibilities()
+    private function columnPossibilities()
     {
         return [
             '4:8',
             '4:7',
+            '4:6',
+            '4:5',
             '5:7',
             '5:6',
+            '5:5',
             '6:6',
             '6:5',
             '7:5',
+            '5:4',
+            '6:4',
             '7:4',
             '8:4',
         ];
@@ -150,39 +191,44 @@ class ImageContent extends Block
 
     /**
      * The block field group.
-     *
-     * @return array
      */
-    public function fields()
+    public function fields(): array
     {
-        $imageContent = new FieldsBuilder('image_content');
+        $fields = Builder::make('image_content');
 
-        $imageContent
+        $fields
             ->addImage('image', [
                 'label' => __('Image', 'sage'),
                 'required' => true,
+                'preview_size' => 'thumbnail',
+                'instructions' => __('Upload an image', 'sage'),
             ])
             ->addGroup('settings', [
                 'label' => __('Settings', 'sage'),
                 'layout' => 'block',
             ])
-                ->addSelect('image_position', [
-                    'label' => __('Image position', 'sage'),
-                    'allow_null' => true,
-                    'choices' => [
-                        'left' => __('Left', 'sage'),
-                        'right' => __('Right', 'sage'),
-                    ],
-                ])
-                ->addSelect('ratio', [
-                    'label' => __('Ratio', 'sage'),
-                    'allow_null' => true,
-                    'choices' => $this->columnPossibilities(),
-                    'default_value' => '6:6',
-                    'instructions' => __('The ratio of the image and the content. There are a total of 12 columns.', 'sage'),
-                ])
+            ->addSelect('image_position', [
+                'label' => __('Image Position', 'sage'),
+                'allow_null' => true,
+                'choices' => [
+                    'left' => __('Left', 'sage'),
+                    'right' => __('Right', 'sage'),
+                ],
+            ])
+            ->addSelect('ratio', [
+                'label' => __('Ratio', 'sage'),
+                'allow_null' => true,
+                'choices' => $this->columnPossibilities(),
+                'default_value' => '6:6',
+                'instructions' => __('The ratio of the image and the content. There are a total of 12 columns.', 'sage'),
+            ])
+            ->addTrueFalse('stretch_image', [
+                'label' => __('Stretch Image', 'sage'),
+                'instructions' => __('Stretch the image to the full height of the block', 'sage'),
+                'default_value' => false,
+            ])
             ->endGroup();
 
-        return $imageContent->build();
+        return $fields->build();
     }
 }

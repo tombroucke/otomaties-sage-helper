@@ -1,7 +1,32 @@
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import './../config/variables';
+@import 'bootstrap/scss/variables';
+
 .wp-block-image-content {
-  &__image img {
-    width: 100%;
-    max-width: 9999px;
-    height: auto;
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr repeat(12, calc((min(calc(100% - var(--wp--custom--spacing--outer) * 2), var(--wp--style--global--wide-size))) / 12)) 1fr;
+
+  &.alignwide {
+    grid-template-columns: repeat(12, calc((min(100%, var(--wp--style--global--wide-size))) / 12));
+  }
+
+  &__image {
+    grid-column: 1 / span 7;
+  }
+
+  &__content {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    grid-column: 8 / span 6;
+  }
+
+  @include media-breakpoint-down(lg) {
+    display: block;
+
+    &__content {
+      padding: var(--wp--custom--spacing--outer);
+    }
   }
 }

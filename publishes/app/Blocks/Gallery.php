@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Gallery extends Block
@@ -88,8 +88,6 @@ class Gallery extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -107,7 +105,7 @@ class Gallery extends Block
     public function with()
     {
         return [
-            'gallery' => Acf::getField('gallery'),
+            'gallery' => AcfObjects::getField('gallery'),
         ];
     }
 

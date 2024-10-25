@@ -4,9 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
-use function Roots\asset;
 
 class Location extends Block
 {
@@ -89,8 +88,6 @@ class Location extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -108,7 +105,8 @@ class Location extends Block
     public function with()
     {
         return [
-            'location' => Acf::getField('location'),
+            'location' => AcfObjects::getField('location'),
+            'info' => AcfObjects::getField('info'),
         ];
     }
 
@@ -123,20 +121,16 @@ class Location extends Block
 
         $location
             ->addGoogleMap('location', [
-                'label' => __('Location', 'sage')
+                'label' => __('Location', 'sage'),
+            ])
+            ->addWysiwyg('info', [
+                'label' => __('Extra information', 'sage'),
+                'required' => false,
+                'instructions' => __('This will be showed after clicking the marker.', 'sage'),
+                'media_upload' => false,
+                'toolbar' => 'basic',
             ]);
 
         return $location->build();
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        wp_enqueue_script('google-maps', '//maps.googleapis.com/maps/api/js?key=' . getenv('GOOGLE_MAPS_API_KEY'), ['jquery'], null, true);
-        wp_enqueue_script('sage/block/location', asset('scripts/blocks/location.js')->uri(), ['jquery', 'google-maps'], null, true);
     }
 }

@@ -7,7 +7,7 @@ trait VerticalAlign
     public function verticalAlignClass()
     {
         $class = '';
-        if (!is_object($this->block) || !$this->block->align_content) {
+        if (! is_object($this->block) || ! $this->block->align_content) {
             return $class;
         }
         switch ($this->block->align_content) {
@@ -21,6 +21,7 @@ trait VerticalAlign
                 $class = 'align-items-end';
                 break;
         }
+
         return $class;
     }
 }

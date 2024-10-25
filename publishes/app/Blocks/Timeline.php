@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Timeline extends Block
@@ -87,8 +87,6 @@ class Timeline extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -106,7 +104,7 @@ class Timeline extends Block
     public function with()
     {
         return [
-            'items' => Acf::getField('items'),
+            'items' => AcfObjects::getField('items'),
         ];
     }
 
@@ -122,22 +120,22 @@ class Timeline extends Block
         $timeline
             ->addRepeater('items', [
                 'label' => __('Items', 'sage'),
-                'layout' => 'block'
+                'layout' => 'block',
             ])
-                ->addImage('image', [
-                    'label' => __('Image', 'sage'),
-                    'preview_size' => 'thumbnail',
-                ])
-                ->addNumber('year', [
-                    'label' => __('Year', 'sage'),
-                ])
-                ->addText('title', [
-                    'label' => __('Title', 'sage'),
-                ])
-                ->addWysiwyg('content', [
-                    'label' => __('Content', 'sage'),
-                    'media_upload' => 0,
-                ])
+            ->addImage('image', [
+                'label' => __('Image', 'sage'),
+                'preview_size' => 'thumbnail',
+            ])
+            ->addNumber('year', [
+                'label' => __('Year', 'sage'),
+            ])
+            ->addText('title', [
+                'label' => __('Title', 'sage'),
+            ])
+            ->addWysiwyg('content', [
+                'label' => __('Content', 'sage'),
+                'media_upload' => 0,
+            ])
             ->endRepeater();
 
         return $timeline->build();

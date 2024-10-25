@@ -1,69 +1,73 @@
+@use 'sass:math';
+
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
 @import './../config/variables';
+@import 'bootstrap/scss/variables';
 
 .wp-block-carousel {
-  .swiper {
-    &:hover {
-      .swiper-button {
-        opacity: 1;
-      }
-    }
+  &.wp-block-carousel--navigation:not(.wp-block-carousel--all-items-visible) > .swiper {
+    max-width: 88.8889%;
+    margin-right: auto;
+    margin-left: auto;
 
-    &-pagination {
-      position: absolute;
-      z-index: 10;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      padding: 15px 20px;
-
-      &-bullet {
-        display: block;
-        width: 15px;
-        height: 15px;
-        margin: 5px;
-        background-color: $light;
-        border-radius: 50%;
-        content: "";
-        cursor: pointer;
-
-        &-active {
-          background-color: $primary;
-        }
-      }
-    }
-
-    &-button {
-      position: absolute;
-      z-index: 10;
-      top: 50%;
-      margin-top: -15px;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-
-      &-prev {
-        left: 0;
-      }
-
-      &-next {
-        right: 0;
-      }
-
-      &::before {
-        color: $light;
-        font-size: 30px;
-        line-height: 30px;
+    @for $i from 4 through 17 {
+      .col-lg-#{$i} & {
+        max-width: calc(calc(calc(#{$i} - 2) / #{$i}) * 100%);
       }
     }
   }
 
-  &__title {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    color: $white;
+  .swiper-button {
+    z-index: 20;
+    top: 50%;
+    opacity: 1;
+    transform: translateY(-50%);
+    transition: opacity 0.3s;
+
+    &-disabled {
+      opacity: 0;
+    }
+  }
+
+  .is-nowrap {
+    @include media-breakpoint-down(md) {
+      flex-wrap: wrap !important;
+
+      .has-xx-large-font-size {
+        padding-right: var(--wp--custom--spacing--outer) !important;
+        padding-left: var(--wp--custom--spacing--outer) !important;
+      }
+    }
+  }
+
+  // &--half-slides {
+  //   > .swiper::after {
+  //     position: absolute;
+  //     z-index: 1;
+  //     top: 0;
+  //     right: 0;
+  //     width: 20vw;
+  //     height: 100%;
+  //     background: linear-gradient(90deg, rgba($white, 0%), $white);
+  //     content: '';
+  //     opacity: 0;
+  //     pointer-events: none;
+  //     transition: opacity 0.3s;
+  //   }
+
+  //   &:not(.wp-block-carousel--end) {
+  //     > .swiper::after {
+  //       opacity: 1;
+  //     }
+  //   }
+  // }
+
+  .has-xx-large-font-size {
+    line-height: 1;
+  }
+
+  .swiper-slide {
+    height: auto;
   }
 }

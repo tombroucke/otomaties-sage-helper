@@ -1,5 +1,6 @@
 import {domReady} from '@roots/sage/client';
-import Swiper, { Navigation, Pagination, Autoplay } from 'swiper';
+import Swiper from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 
 /**
  * editor.main
@@ -16,7 +17,6 @@ const main = (err) => {
     // Optional parameters
     loop: true,
     height: 500,
-    spaceBetween: 30,
     autoplay: {
       delay: 4500,
       disableOnInteraction: false,

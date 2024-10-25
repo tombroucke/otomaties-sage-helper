@@ -89,8 +89,6 @@ class Buttons extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -127,32 +125,32 @@ class Buttons extends Block
                 $themeName = $themeColor['name'];
                 $themeSlug = $themeColor['slug'];
                 $themes[$themeSlug] = $themeName;
-                $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
+                $themes['outline-'.$themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
             }
         }
 
         $buttons = new FieldsBuilder('buttons');
         $buttons
             ->addRepeater('buttons', [
-                'label' => __('Buttons', 'sage')
+                'label' => __('Buttons', 'sage'),
             ])
-                ->addLink('button', [
-                    'label' => __('Button', 'sage')
-                ])
-                ->addSelect('theme', [
-                    'label' => __('Theme', 'sage'),
-                    'choices' => $themes,
-                    'default_value' => array_key_first($themes)
-                ])
+            ->addLink('button', [
+                'label' => __('Button', 'sage'),
+            ])
+            ->addSelect('theme', [
+                'label' => __('Theme', 'sage'),
+                'choices' => $themes,
+                'default_value' => array_key_first($themes),
+            ])
             ->endRepeater()
             ->addGroup('settings', [
                 'label' => __('Settings', 'sage'),
             ])
-                ->addTrueFalse('group', [
-                    'label' => __('Group buttons', 'sage'),
-                    'message' => __('Show buttons as a group', 'sage'),
-                    'default_value' => false,
-                ])
+            ->addTrueFalse('group', [
+                'label' => __('Group buttons', 'sage'),
+                'message' => __('Show buttons as a group', 'sage'),
+                'default_value' => false,
+            ])
             ->endGroup();
 
         return $buttons->build();

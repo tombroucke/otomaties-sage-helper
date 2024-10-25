@@ -1,9 +1,12 @@
-@if(!$gallery->empty())
+@if ($gallery->isNotEmpty())
   <x-block :block="$block">
     <div class="row g-3">
-      @foreach($gallery as $image)
+      @foreach ($gallery as $image)
         <div class="col-sm-6 col-md-4 col-lg-3 flex-grow-1">
-          <a href="{{ $image->url('large') }}" data-fancybox="gallery-{{ $block->block->id }}">
+          <a
+            data-fancybox="gallery-{{ $block->block->id }}"
+            href="{{ $image->url('large') }}"
+          >
             {!! $image->image('thumbnail') !!}
           </a>
         </div>
@@ -11,9 +14,7 @@
     </div>
   </x-block>
 @else
-  @if($block->preview)
+  @preview($block)
     <p>{{ __('Add some images ...', 'sage') }}</p>
-  @else
-  <!-- {{ __('Add some images ...', 'sage') }} ... -->
-  @endif
+  @endpreview
 @endif

@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Container extends Block
@@ -56,7 +56,7 @@ class Container extends Block
      *
      * @var string
      */
-    public $align = 'full';
+    public $align = '';
 
     /**
      * The default block text alignment.
@@ -93,8 +93,6 @@ class Container extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -112,7 +110,7 @@ class Container extends Block
     public function with()
     {
         return [
-            'backgroundImage' => Acf::getField('background_image')->isSet() ? Acf::getField('background_image')->url('large') : '',
+            'backgroundImage' => AcfObjects::getField('background_image')->url('large'),
         ];
     }
 
@@ -126,8 +124,9 @@ class Container extends Block
         $container = new FieldsBuilder('container');
         $container
             ->addImage('background_image', [
-                'label' => __('Background image', 'sage')
+                'label' => __('Background image', 'sage'),
             ]);
+
         return $container->build();
     }
 }

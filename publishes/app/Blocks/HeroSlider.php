@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class HeroSlider extends Block
@@ -78,7 +78,7 @@ class HeroSlider extends Block
      * @var array
      */
     public $supports = [
-        'align' => array('full', 'wide'),
+        'align' => ['full'],
         'align_text' => true,
         'align_content' => false,
         'anchor' => true,
@@ -89,8 +89,6 @@ class HeroSlider extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -108,7 +106,7 @@ class HeroSlider extends Block
     public function with()
     {
         return [
-            'items' => Acf::getField('items'),
+            'items' => AcfObjects::getField('items'),
         ];
     }
 
@@ -126,51 +124,51 @@ class HeroSlider extends Block
                 'label' => __('Items', 'sage'),
                 'layout' => 'block',
             ])
-                ->addImage('background_image', [
-                    'label' => __('Background image', 'sage'),
-                    'required' => true
-                ])
-                ->addText('title', [
-                    'label' => __('Title', 'sage')
-                ])
-                ->addText('subtitle', [
-                    'label' => __('Subtitle', 'sage')
-                ])
-                ->addRepeater('buttons', [
-                    'label' => __('Buttons', 'sage'),
-                ])
-                    ->addLink('button', [
-                        'label' => __('Button', 'sage'),
-                    ])
-                    ->addSelect('theme', [
-                        'label' => __('Theme', 'sage'),
-                        'choices' => $this->themeColors(),
-                        'default_value' => array_key_first($this->themeColors())
-                    ])
-                ->endRepeater()
-                ->addGroup('settings', [
-                    'label' => __('Settings', 'sage'),
-                    'layout' => 'block',
-                ])
-                    ->addSelect('text_color', [
-                        'label' => __('Text color', 'sage'),
-                        'allow_null' => true,
-                        'choices' => $this->themeColors(false),
-                        'default_value' => array_key_first($this->themeColors(false))
-                    ])
-                    ->addTrueFalse('group_buttons', [
-                        'label' => __('Group buttons', 'sage'),
-                        'message' => __('Show buttons as a group', 'sage'),
-                        'default_value' => false,
-                    ])
-                    ->addSelect('content_position', [
-                        'label' => __('Content position', 'sage'),
-                        'choices' => [
-                            'left' => __('Left', 'sage'),
-                            'right' => __('Right', 'sage'),
-                        ],
-                    ])
-                ->endGroup()
+            ->addImage('background_image', [
+                'label' => __('Background image', 'sage'),
+                'required' => true,
+            ])
+            ->addText('title', [
+                'label' => __('Title', 'sage'),
+            ])
+            ->addText('subtitle', [
+                'label' => __('Subtitle', 'sage'),
+            ])
+            ->addRepeater('buttons', [
+                'label' => __('Buttons', 'sage'),
+            ])
+            ->addLink('button', [
+                'label' => __('Button', 'sage'),
+            ])
+            ->addSelect('theme', [
+                'label' => __('Theme', 'sage'),
+                'choices' => $this->themeColors(),
+                'default_value' => array_key_first($this->themeColors()),
+            ])
+            ->endRepeater()
+            ->addGroup('settings', [
+                'label' => __('Settings', 'sage'),
+                'layout' => 'block',
+            ])
+            ->addSelect('text_color', [
+                'label' => __('Text color', 'sage'),
+                'allow_null' => true,
+                'choices' => $this->themeColors(false),
+                'default_value' => array_key_first($this->themeColors(false)),
+            ])
+            ->addTrueFalse('group_buttons', [
+                'label' => __('Group buttons', 'sage'),
+                'message' => __('Show buttons as a group', 'sage'),
+                'default_value' => false,
+            ])
+            ->addSelect('content_position', [
+                'label' => __('Content position', 'sage'),
+                'choices' => [
+                    'left' => __('Left', 'sage'),
+                    'right' => __('Right', 'sage'),
+                ],
+            ])
+            ->endGroup()
             ->endRepeater();
 
         return $heroSlider->build();
@@ -186,10 +184,11 @@ class HeroSlider extends Block
                 $themeSlug = $themeColor['slug'];
                 $themes[$themeSlug] = $themeName;
                 if ($outline) {
-                    $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
+                    $themes['outline-'.$themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
                 }
             }
         }
+
         return $themes;
     }
 }

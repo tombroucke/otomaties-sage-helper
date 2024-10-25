@@ -1,20 +1,24 @@
-@unless($items->empty())
-<x-block :block="$block">
-  <x-collapse.accordion id="{{ $block->block->id }}">
-    @foreach($items as $item)
-      <x-collapse.accordion.item accordion-id="{{ $block->block->id }}" :show="$loop->first && $openFirst">
-        <x-slot name="heading">
-          {!! esc_html($item->get('question')) !!}
-        </x-slot>
-        {!! $item->get('answer') !!}
-      </x-collapse.accordion.item>
-    @endforeach
-  </x-collapse.accordion>
-</x-block>
+@unless ($items->isEmpty())
+  <x-block :block="$block">
+    <x-collapse.accordion :id="$block->block->id">
+      @foreach ($items as $item)
+        <x-collapse.accordion.item
+          accordion-id="{{ $block->block->id }}"
+          :show="$loop->first && $openFirst"
+        >
+          {{-- Heading --}}
+          <x-slot name="heading">
+            {!! esc_html($item['question']) !!}
+          </x-slot>
+
+          {{-- Content --}}
+          {!! $item['answer'] !!}
+        </x-collapse.accordion.item>
+      @endforeach
+    </x-collapse.accordion>
+  </x-block>
 @else
-  @if($block->preview)
+  @preview($block)
     <p>{{ __('Add some accordion items ...', 'sage') }}</p>
-  @else
-  <!-- {{ __('Add some accordion items ...', 'sage') }} -->
-  @endif
+  @endpreview
 @endunless

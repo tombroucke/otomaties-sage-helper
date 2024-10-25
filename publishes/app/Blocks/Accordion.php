@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Accordion extends Block
@@ -88,8 +88,6 @@ class Accordion extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -107,7 +105,7 @@ class Accordion extends Block
     public function with()
     {
         return [
-            'items' => Acf::getField('items'),
+            'items' => AcfObjects::getField('items'),
             'openFirst' => get_field('open_first'),
         ];
     }
@@ -126,10 +124,10 @@ class Accordion extends Block
                 'label' => __('Items', 'sage'),
                 'layout' => 'block',
             ])
-                ->addText('question')
-                ->addWysiwyg('answer', [
-                    'label' => __('Answer', 'sage'),
-                ])
+            ->addText('question')
+            ->addWysiwyg('answer', [
+                'label' => __('Answer', 'sage'),
+            ])
             ->endRepeater()
             ->addTrueFalse('open_first', [
                 'label' => __('Open first item', 'sage'),

@@ -1,27 +1,29 @@
-<x-block :block="$block" class="d-flex {{ $settings->get('group') ? '' : 'g-3' }}">
-  @unless($buttons->isEmpty())
-    @if($settings->get('group'))
-      <x-button.group>
-        @foreach($buttons as $button)
-          <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
-            {!! esc_html($button->get('button')->title()) !!}
-          </x-button>
-        @endforeach
-      </x-button.group>
-    @else
-      @foreach($buttons as $button)
-        <div>
-          <x-button :href="$button->get('button')->url()" :target="$button->get('button')->target()" :theme="$button->get('theme')">
-            {!! esc_html($button->get('button')->title()) !!}
-          </x-button>
-        </div>
-      @endforeach
-    @endif
-  @else
-    @if($block->preview)
-      <p>{{ __('Add some buttons ...', 'sage') }}</p>
-    @else
-    <!-- {{ __('Add some buttons ...', 'sage') }} ... -->
-    @endif
-  @endunless
-</x-block>
+@unless ($buttons->isEmpty())
+  <x-block
+    @class(['d-flex gap-1', 'flex-column' => !$settings->get('group')])
+    :block="$block"
+  >
+    @echoWhen($settings->get('group'), '<div class="btn-group" role="group">')
+    @foreach ($buttons as $button)
+      <div>
+        <x-button
+          :href="$button['button']->url()"
+          :target="$button['button']->target()"
+          :theme="$button['theme']"
+        >
+          {!! esc_html($button['button']->title()) !!}
+        </x-button>
+      </div>
+    @endforeach
+    @echoWhen($settings->get('group'), '</div>')
+  </x-block>
+@else
+  @preview($block)
+    <x-button
+      href="#"
+      theme="transparent"
+    >
+      {!! __('Add a button (sidebar)', 'sage') !!}
+    </x-button>
+  @endpreview
+@endunless

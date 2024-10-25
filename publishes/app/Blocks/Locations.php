@@ -7,7 +7,7 @@ use Log1x\AcfComposer\Block;
 use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class Cards extends Block
+class Locations extends Block
 {
     /**
      * The block category.
@@ -21,7 +21,7 @@ class Cards extends Block
      *
      * @var string|array
      */
-    public $icon = 'screenoptions';
+    public $icon = 'location-alt';
 
     /**
      * The block keywords.
@@ -78,11 +78,11 @@ class Cards extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['wide'],
-        'align_text' => true,
+        'align' => ['full', 'wide'],
+        'align_text' => false,
         'align_content' => false,
         'anchor' => true,
-        'mode' => true,
+        'mode' => false,
         'multiple' => true,
     ];
 
@@ -91,9 +91,9 @@ class Cards extends Block
      */
     public function __construct(AcfComposer $composer)
     {
-        $this->name = __('Cards', 'sage');
-        $this->slug = 'cards';
-        $this->description = __('Show multiple cards next to eachother', 'sage');
+        $this->name = __('Locations', 'sage');
+        $this->slug = 'locations';
+        $this->description = __('Show multiple locations on a map', 'sage');
         parent::__construct($composer);
     }
 
@@ -104,14 +104,8 @@ class Cards extends Block
      */
     public function with()
     {
-        $settings = AcfObjects::getField('settings')
-            ->default([
-                'columns' => 3,
-            ]);
-
         return [
-            'cards' => AcfObjects::getField('cards'),
-            'columns' => $settings->get('columns'),
+            'locations' => AcfObjects::getField('locations'),
         ];
     }
 
@@ -122,37 +116,26 @@ class Cards extends Block
      */
     public function fields()
     {
-        $cards = new FieldsBuilder('cards');
+        $locations = new FieldsBuilder('locations');
 
-        $cards
-            ->addRepeater('cards', [
-                'label' => __('Cards', 'sage'),
+        $locations
+            ->addRepeater('locations', [
+                'label' => __('Locations', 'sage'),
                 'layout' => 'block',
+                'button_label' => __('Add Item', 'sage'),
             ])
-            ->addImage('image', [
-                'label' => __('Image', 'sage'),
+            ->addGoogleMap('location', [
+                'label' => __('Location', 'sage'),
             ])
-            ->addText('title', [
-                'label' => __('Title', 'sage'),
+            ->addWysiwyg('info', [
+                'label' => __('Extra information', 'sage'),
+                'required' => false,
+                'instructions' => __('This will be showed after clicking the marker.', 'sage'),
+                'media_upload' => false,
+                'toolbar' => 'basic',
             ])
-            ->addWysiwyg('content', [
-                'label' => __('Content', 'sage'),
-            ])
-            ->addLink('button', [
-                'label' => __('Button', 'sage'),
-            ])
-            ->endRepeater()
-            ->addGroup('settings', [
-                'label' => __('Settings', 'sage'),
-            ])
-            ->addNumber('columns', [
-                'label' => __('Columns', 'sage'),
-                'default_value' => 3,
-                'max' => 6,
-                'instructions' => __('Max. 6', 'sage'),
-            ])
-            ->endGroup();
+            ->endRepeater();
 
-        return $cards->build();
+        return $locations->build();
     }
 }

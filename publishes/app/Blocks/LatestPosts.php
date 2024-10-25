@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class LatestPosts extends Block
@@ -89,8 +89,6 @@ class LatestPosts extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -109,7 +107,8 @@ class LatestPosts extends Block
     {
         return [
             'latestPosts' => $this->latestPosts(),
-            'showPagination' => Acf::getField('show_pagination'),
+            'showPagination' => AcfObjects::getField('show_pagination'),
+            'archiveLink' => get_post_type_archive_link('post'),
         ];
     }
 
@@ -138,10 +137,11 @@ class LatestPosts extends Block
 
     public function latestPosts()
     {
-        $args = array(
-            'posts_per_page' => (string)Acf::getField('posts_per_page')->default('3'),
+        $args = [
+            'posts_per_page' => AcfObjects::getField('posts_per_page')->default('3')->toInt(),
             'paged' => (get_query_var('paged')) ? get_query_var('paged') : 1,
-        );
+        ];
+
         return new \WP_Query($args);
     }
 }

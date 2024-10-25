@@ -4,12 +4,11 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Logos extends Block
 {
-
     /**
      * The block category.
      *
@@ -90,8 +89,6 @@ class Logos extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -109,8 +106,8 @@ class Logos extends Block
     public function with()
     {
         return [
-            'logos' => Acf::getField('logos'),
-            'type' => Acf::getField('type'),
+            'logos' => AcfObjects::getField('logos'),
+            'type' => AcfObjects::getField('type'),
         ];
     }
 
@@ -125,20 +122,20 @@ class Logos extends Block
 
         $logos
             ->addRepeater('logos')
-                ->addImage('logo', [
-                    'label' => __('Logo', 'sage'),
-                    'required' => true,
-                ])
-                ->addLink('link', [
-                    'label' => __('Link', 'sage')
-                ])
+            ->addImage('logo', [
+                'label' => __('Logo', 'sage'),
+                'required' => true,
+            ])
+            ->addLink('link', [
+                'label' => __('Link', 'sage'),
+            ])
             ->endRepeater()
             ->addSelect('type', [
                 'label' => __('Type', 'sage'),
-                'choices' => array(
+                'choices' => [
                     'grid' => __('Grid', 'sage'),
                     'carousel' => __('Carousel', 'sage'),
-                ),
+                ],
                 'default_value' => 'grid',
             ]);
 

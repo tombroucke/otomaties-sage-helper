@@ -88,8 +88,6 @@ class Subpages extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -110,8 +108,8 @@ class Subpages extends Block
             'subpages' => get_children([
                 'post_type' => 'page',
                 'post_parent' => get_the_ID(),
-                'orderby' => 'menu_order'
-            ])
+                'orderby' => 'menu_order',
+            ]),
         ];
     }
 
@@ -124,18 +122,6 @@ class Subpages extends Block
     {
         $subpages = new FieldsBuilder('subpages');
 
-        $subpages;
-
         return $subpages->build();
-    }
-
-    /**
-     * Assets to be enqueued when rendering the block.
-     *
-     * @return void
-     */
-    public function enqueue()
-    {
-        //
     }
 }

@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class PostTypeArchive extends Block
@@ -89,8 +89,6 @@ class PostTypeArchive extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -130,27 +128,35 @@ class PostTypeArchive extends Block
             ->addGroup('settings', [
                 'label' => __('Settings', 'sage'),
             ])
-                ->addNumber('posts_per_page', [
-                    'label' => __('Posts per page', 'sage'),
-                    'default' => 'post'
-                ])
-                ->addSelect('post_type', [
-                    'label' => __('Post type', 'sage'),
-                    'default' => 'post',
-                    'choices' => $postTypes
-                ])
+            ->addNumber('posts_per_page', [
+                'label' => __('Posts per page', 'sage'),
+                'default' => 'post',
+            ])
+            ->addSelect('post_type', [
+                'label' => __('Post type', 'sage'),
+                'default' => 'post',
+                'choices' => $postTypes,
+            ])
             ->endGroup();
 
         return $postTypeArchive->build();
     }
 
-    private function postTypeQuery() {
+    private function postTypeQuery()
+    {
+        $settings = AcfObjects::getField('settings')
+            ->default([
+                'post_type' => 'post',
+                'posts_per_page' => 3,
+            ]);
+
         $args = [
-            'post_type' => (string)Acf::getField('settings')->get('post_type')->default('post'),
-            'posts_per_page' => (string)Acf::getField('settings')->get('posts_per_page')->default('-1'),
-            'post__not_in' => array(get_the_ID()),
+            'post_type' => $settings->get('post_type')->toString(),
+            'posts_per_page' => $settings->get('posts_per_page')->toString(),
+            'post__not_in' => [get_the_ID()],
             'paged' => (get_query_var('paged')) ? get_query_var('paged') : 1,
         ];
+
         return new \WP_Query($args);
     }
 }

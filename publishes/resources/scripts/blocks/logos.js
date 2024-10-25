@@ -12,7 +12,6 @@ const main = (err) => {
   }
 
   Swiper.use([Navigation, Autoplay]);
-
   new Swiper('.wp-block-logos .swiper', {
     // Optional parameters
     loop: true,

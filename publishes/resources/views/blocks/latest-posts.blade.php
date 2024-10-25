@@ -1,21 +1,24 @@
-@if($latestPosts->have_posts())
-  <x-block :block="$block" id="wp-block-latest-posts">
-    @while($latestPosts->have_posts()) @php($latestPosts->the_post())
+@if ($latestPosts->have_posts())
+  <x-block
+    id="wp-block-latest-posts"
+    :block="$block"
+  >
+    @while ($latestPosts->have_posts())
+      @php($latestPosts->the_post())
       @includeFirst(['partials.content-post', 'partials.content'])
     @endwhile
 
-    <x-button href="{{ get_post_type_archive_link('post') }}">
+    <x-button href="{{ $archiveLink }}">
       {!! esc_html(__('All posts', 'sage')) !!}
     </x-button>
 
-    @if($showPagination)
-      @include('partials.pagination', ['wpQuery' => $latestPosts, 'addFragment' => '#wp-block-latest-posts'])
-    @endif
+    @includeWhen($showPagination, 'partials.pagination', [
+        'wpQuery' => $latestPosts,
+        'addFragment' => '#wp-block-latest-posts',
+    ])
   </x-block>
 @else
-  @if($block->preview)
+  @preview($block)
     <p>{{ __('There are no posts', 'sage') }}</p>
-  @else
-  <!-- {{ __('There are no posts', 'sage') }} ... -->
-  @endif
+  @endpreview
 @endif

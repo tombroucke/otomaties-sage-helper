@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Team extends Block
@@ -89,8 +89,6 @@ class Team extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -108,7 +106,7 @@ class Team extends Block
     public function with()
     {
         return [
-            'members' => Acf::getField('members'),
+            'members' => AcfObjects::getField('members'),
         ];
     }
 
@@ -123,27 +121,27 @@ class Team extends Block
 
         $team
             ->addRepeater('members')
-                ->addImage('image', [
-                    'label' => __('Image', 'sage'),
-                    'preview_size' => 'thumbnail',
-                ])
-                ->addText('name', [
-                    'label' => __('Name', 'sage'),
-                    'required' => true,
-                ])
-                ->addText('function', [
-                    'label' => __('Function', 'sage'),
-                    'required' => true,
-                ])
-                ->addText('phone', [
-                    'label' => __('Phone', 'sage'),
-                ])
-                ->addEmail('email', [
-                    'label' => __('E-mailaddress', 'sage'),
-                ])
-                ->addTextarea('description', [
-                    'label' => __('Description', 'sage'),
-                ])
+            ->addImage('image', [
+                'label' => __('Image', 'sage'),
+                'preview_size' => 'thumbnail',
+            ])
+            ->addText('name', [
+                'label' => __('Name', 'sage'),
+                'required' => true,
+            ])
+            ->addText('function', [
+                'label' => __('Function', 'sage'),
+                'required' => true,
+            ])
+            ->addText('phone', [
+                'label' => __('Phone', 'sage'),
+            ])
+            ->addEmail('email', [
+                'label' => __('E-mailaddress', 'sage'),
+            ])
+            ->addTextarea('description', [
+                'label' => __('Description', 'sage'),
+            ])
             ->endRepeater();
 
         return $team->build();

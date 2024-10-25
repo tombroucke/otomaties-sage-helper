@@ -1,6 +1,6 @@
 /* global google, sageVars */
 function initMap(mapElement) {
-  var markers = mapElement.querySelectorAll('.wp-block-location__map__marker');
+  var markers = mapElement.querySelectorAll('.wp-block-locations__map__marker');
 
   var mapArgs = {
     zoom        : parseInt(mapElement.getAttribute('data-zoom') || 16),
@@ -66,7 +66,7 @@ function centerMap(map) {
 
 
 window.initMap = function(){
-  const maps = document.querySelectorAll('.wp-block-location__map');
+  const maps = document.querySelectorAll('.wp-block-locations__map');
   for (let i = 0; i < maps.length; i++) {
     const map = maps[i];
     initMap(map);

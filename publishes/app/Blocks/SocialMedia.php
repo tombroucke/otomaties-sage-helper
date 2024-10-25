@@ -2,12 +2,9 @@
 
 namespace App\Blocks;
 
-use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\AcfComposer;
+use Log1x\AcfComposer\Block;
 use StoutLogic\AcfBuilder\FieldsBuilder;
-
-// TODO: Replace FunctionalityPluginNamespace with your namespace
-use FunctionalityPluginNamespace\Facades\SocialMedia as SocialMediaFacade;
 
 class SocialMedia extends Block
 {
@@ -80,7 +77,7 @@ class SocialMedia extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['left', 'center', 'right'],
+        'align' => ['wide'],
         'align_text' => false,
         'align_content' => false,
         'full_height' => false,
@@ -92,8 +89,6 @@ class SocialMedia extends Block
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -110,16 +105,7 @@ class SocialMedia extends Block
      */
     public function with()
     {
-        return [
-            'channels' => SocialMediaFacade::channels()
-                ->map(function ($channel, $key) {
-                    $channel['icon'] = str_replace('facebook', 'facebook-f', $channel['icon']);
-                    return $channel;
-                })
-                ->sortBy(function ($channel) {
-                    return $channel['label'];
-                })
-        ];
+        return [];
     }
 
     /**
@@ -130,6 +116,7 @@ class SocialMedia extends Block
     public function fields()
     {
         $socialMedia = new FieldsBuilder('social_media');
+
         return $socialMedia->build();
     }
 }

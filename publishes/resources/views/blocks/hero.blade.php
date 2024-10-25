@@ -1,4 +1,7 @@
-<x-block class="d-flex {{ $verticalAlignClass }}" :block="$block">
+<x-block
+  @class(['d-flex', $verticalAlignClass])
+  :block="$block"
+>
   <div class="wp-block-hero__background">
     {!! $backgroundImage !!}
   </div>

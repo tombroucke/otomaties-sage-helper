@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Banner extends Block
@@ -85,13 +85,14 @@ class Banner extends Block
         'mode' => false,
         'multiple' => true,
         'jsx' => false,
-        'color' => true,
+        'color' => [
+            'background' => true,
+            'text' => false,
+        ],
     ];
 
     /**
      * Set title, description & slug, allow for translation
-     *
-     * @param AcfComposer $composer
      */
     public function __construct(AcfComposer $composer)
     {
@@ -109,8 +110,8 @@ class Banner extends Block
     public function with()
     {
         return [
-            'backgroundImage' => Acf::getField('background_image'),
-            'title' => Acf::getField('title')->default(get_the_title()),
+            'backgroundImage' => AcfObjects::getField('background_image'),
+            'title' => AcfObjects::getField('title')->default(get_the_title()),
         ];
     }
 
@@ -126,11 +127,10 @@ class Banner extends Block
         $banner
             ->addText('title', [
                 'label' => __('Title', 'sage'),
-                'instructions' => __('Defaults to post title', 'sage')
+                'instructions' => __('Defaults to post title', 'sage'),
             ])
             ->addImage('background_image', [
                 'label' => __('Background image', 'sage'),
-                'required' => true
             ]);
 
         return $banner->build();
