@@ -33,11 +33,11 @@
                         <x-button.group>
                           @foreach ($item['buttons'] as $button)
                             <x-button
-                              :href="$button->get('button')->url()"
-                              :target="$button->get('button')->target()"
-                              :theme="$button->get('theme')"
+                              :href="$button['button']->url()"
+                              :target="$button['button']->target()"
+                              :theme="$button['theme']"
                             >
-                              {!! esc_html($button->get('button')->title()) !!}
+                              {!! esc_html($button['button']->title()) !!}
                             </x-button>
                           @endforeach
                         </x-button.group>
@@ -46,11 +46,11 @@
                       @else
                         @foreach ($item['buttons'] as $button)
                           <x-button
-                            :href="$button->get('button')->url()"
-                            :target="$button->get('button')->target()"
-                            :theme="$button->get('theme')"
+                            :href="$button['button']->url()"
+                            :target="$button['button']->target()"
+                            :theme="$button['theme']"
                           >
-                            {!! esc_html($button->get('button')->title()) !!}
+                            {!! esc_html($button['button']->title()) !!}
                           </x-button>
                         @endforeach
                       @endif
