@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class HeroSlider extends Block
 {
@@ -117,7 +117,7 @@ class HeroSlider extends Block
      */
     public function fields()
     {
-        $heroSlider = new FieldsBuilder('hero_slider');
+        $heroSlider = Builder::make('hero_slider');
 
         $heroSlider
             ->addRepeater('items', [
@@ -184,7 +184,7 @@ class HeroSlider extends Block
                 $themeSlug = $themeColor['slug'];
                 $themes[$themeSlug] = $themeName;
                 if ($outline) {
-                    $themes['outline-'.$themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
+                    $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
                 }
             }
         }

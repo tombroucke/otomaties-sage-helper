@@ -1,5 +1,15 @@
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import './../config/variables';
+@import './../common/mixins';
+@import 'bootstrap/scss/variables';
+
 .wp-block-banner {
   min-height: 400px;
+  padding-right: var(--wp--custom--spacing--outer) !important;
+  padding-left: var(--wp--custom--spacing--outer) !important;
   background-position: center center;
   background-size: cover;
+
+  @include aligns-content;
 }

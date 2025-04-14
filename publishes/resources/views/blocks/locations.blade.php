@@ -1,18 +1,28 @@
-@if ($locations->isNotEmpty())
-  <x-block :block="$block">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
+  @if ($locations->isNotEmpty())
     <div
       class="wp-block-locations__map"
       data-zoom="16"
     >
+
       @foreach ($locations as $location)
         <div
           class="wp-block-locations__map__marker"
           data-lat="{{ $location['location']->lat() }}"
           data-lng="{{ $location['location']->lng() }}"
         >
-          {!! $location['info'] !!}
+          {!! wp_kses($location['info'], $allowedTinyMceTags()) !!}
         </div>
       @endforeach
+
     </div>
-  </x-block>
-@endif
+  @endif
+
+  @unless ($block->preview)
+  </div>
+@endunless
+
+{!! $info !!}

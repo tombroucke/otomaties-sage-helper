@@ -4,8 +4,9 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Otomaties\AcfObjects\Fields\Number;
 
 class Cards extends Block
 {
@@ -106,7 +107,7 @@ class Cards extends Block
     {
         $settings = AcfObjects::getField('settings')
             ->default([
-                'columns' => 3,
+                'columns' => new Number(3),
             ]);
 
         return [
@@ -122,7 +123,7 @@ class Cards extends Block
      */
     public function fields()
     {
-        $cards = new FieldsBuilder('cards');
+        $cards = Builder::make('cards');
 
         $cards
             ->addRepeater('cards', [

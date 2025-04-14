@@ -1,9 +1,12 @@
-<x-block :block="$block">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
   @unless ($cards->isEmpty())
     <div class="row row-cols-1 row-cols-md-{{ $columns }} g-4">
       @foreach ($cards as $card)
         <div class="col">
-          <x-card class="mb-3 mb-lg-0 h-100">
+          <x-card class="mb-lg-0 h-100 position-relative mb-3">
             {{-- Image --}}
             @if ($card['image']->isSet())
               @slot('image')
@@ -13,12 +16,12 @@
 
             {{-- Header --}}
             @slot('header')
-              <h3>{!! esc_html($card['title']->default(__('Add a title', 'sage'))) !!}</h3>
+              <h3>{!! wp_kses($card['title']->default(__('Add a title', 'sage')), $allowedInlineTags()) !!}</h3>
             @endslot
 
             {{-- Content --}}
             <div>
-              {!! wpautop($card['content']) !!}
+              {!! wp_kses($card['content'], $allowedTinyMceTags()) !!}
             </div>
 
             {{-- Button --}}
@@ -27,18 +30,17 @@
                 class="stretched-link"
                 :href="$card['button']->url()"
               >
-                {!! esc_html($card['button']->title()) !!}
+                {!! wp_kses(html_entity_decode($card['button']->title()), $allowedInlineTags()) !!}
               </x-button>
             @endif
           </x-card>
         </div>
       @endforeach
     </div>
-  @else
-    @if ($block->preview)
-      <p>{{ __('Add some card items ...', 'sage') }}</p>
-    @else
-      <!-- {{ __('Add some card items ...', 'sage') }} -->
-    @endif
+  @elseif ($block->preview)
+    <p>{{ __('Add some card items ...', 'sage') }}</p>
   @endunless
-</x-block>
+
+  @unless ($block->preview)
+  </div>
+@endunless

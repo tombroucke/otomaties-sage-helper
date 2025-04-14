@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Accordion extends Block
 {
@@ -117,7 +117,7 @@ class Accordion extends Block
      */
     public function fields()
     {
-        $accordion = new FieldsBuilder('accordion');
+        $accordion = Builder::make('accordion');
 
         $accordion
             ->addRepeater('items', [

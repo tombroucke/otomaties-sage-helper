@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Gallery extends Block
 {
@@ -116,7 +116,7 @@ class Gallery extends Block
      */
     public function fields()
     {
-        $gallery = new FieldsBuilder('gallery');
+        $gallery = Builder::make('gallery');
 
         $gallery
             ->addGallery('gallery', [

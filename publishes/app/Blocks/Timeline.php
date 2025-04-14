@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Timeline extends Block
 {
@@ -115,7 +115,7 @@ class Timeline extends Block
      */
     public function fields()
     {
-        $timeline = new FieldsBuilder('timeline');
+        $timeline = Builder::make('timeline');
 
         $timeline
             ->addRepeater('items', [

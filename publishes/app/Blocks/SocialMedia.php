@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Log1x\AcfComposer\Builder;
 
 class SocialMedia extends Block
 {
@@ -115,7 +115,7 @@ class SocialMedia extends Block
      */
     public function fields()
     {
-        $socialMedia = new FieldsBuilder('social_media');
+        $socialMedia = Builder::make('social_media');
 
         return $socialMedia->build();
     }

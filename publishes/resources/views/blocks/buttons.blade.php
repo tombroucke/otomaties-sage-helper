@@ -1,29 +1,23 @@
-@unless ($buttons->isEmpty())
-  <x-block
-    @class(['d-flex gap-1', 'flex-column' => !$settings->get('group')])
-    :block="$block"
-  >
-    @echoWhen($settings->get('group'), '<div class="btn-group" role="group">')
-    @foreach ($buttons as $button)
-      <div>
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
+  @unless ($buttons->isEmpty())
+    <div class="d-inline-flex gap-3">
+      @foreach ($buttons as $button)
         <x-button
-          :href="$button['button']->url()"
-          :target="$button['button']->target()"
-          :theme="$button['theme']"
+          :href="esc_url($button['button']->url())"
+          :target="esc_attr($button['button']->target())"
+          :theme="esc_attr($button['theme'])"
         >
-          {!! esc_html($button['button']->title()) !!}
+          {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags()) !!}
         </x-button>
-      </div>
-    @endforeach
-    @echoWhen($settings->get('group'), '</div>')
-  </x-block>
-@else
-  @preview($block)
-    <x-button
-      href="#"
-      theme="transparent"
-    >
-      {!! __('Add a button (sidebar)', 'sage') !!}
-    </x-button>
-  @endpreview
+      @endforeach
+    </div>
+  @elseif ($block->preview)
+    <p>{{ __('Add some buttons ...', 'sage') }}</p>
+  @endunless
+
+  @unless ($block->preview)
+  </div>
 @endunless

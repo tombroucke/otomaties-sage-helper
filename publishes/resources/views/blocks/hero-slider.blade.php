@@ -1,4 +1,7 @@
-<x-block :block="$block">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
   @unless ($items->isEmpty())
     <div class="wp-block-hero-slider__slider">
       <div class="swiper">
@@ -15,12 +18,13 @@
                 ])
                 @background($item['background_image']->default(\Roots\asset('images/hero.jpg')->uri())->url('large'))
               >
-                <div class="container container--wide">
+                <div class="container--wide container">
+
                   {{-- Header --}}
                   <div class="wp-block-hero-slider__heading">
-                    <h1>{{ $item['title']->default($block->preview ? __('Add a title', 'sage') : '') }}</h1>
+                    <h1>{!! wp_kses($item['title']->default($block->preview ? __('Add a title', 'sage') : ''), $allowedInlineTags()) !!}</h1>
                     @if ($item['subtitle'])
-                      <h2>{{ $item['subtitle'] }}</h2>
+                      <h2>{!! wp_kses($item['subtitle'], $allowedInlineTags()) !!}</h2>
                     @endif
                   </div>
 
@@ -33,29 +37,28 @@
                         <x-button.group>
                           @foreach ($item['buttons'] as $button)
                             <x-button
-                              :href="$button['button']->url()"
-                              :target="$button['button']->target()"
-                              :theme="$button['theme']"
+                              :href="esc_url($button['button']->url())"
+                              :target="esc_attr($button['button']->target())"
+                              :theme="esc_attr($button['theme'])"
                             >
-                              {!! esc_html($button['button']->title()) !!}
+                              {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags()) !!}
                             </x-button>
                           @endforeach
                         </x-button.group>
-
-                        {{-- Regular buttons --}}
                       @else
                         @foreach ($item['buttons'] as $button)
                           <x-button
-                            :href="$button['button']->url()"
-                            :target="$button['button']->target()"
-                            :theme="$button['theme']"
+                            :href="esc_url($button['button']->url())"
+                            :target="esc_attr($button['button']->target())"
+                            :theme="esc_attr($button['theme'])"
                           >
-                            {!! esc_html($button['button']->title()) !!}
+                            {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags()) !!}
                           </x-button>
                         @endforeach
                       @endif
                     </div>
                   @endif
+
                 </div>
               </div>
             </div>
@@ -63,9 +66,10 @@
         </div>
       </div>
     </div>
-  @else
-    @preview($block)
-      <p>{{ __('Add some slides ...', 'sage') }}</p>
-    @endpreview
+  @elseif ($block->preview)
+    <p>{{ __('Add some slides ...', 'sage') }}</p>
   @endunless
-</x-block>
+
+  @unless ($block->preview)
+  </div>
+@endunless

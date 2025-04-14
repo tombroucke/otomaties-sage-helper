@@ -7,9 +7,17 @@
 .wp-block-hero {
   position: relative;
   z-index: 0;
-  min-height: 800px;
+  min-height: 600px;
+  padding-top: 100px;
+  padding-bottom: 100px;
 
   @include heading-color-inherit;
+  @include aligns-content;
+
+  &:not(.alignfull) {
+    padding-right: var(--wp--custom--spacing--outer) !important;
+    padding-left: var(--wp--custom--spacing--outer) !important;
+  }
 
   h1,
   h2,
@@ -33,5 +41,16 @@
       height: 100%;
       object-fit: cover;
     }
+  }
+
+  @include media-breakpoint-down(xxl) {
+    padding-right: var(--wp--custom--spacing--outer) !important;
+    padding-left: var(--wp--custom--spacing--outer) !important;
+  }
+
+  @include media-breakpoint-down(sm) {
+    min-height: auto;
+    padding-top: var(--wp--custom--spacing--outer);
+    padding-bottom: var(--wp--custom--spacing--outer);
   }
 }

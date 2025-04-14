@@ -1,24 +1,28 @@
-@unless ($items->isEmpty())
-  <x-block :block="$block">
-    <x-collapse.accordion :id="$block->block->id">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
+  @unless ($items->isEmpty())
+    <x-collapse.accordion :id="esc_attr($block->block->id)">
       @foreach ($items as $item)
         <x-collapse.accordion.item
-          accordion-id="{{ $block->block->id }}"
+          accordion-id="{{ esc_attr($block->block->id) }}"
           :show="$loop->first && $openFirst"
         >
           {{-- Heading --}}
           <x-slot name="heading">
-            {!! esc_html($item['question']) !!}
+            {!! wp_kses($item['question'], ['strong' => [], 'em' => [], 'i' => []]) !!}
           </x-slot>
 
           {{-- Content --}}
-          {!! $item['answer'] !!}
+          {!! wp_kses($item['answer'], $allowedTinyMceTags()) !!}
         </x-collapse.accordion.item>
       @endforeach
     </x-collapse.accordion>
-  </x-block>
-@else
-  @preview($block)
+  @elseif ($block->preview)
     <p>{{ __('Add some accordion items ...', 'sage') }}</p>
-  @endpreview
+  @endunless
+
+  @unless ($block->preview)
+  </div>
 @endunless

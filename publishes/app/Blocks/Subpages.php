@@ -4,7 +4,7 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Log1x\AcfComposer\Builder;
 
 class Subpages extends Block
 {
@@ -77,7 +77,7 @@ class Subpages extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['full', 'wide'],
+        'align' => ['wide'],
         'align_text' => false,
         'align_content' => false,
         'full_height' => false,
@@ -120,7 +120,7 @@ class Subpages extends Block
      */
     public function fields()
     {
-        $subpages = new FieldsBuilder('subpages');
+        $subpages = Builder::make('subpages');
 
         return $subpages->build();
     }

@@ -1,9 +1,11 @@
-<x-block
-  @class(['d-flex align-items-center'])
-  :block="$block"
-  :background="$backgroundImage ? $backgroundImage->url('large') : null"
->
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
   <div class="w-100">
-    <h1 class="p-3 px-md-5 py-md-4 mb-0">{!! esc_html($title) !!}</h1>
+    <h1 class="py-md-4 w-100 mb-0 py-3">{!! wp_kses($title, $allowedInlineTags()) !!}</h1>
   </div>
-</x-block>
+
+  @unless ($block->preview)
+  </div>
+@endunless

@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Location extends Block
 {
@@ -117,7 +117,7 @@ class Location extends Block
      */
     public function fields()
     {
-        $location = new FieldsBuilder('location');
+        $location = Builder::make('location');
 
         $location
             ->addGoogleMap('location', [

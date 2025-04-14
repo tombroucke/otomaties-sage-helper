@@ -4,8 +4,10 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Otomaties\AcfObjects\Fields\Number;
+use Otomaties\AcfObjects\Fields\Text;
 
 class PostTypeArchive extends Block
 {
@@ -105,8 +107,15 @@ class PostTypeArchive extends Block
      */
     public function with()
     {
+        $settings = AcfObjects::getField('settings')
+            ->default([
+                'post_type' => new Text('post'),
+                'posts_per_page' => new Number(5),
+            ]);
+
         return [
-            'postTypeQuery' => $this->postTypeQuery(),
+            'postTypeQuery' => $this->postTypeQuery($settings),
+            'columnCount' => $this->columnCount($settings->get('posts_per_page')->toInt()),
         ];
     }
 
@@ -122,7 +131,7 @@ class PostTypeArchive extends Block
             // TODO: add custom post types. It is too soon to call get_post_types()
         ];
 
-        $postTypeArchive = new FieldsBuilder('post_type_archive');
+        $postTypeArchive = Builder::make('post_type_archive');
 
         $postTypeArchive
             ->addGroup('settings', [
@@ -142,14 +151,21 @@ class PostTypeArchive extends Block
         return $postTypeArchive->build();
     }
 
-    private function postTypeQuery()
+    public function columnCount($postsPerPage)
     {
-        $settings = AcfObjects::getField('settings')
-            ->default([
-                'post_type' => 'post',
-                'posts_per_page' => 3,
-            ]);
+        match ($postsPerPage) {
+            1 => $columnCount = 1,
+            2 => $columnCount = 2,
+            3 => $columnCount = 3,
+            4 => $columnCount = 4,
+            default => $columnCount = 3,
+        };
 
+        return $columnCount;
+    }
+
+    private function postTypeQuery($settings)
+    {
         $args = [
             'post_type' => $settings->get('post_type')->toString(),
             'posts_per_page' => $settings->get('posts_per_page')->toString(),

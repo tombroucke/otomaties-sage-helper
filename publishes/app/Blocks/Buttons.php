@@ -4,11 +4,25 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
-use Otomaties\AcfObjects\Acf;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Log1x\AcfComposer\Builder;
+use Otomaties\AcfObjects\Facades\AcfObjects;
 
 class Buttons extends Block
 {
+    /**
+     * The internal ACF block version.
+     *
+     * @var int
+     */
+    public $blockVersion = 1;
+
+    /**
+     * The internal ACF block version.
+     *
+     * @var int
+     */
+    public $apiVersion = 1;
+
     /**
      * The block category.
      *
@@ -78,9 +92,9 @@ class Buttons extends Block
      * @var array
      */
     public $supports = [
-        'align' => ['wide'],
-        'align_text' => true,
+        'align' => ['wide', 'full'],
         'align_content' => false,
+        'align_text' => true,
         'anchor' => true,
         'mode' => true,
         'multiple' => true,
@@ -106,8 +120,7 @@ class Buttons extends Block
     public function with()
     {
         return [
-            'buttons' => Acf::getField('buttons'),
-            'settings' => Acf::getField('settings'),
+            'buttons' => AcfObjects::getField('buttons'),
         ];
     }
 
@@ -125,11 +138,11 @@ class Buttons extends Block
                 $themeName = $themeColor['name'];
                 $themeSlug = $themeColor['slug'];
                 $themes[$themeSlug] = $themeName;
-                $themes['outline-'.$themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
+                $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
             }
         }
 
-        $buttons = new FieldsBuilder('buttons');
+        $buttons = Builder::make('buttons');
         $buttons
             ->addRepeater('buttons', [
                 'label' => __('Buttons', 'sage'),
@@ -142,30 +155,8 @@ class Buttons extends Block
                 'choices' => $themes,
                 'default_value' => array_key_first($themes),
             ])
-            ->endRepeater()
-            ->addGroup('settings', [
-                'label' => __('Settings', 'sage'),
-            ])
-            ->addTrueFalse('group', [
-                'label' => __('Group buttons', 'sage'),
-                'message' => __('Show buttons as a group', 'sage'),
-                'default_value' => false,
-            ])
-            ->endGroup();
+            ->endRepeater();
 
         return $buttons->build();
-    }
-
-    public function render($block, $content = '', $preview = false, $post_id = 0, $wp_block = false, $context = false)
-    {
-        $justifyMapping = [
-            'center' => 'center',
-            'right' => 'end',
-            'left' => 'start',
-        ];
-        $block['justify_content'] = isset($block['align_text']) && $block['align_text'] ? $justifyMapping[$block['align_text']] : 'start';
-        $block['align_text'] = null;
-
-        return parent::render($block, $content, $preview, $post_id, $wp_block, $context);
     }
 }

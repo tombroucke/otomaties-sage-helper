@@ -1,3 +1,9 @@
-<x-block :block="$block">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
   @include('partials.social-media')
-</x-block>
+
+  @unless ($block->preview)
+  </div>
+@endunless

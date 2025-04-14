@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Banner extends Block
 {
@@ -80,7 +80,7 @@ class Banner extends Block
     public $supports = [
         'align' => ['full', 'wide'],
         'align_text' => true,
-        'align_content' => false,
+        'align_content' => true,
         'anchor' => true,
         'mode' => false,
         'multiple' => true,
@@ -122,7 +122,7 @@ class Banner extends Block
      */
     public function fields()
     {
-        $banner = new FieldsBuilder('banner');
+        $banner = Builder::make('banner');
 
         $banner
             ->addText('title', [

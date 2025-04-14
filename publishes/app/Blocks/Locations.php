@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Locations extends Block
 {
@@ -116,7 +116,7 @@ class Locations extends Block
      */
     public function fields()
     {
-        $locations = new FieldsBuilder('locations');
+        $locations = Builder::make('locations');
 
         $locations
             ->addRepeater('locations', [

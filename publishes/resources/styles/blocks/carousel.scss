@@ -5,7 +5,7 @@
 @import './../config/variables';
 @import 'bootstrap/scss/variables';
 
-.wp-block-carousel {
+.wp-block-carousel__swiper {
   &.wp-block-carousel--navigation:not(.wp-block-carousel--all-items-visible) > .swiper {
     max-width: 88.8889%;
     margin-right: auto;
@@ -43,22 +43,22 @@
 
   // &--half-slides {
   //   > .swiper::after {
-  //     position: absolute;
-  //     z-index: 1;
-  //     top: 0;
-  //     right: 0;
-  //     width: 20vw;
-  //     height: 100%;
-  //     background: linear-gradient(90deg, rgba($white, 0%), $white);
-  //     content: '';
-  //     opacity: 0;
-  //     pointer-events: none;
-  //     transition: opacity 0.3s;
+  //     position: absolute;position
+  //     z-index: 1;z-index
+  //     top: 0;top
+  //     right: 0;right
+  //     width: 20vw;width
+  //     height: 100%;height
+  //     background: linear-gradient(90deg, rgba($white, 0%), $white);background
+  //     content: '';content
+  //     opacity: 0;opacity
+  //     pointer-events: none;pointer-events
+  //     transition: opacity 0.3s;transition
   //   }
 
   //   &:not(.wp-block-carousel--end) {
   //     > .swiper::after {
-  //       opacity: 1;
+  //       opacity: 1;opacity
   //     }
   //   }
   // }

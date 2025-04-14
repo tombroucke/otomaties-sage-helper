@@ -1,11 +1,14 @@
-<x-block
-  @class(['d-flex', $verticalAlignClass])
-  :block="$block"
->
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
   <div class="wp-block-hero__background">
     {!! $backgroundImage !!}
   </div>
-  <div class="container container--wide">
-    <InnerBlocks />
+  <div class="container--wide container">
+    <InnerBlocks template="{{ $block->template }}" />
   </div>
-</x-block>
+
+  @unless ($block->preview)
+  </div>
+@endunless

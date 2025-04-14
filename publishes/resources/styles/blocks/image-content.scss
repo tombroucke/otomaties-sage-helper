@@ -1,32 +1,37 @@
 @import 'bootstrap/scss/mixins';
 @import 'bootstrap/scss/functions';
 @import './../config/variables';
+@import './../common/mixins';
 @import 'bootstrap/scss/variables';
 
 .wp-block-image-content {
-  display: grid;
-  gap: 0;
-  grid-template-columns: 1fr repeat(12, calc((min(calc(100% - var(--wp--custom--spacing--outer) * 2), var(--wp--style--global--wide-size))) / 12)) 1fr;
+  @include media-breakpoint-up(md) {
+    gap: 0;
+    grid-template-columns: 1fr repeat(12, calc((min(calc(100% - var(--wp--custom--spacing--outer) * 2), var(--wp--style--global--wide-size))) / 12)) 1fr;
 
-  &.alignwide {
-    grid-template-columns: repeat(12, calc((min(100%, var(--wp--style--global--wide-size))) / 12));
+    &:not(.alignfull) {
+      grid-template-columns: repeat(12, calc((min(100%, var(--wp--style--global--wide-size))) / 12));
+    }
+
+    .align-self-stretch.wp-block-image-content__image {
+      img {
+          position: absolute;
+          right: 0;
+          left: 0;
+      }
+    }
+
+    @include aligns-content($grid: true);
   }
+
 
   &__image {
     grid-column: 1 / span 7;
   }
 
   &__content {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
     grid-column: 8 / span 6;
-  }
-
-  @include media-breakpoint-down(lg) {
-    display: block;
-
-    &__content {
-      padding: var(--wp--custom--spacing--outer);
-    }
   }
 }

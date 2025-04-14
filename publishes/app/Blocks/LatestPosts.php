@@ -4,8 +4,10 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use Otomaties\AcfObjects\Fields\Number;
+use Otomaties\AcfObjects\Fields\Text;
 
 class LatestPosts extends Block
 {
@@ -105,11 +107,29 @@ class LatestPosts extends Block
      */
     public function with()
     {
+        $postsPerPage = AcfObjects::getField('posts_per_page')
+            ->default(new Number(3))
+            ->toInt();
+
         return [
-            'latestPosts' => $this->latestPosts(),
+            'latestPosts' => $this->latestPosts($postsPerPage),
             'showPagination' => AcfObjects::getField('show_pagination'),
             'archiveLink' => get_post_type_archive_link('post'),
+            'columnCount' => $this->columnCount($postsPerPage),
         ];
+    }
+
+    public function columnCount($postsPerPage)
+    {
+        match ($postsPerPage) {
+            1 => $columnCount = 1,
+            2 => $columnCount = 2,
+            3 => $columnCount = 3,
+            4 => $columnCount = 4,
+            default => $columnCount = 3,
+        };
+
+        return $columnCount;
     }
 
     /**
@@ -119,7 +139,7 @@ class LatestPosts extends Block
      */
     public function fields()
     {
-        $latestPosts = new FieldsBuilder('latest_posts');
+        $latestPosts = Builder::make('latest_posts');
 
         $latestPosts
             ->addNumber('posts_per_page', [
@@ -135,10 +155,10 @@ class LatestPosts extends Block
         return $latestPosts->build();
     }
 
-    public function latestPosts()
+    public function latestPosts($postPerPage)
     {
         $args = [
-            'posts_per_page' => AcfObjects::getField('posts_per_page')->default('3')->toInt(),
+            'posts_per_page' => $postPerPage,
             'paged' => (get_query_var('paged')) ? get_query_var('paged') : 1,
         ];
 

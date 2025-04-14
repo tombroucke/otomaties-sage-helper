@@ -4,8 +4,8 @@ namespace App\Blocks;
 
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Team extends Block
 {
@@ -117,7 +117,7 @@ class Team extends Block
      */
     public function fields()
     {
-        $team = new FieldsBuilder('team');
+        $team = Builder::make('team');
 
         $team
             ->addRepeater('members')

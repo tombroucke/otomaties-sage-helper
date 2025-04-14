@@ -1,5 +1,8 @@
-@if ($location->isSet())
-  <x-block :block="$block">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
+  @if ($location->isSet())
     <div
       class="wp-block-location__map"
       data-zoom="16"
@@ -9,8 +12,11 @@
         data-lat="{{ $location->lat() }}"
         data-lng="{{ $location->lng() }}"
       >
-        {!! $info !!}
+        {!! wp_kses($info, $allowedTinyMceTags()) !!}
       </div>
     </div>
-  </x-block>
-@endif
+  @endif
+
+  @unless ($block->preview)
+  </div>
+@endunless

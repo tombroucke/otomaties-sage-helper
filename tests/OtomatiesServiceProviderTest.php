@@ -19,6 +19,5 @@ final class OtomatiesServiceProviderTest extends TestCase
         $this->assertContains('/resources/views/blocks/latest-posts.blade.php', $otomatiesServiceProviderPublishes);
         $this->assertContains('/resources/styles/blocks/banner.scss', $otomatiesServiceProviderPublishes);
         $this->assertContains('/resources/scripts/blocks/location.js', $otomatiesServiceProviderPublishes);
-        $this->assertContains('/app/Blocks/Concerns/VerticalAlign.php', $otomatiesServiceProviderPublishes);
     }
 }

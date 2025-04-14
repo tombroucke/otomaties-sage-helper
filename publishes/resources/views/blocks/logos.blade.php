@@ -1,5 +1,8 @@
-@if ($logos->isNotEmpty())
-  <x-block :block="$block">
+@unless ($block->preview)
+  <div {{ $attributes }}>
+  @endunless
+
+  @if ($logos->isNotEmpty())
     @if ('carousel' == $type)
       <div class="swiper">
         <div @class(['swiper-wrapper', 'd-flex flex-nowrap' => $block->preview])>
@@ -23,9 +26,10 @@
         @endforeach
       </div>
     @endif
-  </x-block>
-@else
-  @preview($block)
+  @elseif ($block->preview)
     <p>{{ __('Add some logos', 'sage') }}</p>
-  @endpreview
-@endif
+  @endif
+
+  @unless ($block->preview)
+  </div>
+@endunless

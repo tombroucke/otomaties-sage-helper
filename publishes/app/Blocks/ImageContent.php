@@ -5,6 +5,7 @@ namespace App\Blocks;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
+use Otomaties\AcfObjects\Fields\Select;
 
 class ImageContent extends Block
 {
@@ -112,16 +113,32 @@ class ImageContent extends Block
     ];
 
     /**
+     * The block template.
+     *
+     * @var array
+     */
+    public $template = [
+        'core/heading' => [
+            'level' => 2,
+            'placeholder' => 'Lorem ipsum dolor sit amet',
+        ],
+        'core/paragraph' => [
+            'placeholder' => 'Consectetur mollit occaecat enim veniam anim. Commodo exercitation voluptate magna fugiat dolore sit labore proident enim Lorem officia et quis',
+        ],
+    ];
+
+    /**
      * Data to be passed to the block before rendering.
      */
     public function with(): array
     {
         $settings = AcfObjects::getField('settings')
             ->default([
-                'ratio' => '6:6',
-                'image_position' => 'left',
-                'stretch_image' => 'false',
+                'ratio' => new Select('6:6'),
+                'image_position' => new Select('left'),
+                'stretch_image' => false,
             ]);
+
         $ratio = $settings->get('ratio');
         $imagePosition = $settings->get('image_position');
 
@@ -166,7 +183,7 @@ class ImageContent extends Block
             }
         }
 
-        return $start.' / span '.$span;
+        return $start . ' / span ' . $span;
     }
 
     private function columnPossibilities()

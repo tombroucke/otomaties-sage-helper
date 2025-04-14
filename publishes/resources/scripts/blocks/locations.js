@@ -73,8 +73,12 @@ window.initMap = function(){
   }
 }
 
-// Load Google Maps API script after initMap is defined
-var script = document.createElement('script');
-script.src = 'https://maps.googleapis.com/maps/api/js?key=' + sageVars.googleMapsKey + '&callback=initMap';
-script.async = true;
-document.head.appendChild(script);
+if (sageVars.googleMapsKey) {
+  // Load Google Maps API script after initMap is defined
+  var script = document.createElement('script');
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=' + sageVars.googleMapsKey + '&callback=initMap';
+  script.async = true;
+  document.head.appendChild(script);
+} else {
+  console.error('Google Maps API key is not defined.');
+}

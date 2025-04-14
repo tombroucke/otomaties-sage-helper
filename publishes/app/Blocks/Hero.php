@@ -2,16 +2,13 @@
 
 namespace App\Blocks;
 
-use App\Blocks\Concerns\VerticalAlign;
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Hero extends Block
 {
-    use VerticalAlign;
-
     /**
      * The block category.
      *
@@ -92,6 +89,18 @@ class Hero extends Block
     ];
 
     /**
+     * The block template.
+     *
+     * @var array
+     */
+    public $template = [
+        'core/heading' => [
+            'level' => 1,
+            'placeholder' => 'Lorem ipsum dolor sit amet',
+        ],
+    ];
+
+    /**
      * Set title, description & slug, allow for translation
      */
     public function __construct(AcfComposer $composer)
@@ -111,7 +120,6 @@ class Hero extends Block
     {
         return [
             'backgroundImage' => AcfObjects::getField('background_image')->image('large'),
-            'verticalAlignClass' => $this->verticalAlignClass(),
         ];
     }
 
@@ -122,12 +130,11 @@ class Hero extends Block
      */
     public function fields()
     {
-        $hero = new FieldsBuilder('hero');
+        $hero = Builder::make('hero');
 
         $hero
             ->addImage('background_image', [
                 'label' => __('Background image', 'sage'),
-                'required' => true,
             ]);
 
         return $hero->build();
