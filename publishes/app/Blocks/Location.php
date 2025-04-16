@@ -105,6 +105,8 @@ class Location extends Block
     public function with()
     {
         return [
+            'locationType' => AcfObjects::getField('location_type')->default('iframe')->toString(),
+            'iframe' => AcfObjects::getField('iframe'),
             'location' => AcfObjects::getField('location'),
             'info' => AcfObjects::getField('info'),
         ];
@@ -120,8 +122,43 @@ class Location extends Block
         $location = Builder::make('location');
 
         $location
+            ->addSelect('location_type', [
+                'label' => __('Location type', 'sage'),
+                'choices' => [
+                    'iframe' => __('Iframe', 'sage'),
+                    'map' => __('Map', 'sage'),
+                ],
+                'default_value' => 'iframe',
+            ])
+            ->addTextarea('iframe', [
+                'label' => __('Iframe', 'sage'),
+                'instructions' => __('Paste the iframe code here.', 'sage'),
+                'rows' => 5,
+                'required' => false,
+                'placeholder' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d..."></iframe>',
+                'conditional_logic' => [
+                    [
+                        [
+                            'field' => 'location_type',
+                            'operator' => '==',
+                            'value' => 'iframe',
+                        ],
+                    ],
+                ],
+            ])
             ->addGoogleMap('location', [
                 'label' => __('Location', 'sage'),
+                'instructions' => __('Select a location on the map.', 'sage'),
+                'required' => false,
+                'conditional_logic' => [
+                    [
+                        [
+                            'field' => 'location_type',
+                            'operator' => '==',
+                            'value' => 'map',
+                        ],
+                    ],
+                ],
             ])
             ->addWysiwyg('info', [
                 'label' => __('Extra information', 'sage'),
@@ -129,6 +166,15 @@ class Location extends Block
                 'instructions' => __('This will be showed after clicking the marker.', 'sage'),
                 'media_upload' => false,
                 'toolbar' => 'basic',
+                'conditional_logic' => [
+                    [
+                        [
+                            'field' => 'location_type',
+                            'operator' => '==',
+                            'value' => 'map',
+                        ],
+                    ],
+                ],
             ]);
 
         return $location->build();
