@@ -5,6 +5,18 @@
 @import 'bootstrap/scss/variables';
 
 .wp-block-image-content {
+  &__content {
+    padding: 50px 0;
+  }
+
+  @include media-breakpoint-down(md) {
+    &.alignfull {
+      .wp-block-image-content__content {
+        padding: 50px var(--wp--custom--spacing--outer);
+      }
+    }
+  }
+
   @include media-breakpoint-up(md) {
     gap: 0;
     grid-template-columns: 1fr repeat(12, calc((min(calc(100% - var(--wp--custom--spacing--outer) * 2), var(--wp--style--global--wide-size))) / 12)) 1fr;
@@ -21,17 +33,15 @@
       }
     }
 
+    &__content {
+      grid-column: 8 / span 6;
+    }
+
     @include aligns-content($grid: true);
   }
 
 
   &__image {
     grid-column: 1 / span 7;
-  }
-
-  &__content {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    grid-column: 8 / span 6;
   }
 }
