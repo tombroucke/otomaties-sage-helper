@@ -18,11 +18,17 @@
   }
 
   @include media-breakpoint-up(md) {
+    display: grid;
     gap: 0;
     grid-template-columns: 1fr repeat(12, calc((min(calc(100% - var(--wp--custom--spacing--outer) * 2), var(--wp--style--global--wide-size))) / 12)) 1fr;
 
     &:not(.alignfull) {
       grid-template-columns: repeat(12, calc((min(100%, var(--wp--style--global--wide-size))) / 12));
+    }
+
+    .wp-block-image-content__image img {
+      min-height: 100%;
+      object-fit: cover;
     }
 
     .align-self-stretch.wp-block-image-content__image {
@@ -37,7 +43,23 @@
       grid-column: 8 / span 6;
     }
 
-    @include aligns-content($grid: true);
+    &.is-position-center {
+      .wp-block-image-content__content {
+        align-self: center;
+      }
+    }
+
+    &.is-position-top {
+      .wp-block-image-content__content {
+        align-self: flex-start;
+      }
+    }
+
+    &.is-position-bottom {
+      .wp-block-image-content__content {
+        align-self: flex-end;
+      }
+    }
   }
 
 
