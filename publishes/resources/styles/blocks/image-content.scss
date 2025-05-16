@@ -26,16 +26,13 @@
       grid-template-columns: repeat(12, calc((min(100%, var(--wp--style--global--wide-size))) / 12));
     }
 
-    .wp-block-image-content__image img {
-      min-height: 100%;
-      object-fit: cover;
-    }
-
     .align-self-stretch.wp-block-image-content__image {
       img {
           position: absolute;
           right: 0;
           left: 0;
+          min-height: 100%;
+          object-fit: cover;
       }
     }
 
@@ -44,18 +41,21 @@
     }
 
     &.is-position-center {
+      .wp-block-image-content__image,
       .wp-block-image-content__content {
         align-self: center;
       }
     }
 
     &.is-position-top {
+      .wp-block-image-content__image,
       .wp-block-image-content__content {
         align-self: flex-start;
       }
     }
 
     &.is-position-bottom {
+      .wp-block-image-content__image,
       .wp-block-image-content__content {
         align-self: flex-end;
       }
