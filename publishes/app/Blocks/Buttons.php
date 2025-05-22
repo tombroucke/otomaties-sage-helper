@@ -131,15 +131,12 @@ class Buttons extends Block
      */
     public function fields()
     {
-        $themeJson = json_decode(file_get_contents(app()->basePath('theme.json')), true);
         $themes = [];
-        if (isset($themeJson['settings']['color']['palette'])) {
-            foreach ($themeJson['settings']['color']['palette'] as $themeColor) {
-                $themeName = $themeColor['name'];
-                $themeSlug = $themeColor['slug'];
-                $themes[$themeSlug] = $themeName;
-                $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
-            }
+        foreach (ThemeJson::colors() as $themeColor) {
+            $themeName = $themeColor['name'];
+            $themeSlug = $themeColor['slug'];
+            $themes[$themeSlug] = $themeName;
+            $themes['outline-' . $themeSlug] = sprintf('%s %s', $themeName, __('outline', 'sage'));
         }
 
         $buttons = Builder::make('buttons');
