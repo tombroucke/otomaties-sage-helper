@@ -1,7 +1,7 @@
 import Swiper from 'swiper';
-import { Navigation, Autoplay } from 'swiper/modules'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 
-Swiper.use([Navigation, Autoplay]);
+Swiper.use([Navigation, Pagination, Autoplay]);
 
 const carousels = document.querySelectorAll('.wp-block-carousel__swiper > .swiper');
 for (let i = 0; i < carousels.length; i++) {
@@ -13,6 +13,8 @@ for (let i = 0; i < carousels.length; i++) {
   const breakpoints = JSON.parse(carousel.dataset.breakpoints);
   const prevButton = document.getElementById(`swiper-button-prev-${uid}`);
   const nextButton = document.getElementById(`swiper-button-next-${uid}`);
+  const pagination = document.getElementById(`swiper-pagination-${uid}`);
+
   const defaultSettings = {
     slidesPerView: 1,
     spaceBetween: 0,
@@ -23,6 +25,10 @@ for (let i = 0; i < carousels.length; i++) {
     navigation: {
       nextEl: nextButton,
       prevEl: prevButton,
+    },
+    pagination: {
+      el: pagination,
+      clickable: true,
     },
     on: {
       init: function(swiper) {

@@ -172,6 +172,7 @@ class Carousel extends Block
                 'acf/slide',
             ])->toJson(),
             'navigation' => AcfObjects::getField('settings')->get('navigation'),
+            'pagination' => AcfObjects::getField('settings')->get('pagination'),
             'loop' => AcfObjects::getField('settings')->get('loop'),
             'centeredSlides' => AcfObjects::getField('settings')->get('centered_slides'),
             'settings' => $settings,
@@ -193,6 +194,7 @@ class Carousel extends Block
             ])
             ->addImage('image', [
                 'label' => __('Image', 'sage'),
+                'required' => true,
             ])
             ->endRepeater()
             ->addGroup('settings', [
@@ -207,6 +209,11 @@ class Carousel extends Block
             ->addTrueFalse('navigation', [
                 'label' => __('Navigation', 'sage'),
                 'instructions' => __('Show navigation', 'sage'),
+                'default_value' => true,
+            ])
+            ->addTrueFalse('pagination', [
+                'label' => __('Pagination', 'sage'),
+                'instructions' => __('Show pagination', 'sage'),
                 'default_value' => true,
             ])
             ->addTrueFalse('centered_slides', [

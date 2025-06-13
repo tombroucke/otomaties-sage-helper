@@ -49,6 +49,13 @@
         <x-fas-angle-right height="1.5em" />
       </x-button>
     @endif
+
+    @if ($pagination)
+      <div
+        class="swiper-pagination position-absolute z-2"
+        id="swiper-pagination-{{ $uid }}"
+      ></div>
+    @endif
   </div>
 
   @unless ($block->preview)
