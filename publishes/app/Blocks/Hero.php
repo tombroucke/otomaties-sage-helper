@@ -81,7 +81,7 @@ class Hero extends Block
         'align' => ['full', 'wide'],
         'align_text' => true,
         'align_content' => true,
-        'anchor' => false,
+        'anchor' => true,
         'mode' => true,
         'multiple' => true,
         'jsx' => true,
