@@ -149,61 +149,46 @@ class ImageContent extends Block
             default => 'start',
         };
 
-        $hasBackgroundColor = isset($this->block->backgroundColor);
+        $alignFull = $this->block->align === 'full';
+
+        $imageGridColumn = $this->gridColumn(true, $ratio, $imagePosition, $alignFull);
+        $contentGridColumn = $this->gridColumn(false, $ratio, $imagePosition, $alignFull);
 
         return [
             'verticalAlign' => $verticalAlign,
             'image' => AcfObjects::getField('image'),
-            'imageGridColumn' => $this->gridColumn(true, $ratio, $imagePosition, $this->block->align, $hasBackgroundColor),
-            'contentGridColumn' => $this->gridColumn(false, $ratio, $imagePosition, $this->block->align, $hasBackgroundColor),
+            'imageStyles' => 'grid-column: '.$imageGridColumn.'; grid-row: 1;',
+            'contentStyles' => 'grid-column: '.$contentGridColumn.'; grid-row: 1;',
             'imageClasses' => $settings->get('stretch_image') ? ['h-100', 'object-fit-cover'] : [],
             'stretchImage' => $settings->get('stretch_image'),
+            'hasBackgroundColor' => isset($this->block->backgroundColor),
+            'imagePosition' => $imagePosition,
         ];
     }
 
-    private function gridColumn($isImage, $ratio, $imagePosition = 'left', $align = 'none', $hasBackgroundColor = false)
+    private function gridColumn($isImage, $ratio, $imagePosition = 'left', $alignFull = false)
     {
         $columnWidths = explode(':', $ratio);
 
         if ($isImage) {
             if ($imagePosition == 'left') {
-                $span = $align === 'full' ? $columnWidths[0] + 1 : $columnWidths[0];
+                $span = $alignFull ? $columnWidths[0] + 1 : $columnWidths[0];
                 $start = 1;
             } else {
-                $span = $align === 'full' ? $columnWidths[1] + 1 : $columnWidths[1];
+                $span = $alignFull ? $columnWidths[1] + 1 : $columnWidths[1];
                 $start = -$span - 1;
             }
         } else {
-            if ($imagePosition == 'right') {
-                $span = $align === 'full' ? $columnWidths[0] - 1 : $columnWidths[0] - 2;
-                $start = $hasBackgroundColor || $align === 'full' ? 2 : 1;
+            if ($imagePosition == 'left') {
+                $span = $columnWidths[1];
+                $start = $alignFull ? -$span - 2 : -$span - 1;
             } else {
-                $span = $align === 'full' ? $columnWidths[1] - 1 : $columnWidths[1] - 2;
-                $start = $align === 'full' ? -$span - 2 : -$span - 2;
+                $span = $columnWidths[0];
+                $start = $alignFull ? 2 : 1;
             }
         }
 
-        return $start . ' / span ' . $span;
-    }
-
-    private function columnPossibilities()
-    {
-        return [
-            '4:8',
-            '4:7',
-            '4:6',
-            '4:5',
-            '5:7',
-            '5:6',
-            '5:5',
-            '6:6',
-            '6:5',
-            '7:5',
-            '5:4',
-            '6:4',
-            '7:4',
-            '8:4',
-        ];
+        return $start.' / span '.$span;
     }
 
     /**
@@ -235,7 +220,23 @@ class ImageContent extends Block
             ->addSelect('ratio', [
                 'label' => __('Ratio', 'sage'),
                 'allow_null' => true,
-                'choices' => $this->columnPossibilities(),
+                'choices' => [
+                    '4:8',
+                    '4:7',
+                    '4:6',
+                    '4:5',
+                    '4:4',
+                    '5:7',
+                    '5:6',
+                    '5:5',
+                    '6:6',
+                    '6:5',
+                    '7:5',
+                    '5:4',
+                    '6:4',
+                    '7:4',
+                    '8:4',
+                ],
                 'default_value' => '6:6',
                 'instructions' => __('The ratio of the image and the content. There are a total of 12 columns.', 'sage'),
             ])

@@ -2,6 +2,7 @@
 
 namespace App\Blocks;
 
+use Illuminate\View\ComponentAttributeBag;
 use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
@@ -138,5 +139,26 @@ class Hero extends Block
             ]);
 
         return $hero->build();
+    }
+
+    /**
+     * Retrieve the component attribute bag.
+     */
+    protected function getComponentAttributeBag(): ComponentAttributeBag
+    {
+        $componentAttributes = parent::getComponentAttributeBag();
+
+        $classes = collect();
+        $needsBleed = AcfObjects::getField('background_image')->isSet() || ($this->block->backgroundColor ?? null) !== null;
+
+        if (($this->block->align ?? 'full') === 'full') {
+            $classes->push('is-layout-constrained');
+        }
+
+        if ($needsBleed || ($this->block->align ?? 'full') === 'full') {
+            $classes->push('has-global-padding');
+        }
+
+        return $componentAttributes->merge(['class' => $classes->implode(' ')]);
     }
 }

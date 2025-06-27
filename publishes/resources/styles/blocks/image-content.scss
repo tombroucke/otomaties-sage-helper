@@ -5,25 +5,45 @@
 @import 'bootstrap/scss/variables';
 
 .wp-block-image-content {
-  &__content {
-    padding: 50px 0;
+  &__content__blocks > :last-child {
+    margin-bottom: 0;
   }
 
   @include media-breakpoint-down(md) {
     &.alignfull {
       .wp-block-image-content__content {
-        padding: 50px var(--wp--custom--spacing--outer);
+        padding-right: var(--wp--style--root--padding-right);
+        padding-left: var(--wp--style--root--padding-left);
       }
     }
   }
 
   @include media-breakpoint-up(md) {
+    --image-content-gap: 0px;
+
     display: grid;
-    gap: 0;
-    grid-template-columns: 1fr repeat(12, calc((min(calc(100% - var(--wp--custom--spacing--outer) * 2), var(--wp--style--global--wide-size))) / 12)) 1fr;
+    gap: var(--image-content-gap);
+    grid-template-columns:
+    1fr
+    repeat(12, calc(
+      (
+        min(
+          calc(100% - var(--wp--style--root--padding-right) * 2),
+          var(--wp--style--global--wide-size)
+        ) - (11 * var(--image-content-gap))
+      ) / 12
+    ))
+    1fr;
 
     &:not(.alignfull) {
-      grid-template-columns: repeat(12, calc((min(100%, var(--wp--style--global--wide-size))) / 12));
+      grid-template-columns: repeat(12, calc(
+        (
+          min(
+            100%,
+            var(--wp--style--global--wide-size)
+          ) - (11 * var(--image-content-gap))
+        ) / 12
+      ));
     }
 
     .align-self-stretch.wp-block-image-content__image {
