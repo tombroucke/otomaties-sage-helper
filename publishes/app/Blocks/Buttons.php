@@ -6,6 +6,7 @@ use Log1x\AcfComposer\AcfComposer;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 use Otomaties\AcfObjects\Facades\AcfObjects;
+use ThemeJson;
 
 class Buttons extends Block
 {
