@@ -23,7 +23,7 @@
             data-lat="{{ $location->lat() }}"
             data-lng="{{ $location->lng() }}"
           >
-            {!! wp_kses($info, $allowedTinyMceTags()) !!}
+            {!! wp_kses($info, $allowedTinyMceTags) !!}
           </div>
         </div>
       @endif

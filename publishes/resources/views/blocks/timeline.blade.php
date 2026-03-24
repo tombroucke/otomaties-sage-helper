@@ -8,8 +8,8 @@
         <div @class(['row', 'flex-row-reverse' => $key % 2 !== 0])>
 
           <div class="col-md-5 order-md-1 order-2">
-            <h2>{!! wp_kses($item['title'], $allowedInlineTags()) !!}</h2>
-            {!! wpautop(wp_kses($item['content'], $allowedTinyMceTags())) !!}
+            <h2>{!! wp_kses($item['title'], $allowedInlineTags) !!}</h2>
+            {!! wpautop(wp_kses($item['content'], $allowedTinyMceTags)) !!}
           </div>
 
           <div class="col-md-2 order-md-2 position-relative order-1 text-center">

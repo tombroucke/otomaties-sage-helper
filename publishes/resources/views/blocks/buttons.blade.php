@@ -10,7 +10,7 @@
           :target="esc_attr($button['button']->target())"
           :theme="esc_attr($button['theme'])"
         >
-          {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags()) !!}
+          {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags) !!}
         </x-button>
       @endforeach
     </div>

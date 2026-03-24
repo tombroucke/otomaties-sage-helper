@@ -13,10 +13,10 @@
           @endif
 
           <div>
-            <h3>{!! wp_kses($member['name'], $allowedInlineTags()) !!}</h3>
+            <h3>{!! wp_kses($member['name'], $allowedInlineTags) !!}</h3>
 
             @if ($member['function'])
-              <h4>{!! wp_kses($member['function'], $allowedInlineTags()) !!}</h4>
+              <h4>{!! wp_kses($member['function'], $allowedInlineTags) !!}</h4>
             @endif
 
             @if ($member['email'] || $member['phone'])
@@ -26,13 +26,13 @@
                 @endif
 
                 @if ($member['phone'])
-                  {!! wp_kses($member['phone'], $allowedInlineTags()) !!}
+                  {!! wp_kses($member['phone'], $allowedInlineTags) !!}
                 @endif
               </p>
             @endif
 
             @if ($member['description'])
-              {!! wpautop(wp_kses($member['description'], $allowedInlineTags())) !!}
+              {!! wpautop(wp_kses($member['description'], $allowedInlineTags)) !!}
             @endif
           </div>
 

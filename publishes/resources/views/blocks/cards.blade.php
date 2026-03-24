@@ -16,12 +16,12 @@
 
             {{-- Header --}}
             @slot('header')
-              <h3>{!! wp_kses($card['title']->default(__('Add a title', 'sage')), $allowedInlineTags()) !!}</h3>
+              <h3>{!! wp_kses($card['title']->default(__('Add a title', 'sage')), $allowedInlineTags) !!}</h3>
             @endslot
 
             {{-- Content --}}
             <div>
-              {!! wp_kses($card['content'], $allowedTinyMceTags()) !!}
+              {!! wp_kses($card['content'], $allowedTinyMceTags) !!}
             </div>
 
             {{-- Button --}}
@@ -30,7 +30,7 @@
                 class="stretched-link"
                 :href="$card['button']->url()"
               >
-                {!! wp_kses(html_entity_decode($card['button']->title()), $allowedInlineTags()) !!}
+                {!! wp_kses(html_entity_decode($card['button']->title()), $allowedInlineTags) !!}
               </x-button>
             @endif
           </x-card>

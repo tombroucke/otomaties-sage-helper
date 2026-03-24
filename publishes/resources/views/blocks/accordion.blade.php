@@ -15,7 +15,7 @@
           </x-slot>
 
           {{-- Content --}}
-          {!! wp_kses($item['answer'], $allowedTinyMceTags()) !!}
+          {!! wp_kses($item['answer'], $allowedTinyMceTags) !!}
         </x-collapse.accordion.item>
       @endforeach
     </x-collapse.accordion>

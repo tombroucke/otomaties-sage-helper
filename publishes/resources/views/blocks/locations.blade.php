@@ -14,7 +14,7 @@
           data-lat="{{ $location['location']->lat() }}"
           data-lng="{{ $location['location']->lng() }}"
         >
-          {!! wp_kses($location['info'], $allowedTinyMceTags()) !!}
+          {!! wp_kses($location['info'], $allowedTinyMceTags) !!}
         </div>
       @endforeach
 

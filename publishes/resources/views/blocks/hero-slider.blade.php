@@ -22,9 +22,9 @@
 
                   {{-- Header --}}
                   <div class="wp-block-hero-slider__heading">
-                    <h1>{!! wp_kses($item['title']->default($block->preview ? __('Add a title', 'sage') : ''), $allowedInlineTags()) !!}</h1>
+                    <h1>{!! wp_kses($item['title']->default($block->preview ? __('Add a title', 'sage') : ''), $allowedInlineTags) !!}</h1>
                     @if ($item['subtitle'])
-                      <h2>{!! wp_kses($item['subtitle'], $allowedInlineTags()) !!}</h2>
+                      <h2>{!! wp_kses($item['subtitle'], $allowedInlineTags) !!}</h2>
                     @endif
                   </div>
 
@@ -41,7 +41,7 @@
                               :target="esc_attr($button['button']->target())"
                               :theme="esc_attr($button['theme'])"
                             >
-                              {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags()) !!}
+                              {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags) !!}
                             </x-button>
                           @endforeach
                         </x-button.group>
@@ -52,7 +52,7 @@
                             :target="esc_attr($button['button']->target())"
                             :theme="esc_attr($button['theme'])"
                           >
-                            {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags()) !!}
+                            {!! wp_kses(html_entity_decode($button['button']->title()), $allowedInlineTags) !!}
                           </x-button>
                         @endforeach
                       @endif
